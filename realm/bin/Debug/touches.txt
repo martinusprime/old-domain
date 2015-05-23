@@ -1,0 +1,4 @@
+t = zoom +;
+g = zoom -;
+zqsd pour bouger;
+Pour l'instant c'est tout !
