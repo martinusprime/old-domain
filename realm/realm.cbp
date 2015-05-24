@@ -61,6 +61,7 @@
 		<Unit filename="include/My_Text.h" />
 		<Unit filename="include/My_window.h" />
 		<Unit filename="include/Skills.h" />
+		<Unit filename="include/Sprite_Creator.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Building.cpp" />
 		<Unit filename="src/Button.cpp" />
@@ -73,6 +74,7 @@
 		<Unit filename="src/My_Text.cpp" />
 		<Unit filename="src/My_window.cpp" />
 		<Unit filename="src/Skills.cpp" />
+		<Unit filename="src/Sprite_Creator.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

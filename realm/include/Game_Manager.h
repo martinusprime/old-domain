@@ -13,6 +13,7 @@
 #include "Citizen.h"
 #include "Building.h"
 #include "City.h"
+#include "Sprite_Creator.h"
 
 using namespace sf;
 
@@ -90,6 +91,7 @@ class Game_Manager
         My_Sprite wood_sprite, iron_sprite, sand_sprite, glass_sprite, rock_sprite, ressource_sprite[5];
         Button citizen_action[5];
         City city[5];
+        Sprite_Creator sprite_created_1_test;
 
 
 };

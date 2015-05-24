@@ -1,47 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="include\Menu.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\Menu.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\Game_Manager.cpp" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\My_Sprite.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="21688" topLine="440" />
+			<Cursor1 position="2456" topLine="70" />
 		</Cursor>
-		<Folding>
-			<Collapse line="29" />
-			<Collapse line="102" />
-			<Collapse line="202" />
-			<Collapse line="533" />
-			<Collapse line="548" />
-			<Collapse line="561" />
-		</Folding>
+	</File>
+	<File name="src\Sprite_Creator.cpp" open="1" top="1" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="538" topLine="0" />
+		</Cursor>
 	</File>
 	<File name="include\My_window.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="125" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include\Game_Manager.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\Game_Manager.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1498" topLine="0" />
+			<Cursor1 position="2238" topLine="87" />
 		</Cursor>
+		<Folding>
+			<Collapse line="103" />
+			<Collapse line="203" />
+			<Collapse line="260" />
+			<Collapse line="295" />
+			<Collapse line="301" />
+			<Collapse line="537" />
+			<Collapse line="552" />
+			<Collapse line="565" />
+			<Collapse line="648" />
+		</Folding>
 	</File>
 	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="226" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\My_Sprite.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\Game_Manager.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="155" topLine="0" />
+			<Cursor1 position="355" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include\My_Sprite.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\My_Sprite.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="628" topLine="0" />
+			<Cursor1 position="512" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

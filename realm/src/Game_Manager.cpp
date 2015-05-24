@@ -96,7 +96,8 @@ void Game_Manager::init(RenderWindow *app_get)
     citizen_action[2].init(app, "Observer la ressource", 0, 0, 0, 0, &view2);
     ressource_sprite[0].init(app, "ressources/wood_ressource.png", &view1);
     tile_info.init(app, "lieu vierge", 10, 1);
-
+//test of the sprite creator
+sprite_created_1_test.init(app, &view1, 0);
 }
 
 void Game_Manager::update()
@@ -242,6 +243,9 @@ void Game_Manager::draw()
         {
             draw_grid();
             citizen[0].draw();
+            //drwing of the test created sprite
+            sprite_created_1_test.draw();
+
             for(int i = 0; i < city_number; i++)
             {
                 city[i].draw();
@@ -755,7 +759,7 @@ void Game_Manager::draw_grid()
             {
                 if(!grid[i][j].passing_trought){
                 draw_tile(grid[i][j].type, grid[i][j].x_pos, grid[i][j].y_pos );}
-                    if(grid[i][j].ressource_type == WOOD )
+                    if(grid[i][j].ressource_type == WOOD && i< 5 && j < 5)
                     {
                         ressource_sprite[0].draw(grid[i][j].x_pos * 50, grid[i][j].y_pos * 50);
                     }

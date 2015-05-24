@@ -447,7 +447,7 @@
 	<SFML/Graphics.hpp>
 	"Game_Manager.h"
 
-1432421168 c:\users\mars\documents\code\realm\include\game_manager.h
+1432466001 c:\users\mars\documents\code\realm\include\game_manager.h
 	<SFML/Graphics.hpp>
 	<sstream>
 	<iostream>
@@ -461,6 +461,7 @@
 	"Citizen.h"
 	"Building.h"
 	"City.h"
+	"Sprite_Creator.h"
 
 1410535858 c:\users\mars\documents\code\realm\include\menu.h
 	<SFML/Graphics.hpp>
@@ -470,7 +471,7 @@
 	<string>
 	<SFML/Graphics.hpp>
 
-1410996480 c:\users\mars\documents\code\realm\include\my_sprite.h
+1432469414 c:\users\mars\documents\code\realm\include\my_sprite.h
 	<SFML/Graphics.hpp>
 	<iostream>
 
@@ -537,7 +538,7 @@
 1432251594 source:c:\users\mars\documents\code\realm\src\citizen.cpp
 	"Citizen.h"
 
-1432421163 source:c:\users\mars\documents\code\realm\src\game_manager.cpp
+1432468478 source:c:\users\mars\documents\code\realm\src\game_manager.cpp
 	"Game_Manager.h"
 
 1410814826 source:c:\users\mars\documents\code\realm\src\glissor.cpp
@@ -546,7 +547,7 @@
 1410535716 source:c:\users\mars\documents\code\realm\src\menu.cpp
 	"Menu.h"
 
-1411587969 source:c:\users\mars\documents\code\realm\src\my_sprite.cpp
+1432470667 source:c:\users\mars\documents\code\realm\src\my_sprite.cpp
 	"My_Sprite.h"
 
 1410535762 source:c:\users\mars\documents\code\realm\src\my_text.cpp
@@ -1045,4 +1046,11 @@
 	"My_Sprite.h"
 	"Glissor.h"
 	"Button.h"
+
+1432468177 c:\users\mars\documents\code\realm\include\sprite_creator.h
+	"My_Sprite.h"
+	"My_window.h"
+
+1432470706 source:c:\users\mars\documents\code\realm\src\sprite_creator.cpp
+	"Sprite_Creator.h"
 
