@@ -551,7 +551,7 @@ void Game_Manager::tile_description(int tile_x, int tile_y)
         {
             tile_info.refill("Frêne");
         }
-      else
+        else
         {
             tile_info.refill("Lieu vierge");
         }
