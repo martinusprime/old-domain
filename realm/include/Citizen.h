@@ -55,8 +55,11 @@ class Citizen
         My_Sprite goal_sprite;
         int x, y, goal_x, goal_y, path_place, path_number;
         int path[100][2];
-
         tile over_tile;
+        //CITIZEN INFO
+        string name;
+        int age;
+
 };
 
 #endif // CITIZEN_H

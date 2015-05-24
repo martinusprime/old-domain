@@ -87,10 +87,6 @@ void Game_Manager::init(RenderWindow *app_get)
 
     building[0].init(app, &view1, 0);
 
-//initiation of resources_icones
-    rock_sprite.init(app, "ressources/rock.png", &view1);
-    iron_sprite.init(app, "ressources/iron.png", &view1);
-    wood_sprite.init(app, "ressources/wood.png", &view1);
     citizen_action[0].init(app, "Fonder une ville", 0, 0, 0, 0, &view2);
     citizen_action[1].init(app, "Rentrer dans la ville", 0, 0, 0, 0, &view2);
     citizen_action[2].init(app, "Observer la ressource", 0, 0, 0, 0, &view2);
@@ -98,6 +94,8 @@ void Game_Manager::init(RenderWindow *app_get)
     tile_info.init(app, "lieu vierge", 10, 1);
 //test of the sprite creator
 sprite_created_1_test.init(app, &view1, 0);
+
+interface1.init(app, &view1, w, h);
 }
 
 void Game_Manager::update()
@@ -288,15 +286,10 @@ void Game_Manager::draw_gui()
 
 
         draw_selection();
-        draw_resources();
+        interface1.draw();
+
     app->setView(view1);
 
-}
-void Game_Manager::draw_resources()
-{
-    Vector2f vecx;
-    vecx = view1.getSize();
-    wood_sprite.draw(w / 2,0 );
 }
 void Game_Manager::create_map(int x_beg,int y_beg)
 {

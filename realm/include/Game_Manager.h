@@ -14,6 +14,7 @@
 #include "Building.h"
 #include "City.h"
 #include "Sprite_Creator.h"
+#include "Hud.h"
 
 using namespace sf;
 
@@ -86,9 +87,10 @@ class Game_Manager
         My_Sprite gui_1, action_sprite;
         My_Text selection_text[2], tile_info;
         My_window windows[8];//1  for citizen window
+        Hud interface1;
         Building building[5];
         int wood, iron, sand, glass, rock;
-        My_Sprite wood_sprite, iron_sprite, sand_sprite, glass_sprite, rock_sprite, ressource_sprite[5];
+        My_Sprite ressource_sprite[5];
         Button citizen_action[5];
         City city[5];
         Sprite_Creator sprite_created_1_test;
