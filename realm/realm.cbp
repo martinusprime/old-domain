@@ -13,7 +13,6 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
-					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add library="sfml-graphics-d" />
@@ -28,7 +27,6 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
-					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -40,7 +38,8 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="../../SFML-2.1/include" />
+			<Add directory="../SFML-2.1/include" />
+			<Add directory="include" />
 		</Compiler>
 		<Linker>
 			<Add library="mingw32" />
@@ -48,7 +47,7 @@
 			<Add library="gdi32" />
 			<Add library="winmm" />
 			<Add library="dxguid" />
-			<Add directory="../../SFML-2.1/lib" />
+			<Add directory="../SFML-2.1/lib" />
 		</Linker>
 		<Unit filename="include/Building.h" />
 		<Unit filename="include/Button.h" />
