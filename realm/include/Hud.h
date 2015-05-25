@@ -25,9 +25,12 @@ private:
     View *view1;
     RenderWindow *app;
     Event event;
-    int screen_width, screen_height, wood_number;
-    My_Sprite wood_sprite, iron_sprite, sand_sprite, glass_sprite, rock_sprite;
-    My_Text wood_text;
+    int screen_width, screen_height, wood_number, current_season, current_year;
+    My_Sprite wood_sprite, iron_sprite, sand_sprite, glass_sprite, rock_sprite, season_sprite[4];
+    My_Text wood_text, year_text;
+    Clock season_clock, year_clock;
+    Time season_time, year_time;
+
 
 };
 

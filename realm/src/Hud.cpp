@@ -3,6 +3,8 @@
 Hud::Hud()
 {
     wood_number = 0;
+    current_season = 0;
+    current_year = -4000;
 }
 
 Hud::~Hud()
@@ -11,7 +13,6 @@ Hud::~Hud()
 }
 void Hud::init(RenderWindow *app_get, View *view_get, int screen_width_get, int screen_height_get)
 {
-
     view1 = view_get;
     app = app_get;
     screen_width = screen_width_get;
@@ -20,11 +21,21 @@ void Hud::init(RenderWindow *app_get, View *view_get, int screen_width_get, int 
     iron_sprite.init(app, "ressources/iron.png", view1);
     wood_sprite.init(app, "ressources/wood.png", view1);
 
+//seasons icons
+    season_sprite[0].init(app, "ressources/summer.png", view1);
+    season_sprite[1].init(app, "ressources/autumn.png", view1);
+    season_sprite[2].init(app, "ressources/winter.png", view1);
+    season_sprite[3].init(app, "ressources/spring.png", view1);
+
+    season_clock.restart();
+    year_clock.restart();
     //make woodnumber int to string
     stringstream ss;
     ss << wood_number;
     string str = ss.str();
     wood_text.init(app, str.c_str(), 12, 1 );
+
+    year_text.init(app, "-4000" , 12, 1 );
 }
 
 void Hud::draw_ressources()
@@ -37,4 +48,38 @@ void Hud::draw_ressources()
 void Hud::draw()
 {
     draw_ressources();
+
+    //drawing of seasons icons and time for seasons
+    season_time = season_clock.getElapsedTime();
+    if(season_time.asSeconds() > 3)
+    {
+        current_season++;
+        if( current_season > 3)
+        {
+            current_season = 0;
+        }
+        season_clock.restart();
+    }
+        season_sprite[current_season].draw( screen_width - 40, 0 );
+
+        //displaying the year
+        stringstream ss;
+        ss << current_year;
+        string str = ss.str();
+        year_text.refill(str);
+
+        year_time = season_clock.getElapsedTime();
+
+        if(year_time.asSeconds() > 0.5)
+        {
+            current_year++;
+            if( current_season > 3)
+            {
+                current_season = 0;
+            }
+            season_clock.restart();
+        }
+
+        year_text.draw( screen_width - 100, 0 , 22);
+
 }

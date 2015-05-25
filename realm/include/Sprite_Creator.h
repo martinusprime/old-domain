@@ -8,8 +8,9 @@ class Sprite_Creator
 {
 public:
     Sprite_Creator();
-    void init(RenderWindow *app_get, View *view_get, int sunlight_get);
+    void init(RenderWindow *app_get, View *view_get);
     void draw();
+    void create_character( int sunlight_get);
     virtual ~Sprite_Creator();
 protected:
 private:

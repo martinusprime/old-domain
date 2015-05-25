@@ -93,7 +93,8 @@ void Game_Manager::init(RenderWindow *app_get)
     ressource_sprite[0].init(app, "ressources/wood_ressource.png", &view1);
     tile_info.init(app, "lieu vierge", 10, 1);
 //test of the sprite creator
-    sprite_created_1_test.init(app, &view1, 0);
+    sprite_created_1_test.init(app, &view1);
+    sprite_created_1_test.create_character( 0);
 
     interface1.init(app, &view1, w, h);
 }
@@ -295,7 +296,7 @@ void Game_Manager::draw_gui()
 }
 void Game_Manager::create_map(int x_beg,int y_beg)
 {
-    srand(time(NULL));
+    srand(time(0));
     if(x_beg >= map_size_x)
     {
         map_size_x +=x_beg + 50;
@@ -540,8 +541,8 @@ void Game_Manager::draw_selection()
         stringstream ss;
         ss << grid[x_cursor][y_cursor].height;
         string str = ss.str();
-        string path = "height " + str;
-        selection_text[0].refill(path);
+        string path1 = "height " + str;
+        selection_text[0].refill(path1);
         selection_text[0].draw(0 , window_vec.y - 550 , 24);
         tile_description(x_cursor, y_cursor);
     }
@@ -786,6 +787,7 @@ bool Game_Manager::manage_event(bool anykey)
     {
         switch(event.type)
         {
+            default: ;
         case Event::KeyPressed:
             return 1;
             break;

@@ -18,8 +18,8 @@ class Building
 public:
     Building();
     virtual ~Building();
-    void init(RenderWindow *app_get, View *view_get,int type);
-    void draw(int x, int y);
+    void init(RenderWindow *app_get, View *view_get,int type_get);
+    void draw(int x_get, int y_get);
     void draw();
     void selected();
     int get_x();
