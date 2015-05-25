@@ -72,11 +72,11 @@ void Button::update(int x_get, int y_get)
     else
     {
         mouse_on = false;
-        button_sprite.set_color(50, 50, 50, 255);
+        button_sprite.add_color(50, 50, 50, 255);
     }
     if(mouse_on)
     {
-        button_sprite.set_color(120, 120, 120, 255);
+        button_sprite.add_color(120, 120, 120, 255);
         if(Mouse::isButtonPressed(Mouse::Left))
         {
             mouse_click = true;
@@ -84,7 +84,7 @@ void Button::update(int x_get, int y_get)
     }
     if(mouse_click)
     {
-        button_sprite.set_color(220, 220, 220, 255);
+        button_sprite.add_color(220, 220, 220, 255);
 
     }
     if(!Mouse::isButtonPressed(Mouse::Left))
