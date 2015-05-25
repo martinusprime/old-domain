@@ -102,7 +102,7 @@ void Game_Manager::update()
 {
     zoom = 1;
 
-    app->pollEvent(event);
+    bool isEvent = app->pollEvent(event);
     time1 =  clock1.getElapsedTime();
     key_time = clock2.getElapsedTime();
     zoom_time = clock3.getElapsedTime();
@@ -182,8 +182,9 @@ void Game_Manager::update()
 
 
         // Close window : exit
-        if (event.type == Event::Closed || manage_event(false)== 10)
+        if (isEvent && event.type == Event::Closed || manage_event(false) == 10)
         {
+            cout << "close app\n";
             app->close();
         }
         for(int i = 0; i<6; i++)
