@@ -128,7 +128,67 @@ void My_Sprite::scale(float x_rate, float y_rate)
 }
 void My_Sprite::set_color(int r, int g, int b, int alpha)
 {
+    //sprite.setColor(Color(r, g, b, alpha));
+    // Copy image1 on image2 at position (10, 10)Texture texture2;
+
+    Image image1;
+    image1.loadFromFile(file.c_str());
+
+    Color ancient_pixel;
+    Vector2u image_size;
+     image_size= image1.getSize();
+    for(int i = 0; i< image_size.x; i++)
+    {
+
+        for(int j = 0; j< image_size.y; j++)
+        {
+            ancient_pixel = image1.getPixel(i, j );
+            ancient_pixel.r = r  ;
+            ancient_pixel.g = g ;
+            ancient_pixel.b = b ;
+
+            image1.setPixel(i, j, ancient_pixel );
+        }
+    }
+    image1.saveToFile(file.c_str());
+    texture.loadFromImage(image1);
+    sprite.setTexture(texture);
+}
+
+void My_Sprite::set_color(Color color_get)
+{
+    //sprite.setColor(Color(r, g, b, alpha));
+    // Copy image1 on image2 at position (10, 10)Texture texture2;
+
+    Image image1;
+    image1.loadFromFile(file.c_str());
+
+    Color ancient_pixel;
+    Vector2u image_size;
+     image_size= image1.getSize();
+    for(int i = 0; i< image_size.x; i++)
+    {
+
+        for(int j = 0; j< image_size.y; j++)
+        {
+            ancient_pixel = image1.getPixel(i, j );
+
+            ancient_pixel.r = color_get.r;
+            ancient_pixel.g = color_get.g;
+            ancient_pixel.b = color_get.b;
+
+            image1.setPixel(i, j, ancient_pixel );
+        }
+    }
+    image1.saveToFile(file.c_str());
+    texture.loadFromImage(image1);
+    sprite.setTexture(texture);
+}
+
+void My_Sprite::add_color(int r, int g, int b, int alpha)
+{
     sprite.setColor(Color(r, g, b, alpha));
+
 }
 bool My_Sprite::is_over()
 {

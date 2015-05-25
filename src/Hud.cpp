@@ -5,6 +5,7 @@ Hud::Hud()
     wood_number = 0;
     current_season = 0;
     current_year = -4000;
+    year_lenght = 16;
 }
 
 Hud::~Hud()
@@ -51,7 +52,7 @@ void Hud::draw()
 
     //drawing of seasons icons and time for seasons
     season_time = season_clock.getElapsedTime();
-    if(season_time.asSeconds() > 3)
+    if(season_time.asSeconds() > year_lenght / 4)
     {
         current_season++;
         if( current_season > 3)
@@ -68,18 +69,18 @@ void Hud::draw()
         string str = ss.str();
         year_text.refill(str);
 
-        year_time = season_clock.getElapsedTime();
+        year_time = year_clock.getElapsedTime();
 
-        if(year_time.asSeconds() > 0.5)
+        if(year_time.asSeconds() > year_lenght)
         {
             current_year++;
             if( current_season > 3)
             {
                 current_season = 0;
             }
-            season_clock.restart();
+            year_clock.restart();
         }
 
-        year_text.draw( screen_width - 100, 0 , 22);
+        year_text.draw( screen_width - 110, 0 , 22);
 
 }

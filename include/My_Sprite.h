@@ -2,6 +2,8 @@
 #define MY_SPRITE_H
 #include <SFML/Graphics.hpp>
 #include <iostream>
+
+
 using namespace sf;
 
 using namespace std;
@@ -17,6 +19,8 @@ public:
     void add_sprite( My_Sprite *added_sprite);
     void add_sprite( My_Sprite *added_sprite, int sunlight_get);
     void set_color(int r, int g, int b, int alpha);
+    void set_color(Color color_get);
+    void add_color(int r, int g, int b, int alpha);
     string get_file();
     bool is_over();
     virtual ~My_Sprite();
@@ -29,6 +33,7 @@ private:
     Event event;
     Texture texture;
     Sprite sprite;
+
 };
 
 #endif // MY_SPRITE_H

@@ -50,15 +50,17 @@ bool Citizen::get_goal()
 
 void Citizen::draw()
 {
-    sprite.draw(x * 50, y * 50);
+
+
+    sprite.draw( ( x - y) * 25, (y +x) * 25);
     if(is_goal)
     {
-        goal_sprite.draw(goal_x * 50, goal_y * 50);
+        goal_sprite.draw( ( goal_x - goal_y) * 25, (goal_x +goal_y) * 25);
     }
 }
 void Citizen::set_goal(int goal_x_get , int goal_y_get)
 {
-    sprite.set_color(255, 255, 255, 255);
+    sprite.add_color(255, 255, 255, 255);
 
     path_place = 0;
     goal_x = goal_x_get;
@@ -77,7 +79,7 @@ void Citizen::set_path(int x_path, int y_path, int path_id)
 void Citizen::selected()
 {
     selection = true;
-    sprite.set_color(90, 120, 40, 255);
+    sprite.add_color(90, 120, 40, 255);
 }
 
 void Citizen::on_city()
