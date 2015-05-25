@@ -81,7 +81,7 @@ private:
     };
     tile grid[202][202];
     int path[150][2];
-    int w, h, city_number, citizen_number, selected_citizen;
+    int w, h, tile_size, city_number, citizen_number, selected_citizen;
     Citizen citizen[50];
     My_Sprite selection_sprite;
     My_Sprite gui_1, action_sprite;
