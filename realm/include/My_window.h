@@ -15,28 +15,28 @@
 
 class My_window
 {
-    public:
-        My_window();
-        virtual ~My_window();
-        void draw();
-        void init(RenderWindow *app_get,string name_get, float width, float height,int x_get, int y_get, View *view1_get);
-        void add_glissor(int x, int y);
-        void add_button(int x, int y);
-        void update();
-        void activate();
-        bool is_activated();
-    protected:
-    private:
-        View *view1;
-        RenderWindow *app;
-        My_Sprite window_sprite, grip_bar;
-        Vector2f mouse_save_vec;
-        int w, h,x, y, glissor_number, button_number, window_x, window_y;
-        My_Text name;
-        Glissor glissor[10];
-        Button button[10];
-        Button cross;
-        bool activation, moving;
+public:
+    My_window();
+    virtual ~My_window();
+    void draw();
+    void init(RenderWindow *app_get,string name_get, float width, float height,int x_get, int y_get, View *view1_get);
+    void add_glissor(int x, int y);
+    void add_button(int x, int y);
+    void update();
+    void activate();
+    bool is_activated();
+protected:
+private:
+    View *view1;
+    RenderWindow *app;
+    My_Sprite window_sprite, grip_bar;
+    Vector2f mouse_save_vec;
+    int w, h,x, y, glissor_number, button_number, window_x, window_y;
+    My_Text name;
+    Glissor glissor[10];
+    Button button[10];
+    Button cross;
+    bool activation, moving;
 };
 
 #endif // MY_WINDOW_H

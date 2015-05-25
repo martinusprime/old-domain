@@ -15,20 +15,20 @@
 
 class Building
 {
-    public:
-        Building();
-        virtual ~Building();
-        void init(RenderWindow *app_get, View *view_get,int type);
-        void draw(int x, int y);
-        void draw();
-        void selected();
-        int get_x();
-        int get_y();
-    private:
-        View *view1;
-        RenderWindow *app;
-        My_Sprite sprite;
-        int x, y, type;
+public:
+    Building();
+    virtual ~Building();
+    void init(RenderWindow *app_get, View *view_get,int type);
+    void draw(int x, int y);
+    void draw();
+    void selected();
+    int get_x();
+    int get_y();
+private:
+    View *view1;
+    RenderWindow *app;
+    My_Sprite sprite;
+    int x, y, type;
 };
 
 #endif // BUILDING_H

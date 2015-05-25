@@ -65,11 +65,11 @@ void My_Text::draw(int x, int y, int character_size)
 }
 void My_Text::refill(string content)
 {
-        text1.setString(content.c_str());
+    text1.setString(content.c_str());
 }
 
 void My_Text::change_font(string font_file)
 {
-        font1.loadFromFile(font_file);
-        text1.setFont(font1);
+    font1.loadFromFile(font_file);
+    text1.setFont(font1);
 }

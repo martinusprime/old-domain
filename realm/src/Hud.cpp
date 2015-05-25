@@ -21,9 +21,9 @@ void Hud::init(RenderWindow *app_get, View *view_get, int screen_width_get, int 
     wood_sprite.init(app, "ressources/wood.png", view1);
 
     //make woodnumber int to string
-        stringstream ss;
-        ss << wood_number;
-        string str = ss.str();
+    stringstream ss;
+    ss << wood_number;
+    string str = ss.str();
     wood_text.init(app, str.c_str(), 12, 1 );
 }
 
@@ -36,5 +36,5 @@ void Hud::draw_ressources()
 
 void Hud::draw()
 {
-       draw_ressources();
+    draw_ressources();
 }

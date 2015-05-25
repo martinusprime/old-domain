@@ -25,21 +25,21 @@ void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get
 
 void My_Sprite::add_sprite(string file)
 {
-Texture texture2;
+    Texture texture2;
 
-Image background;
-background.loadFromFile("ressources/tile1.png");
-Image background2;
-background2.loadFromFile("ressources/buildings/colonnepierre.png");
+    Image background;
+    background.loadFromFile("ressources/tile1.png");
+    Image background2;
+    background2.loadFromFile("ressources/buildings/colonnepierre.png");
 
 // Create a 20x20 image filled with black color
-sf::Image image;
-image.create(50, 50);
+    sf::Image image;
+    image.create(50, 50);
 // Copy image1 on image2 at position (10, 10)
-image.copy(background, 0, 0,  IntRect(0, 0, 50, 50));
-image.copy(background2, 0, 0, IntRect(0, 0, 50, 50),true);
+    image.copy(background, 0, 0,  IntRect(0, 0, 50, 50));
+    image.copy(background2, 0, 0, IntRect(0, 0, 50, 50),true);
 
-image.saveToFile("ressources/buildings/buildingblock.png");
+    image.saveToFile("ressources/buildings/buildingblock.png");
 
 
     texture.loadFromFile("ressources/buildings/buildingblock.png");
@@ -135,9 +135,9 @@ bool My_Sprite::is_over()
     Vector2i a = Mouse::getPosition(*app);
 
     if( a.x >= x &&  a.x <= x  + w
-       && a.y >= y   && a.y <= y  + h)
+            && a.y >= y   && a.y <= y  + h)
     {
-      return true;
+        return true;
     }
     else return false;
 }

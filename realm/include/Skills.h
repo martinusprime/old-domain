@@ -16,11 +16,11 @@
 
 class Skills
 {
-    public:
-        Skills();
-        virtual ~Skills();
-    protected:
-    private:
+public:
+    Skills();
+    virtual ~Skills();
+protected:
+private:
 };
 
 #endif // SKILLS_H

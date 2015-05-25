@@ -40,23 +40,29 @@ void Glissor::update( int x_get, int y_get)
     mouse_vec = Mouse::getPosition(*app);
     a = app->mapPixelToCoords(mouse_vec, *view1);
     if(Mouse::isButtonPressed(Mouse::Left) && a.x >= x +value * 2 + window_x &&  a.x <= x +value * 2 + window_x + 20
-       && a.y >= y + window_y - 13 && a.y <= y + window_y - 13 + 50)
+            && a.y >= y + window_y - 13 && a.y <= y + window_y - 13 + 50)
     {
-      mouse_on  =true;
+        mouse_on  =true;
     }
     if(mouse_on)
     {
-      int cache_value = value;
-      value = (a.x - window_x- x)/2;
-      if(value <=0){value = 0;}
-      if(value >= 100) {value = 100;}
-      if(value != cache_value)
-      {
-      ss << value;
-      string str = ss.str();
-      rate.refill(str);
-      ss.str("");
-      }
+        int cache_value = value;
+        value = (a.x - window_x- x)/2;
+        if(value <=0)
+        {
+            value = 0;
+        }
+        if(value >= 100)
+        {
+            value = 100;
+        }
+        if(value != cache_value)
+        {
+            ss << value;
+            string str = ss.str();
+            rate.refill(str);
+            ss.str("");
+        }
     }
     if(!Mouse::isButtonPressed(Mouse::Left))
     {

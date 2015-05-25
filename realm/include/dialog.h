@@ -4,11 +4,11 @@
 
 class dialog
 {
-    public:
-        dialog();
-        virtual ~dialog();
-    protected:
-    private:
+public:
+    dialog();
+    virtual ~dialog();
+protected:
+private:
 };
 
 #endif // DIALOG_H

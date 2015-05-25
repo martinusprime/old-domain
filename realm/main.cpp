@@ -18,7 +18,7 @@ int main()
 
     //app.setMouseCursorVisible(false);
     game_manager1.init(&app);
-	// Start the game loop
+    // Start the game loop
     while (app.isOpen() )
     {
         game_manager1.update();

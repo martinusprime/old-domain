@@ -28,24 +28,24 @@ void Citizen::init(RenderWindow *app_get, View *view_get)
 }
 int Citizen::get_x()
 {
-        return x;
+    return x;
 }
 
 int Citizen::get_y()
 {
-        return y;
+    return y;
 }
 int Citizen::get_previous_x()
 {
-        return path[path_place - 1][0];
+    return path[path_place - 1][0];
 }
 int Citizen::get_previous_y()
 {
-        return path[path_place - 1][1];
+    return path[path_place - 1][1];
 }
 bool Citizen::get_goal()
 {
-        return is_goal;
+    return is_goal;
 }
 
 void Citizen::draw()
@@ -98,11 +98,11 @@ void Citizen::update()
 {
     elapsed_move = move_clock.getElapsedTime();
     if(x == goal_x && y == goal_y)
-        {
-            path_place = 0;
-            is_goal = false;
-            over_city = false;
-        }
+    {
+        path_place = 0;
+        is_goal = false;
+        over_city = false;
+    }
 
     if(elapsed_move.asSeconds() >  1.0 && is_goal && path[path_place + 1][0] != -1)
 

@@ -47,7 +47,7 @@ void Button::draw()
     button_sprite.draw(x + window_x, y + window_y);
     if(!cross)
     {
-    name.draw(x + window_x, y + window_y, 23);
+        name.draw(x + window_x, y + window_y, 23);
     }
 }
 
@@ -59,16 +59,16 @@ void Button::update(int x_get, int y_get)
     mouse_vec = Mouse::getPosition(*app);
     a = app->mapPixelToCoords(mouse_vec, *view1);
     if( a.x >= x + window_x &&  a.x <= x  + window_x + w
-       && a.y >= y + window_y  && a.y <= y + window_y + 30&& cross ==false)
+            && a.y >= y + window_y  && a.y <= y + window_y + 30&& cross ==false)
     {
 
-      mouse_on  = true;
+        mouse_on  = true;
     }
     else if(a.x >= x + window_x &&  a.x <= x  + window_x + 25
-       && a.y >= y + window_y  && a.y <= y + window_y + 25 && cross ==true)
-       {
-           mouse_on = true;
-       }
+            && a.y >= y + window_y  && a.y <= y + window_y + 25 && cross ==true)
+    {
+        mouse_on = true;
+    }
     else
     {
         mouse_on = false;
