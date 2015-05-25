@@ -38,7 +38,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="../SFML-2.1/include" />
+			<Add directory="SFML-2.3/include" />
 			<Add directory="include" />
 		</Compiler>
 		<Linker>
@@ -47,7 +47,7 @@
 			<Add library="gdi32" />
 			<Add library="winmm" />
 			<Add library="dxguid" />
-			<Add directory="../SFML-2.1/lib" />
+			<Add directory="SFML-2.3/lib" />
 		</Linker>
 		<Unit filename="include/Building.h" />
 		<Unit filename="include/Button.h" />
