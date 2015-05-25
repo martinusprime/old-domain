@@ -101,107 +101,77 @@ void Game_Manager::init(RenderWindow *app_get)
 
 void Game_Manager::update()
 {
-    zoom = 1;
-
+    Event event;
     bool isEvent = app->pollEvent(event);
-    time1 =  clock1.getElapsedTime();
-    key_time = clock2.getElapsedTime();
-    zoom_time = clock3.getElapsedTime();
-
-    if(key_time.asSeconds() >  0.03  && !screen_moved)
+    if (isEvent && event.type == Event::Closed) //TODO handle escape key
     {
-        clock2.restart();
-        if(manage_event(false) && true)
-        {
-            screen_moved = true;
+        cout << "close app\n";
+        app->close();
+    }
 
+    if(isEvent && manage_key_event(event))
+    {
+        if(keys[5] == true)
+        {
+            y_offset-= 50;
+        }
+        if(keys[6] == true)
+        {
+            x_offset+= 50;
+        }
+        if(keys[7] == true)
+        {
+            y_offset+= 50;
+        }
+        if(keys[8] == true)
+        {
+            x_offset-= 50;
         }
     }
+
+    zoom = 1;
+    zoom_time = clock_zoom.getElapsedTime();
     if(zoom_time.asSeconds() >  0.05  && zoom_change != 0)
     {
-        clock3.restart();
-        cout<<"eoom"<<zoom<<endl;
+        clock_zoom.restart();
+        cout<<"zoom"<<zoom<<endl;
         if(zoom_change == 1)
         {
-
             zoom =0.90;
             zoom_rate --;
-
         }
         if(zoom_change == 2)
         {
             zoom =1.1;
             zoom_rate ++;
-
         }
-
     }
     zoom_change = 0;
 
-    if(time1.asSeconds() >  0.03f)
+    if(is_menu)
     {
-        if(is_menu)
+        menu1.update();
+        if(manage_key_event(event) == 1)
         {
-            menu1.update();
-            if(manage_event(true) == 1)
-            {
-                is_menu = false;
-            }
+            is_menu = false;
         }
-
-        if(screen_moved)
-        {
-            if(keys[5] == true)
-            {
-                y_offset-= 50;
-
-            }
-            if(keys[6] == true)
-            {
-                x_offset+= 50;
-
-            }
-            if(keys[7] == true)
-            {
-                y_offset+= 50;
-
-            }
-            if(keys[8] == true)
-            {
-                x_offset-= 50;
-            }
-
-            screen_moved = false;
-        }
-
-
-        view1.setCenter(x_offset , y_offset);
-        view1.zoom(zoom);
-        app->setView(view1);
-
-
-
-
-        // Close window : exit
-        if (isEvent && event.type == Event::Closed || manage_event(false) == 10)
-        {
-            cout << "close app\n";
-            app->close();
-        }
-        for(int i = 0; i<6; i++)
-        {
-
-            if(windows[i].is_activated())
-            {
-                windows[i].update();
-            }
-        }
-        citizen_update();
-
     }
 
+    view1.setCenter(x_offset , y_offset);
+    view1.zoom(zoom);
+    app->setView(view1);
 
+    for(int i = 0; i<6; i++)
+    {
+
+        if(windows[i].is_activated())
+        {
+            windows[i].update();
+        }
+    }
+    citizen_update();
 }
+
 void Game_Manager::citizen_update()
 {
 
@@ -233,6 +203,7 @@ void Game_Manager::citizen_update()
     }
 
 }
+
 void Game_Manager::draw()
 {
 
@@ -295,6 +266,7 @@ void Game_Manager::draw_gui()
     app->setView(view1);
 
 }
+
 void Game_Manager::create_map(int x_beg,int y_beg)
 {
     srand(time(0));
@@ -779,71 +751,63 @@ void Game_Manager::draw_tile(int type , int x_pos, int y_pos)
     tile_sprite[type].draw(x_pos * 50, y_pos * 50);
 }
 
-bool Game_Manager::manage_event(bool anykey)
+bool Game_Manager::wasAnyKeyPressed(const Event &event)
+{
+    switch(event.type)
+    {
+    default:
+        return false;
+    case Event::KeyPressed:
+        return true;
+    }
+}
+
+/* return true if an event was handled */
+bool Game_Manager::manage_key_event(const Event &event)
 {
     mouse_vec = Mouse::getPosition(*app);
 
-    //Vector2i mouse_vec = Mouse::getPosition(*app);
-    if(anykey)
+    keys[5] = false;
+    keys[6] = false;
+    keys[7] = false;
+    keys[8] = false;
+
+    if(event.type == Event::KeyPressed)
     {
-        switch(event.type)
+        if(sf::Keyboard::isKeyPressed(Keyboard::Z))
         {
-            default: ;
-        case Event::KeyPressed:
-            return 1;
-            break;
+            keys[5] = true;
         }
-    }
-    else
-    {
-        keys[5] = false;
-        keys[6] = false;
-        keys[7] = false;
-        keys[8] = false;
-
-
-
-        if(Event::KeyPressed)
+        else keys[5] = false;
+        if(sf::Keyboard::isKeyPressed(Keyboard::D))
         {
-            if(sf::Keyboard::isKeyPressed(Keyboard::Z))
-            {
-                keys[5] = true;
-            }
-            else keys[5] = false;
-            if(sf::Keyboard::isKeyPressed(Keyboard::D))
-            {
-                keys[6] = true;
-            }
-            else keys[6] = false;
-            if(sf::Keyboard::isKeyPressed(Keyboard::S))
-            {
-                keys[7] = true;
-            }
-            else keys[7] = false;
-            if(sf::Keyboard::isKeyPressed(Keyboard::Q))
-            {
-                keys[8] = true;
-            }
-            else keys[8] = false;
-            if(sf::Keyboard::isKeyPressed(Keyboard::T) & zoom_rate >= -30)
-            {
-                zoom_change = 1;
-            }
-            if(sf::Keyboard::isKeyPressed(Keyboard::G) && zoom_rate <= 50)
-            {
-                zoom_change = 2;
-            }
-            return true;
-
+            keys[6] = true;
         }
-
-        return false;
-
-
+        else keys[6] = false;
+        if(sf::Keyboard::isKeyPressed(Keyboard::S))
+        {
+            keys[7] = true;
+        }
+        else keys[7] = false;
+        if(sf::Keyboard::isKeyPressed(Keyboard::Q))
+        {
+            keys[8] = true;
+        }
+        else keys[8] = false;
+        if(sf::Keyboard::isKeyPressed(Keyboard::T) & zoom_rate >= -30)
+        {
+            zoom_change = 1;
+        }
+        if(sf::Keyboard::isKeyPressed(Keyboard::G) && zoom_rate <= 50)
+        {
+            zoom_change = 2;
+        }
+            // Close window : exit
+        return true;
     }
-    mouse_wheel_x = event.mouseWheel.x;
-
+    return false;
 }
+
 bool Game_Manager::is_l_click()
 {
     if(Mouse::isButtonPressed(Mouse::Left))
