@@ -566,11 +566,11 @@ void Game_Manager::selection()
     selection_vector = app->mapPixelToCoords(mouse_vec, view1);
     if(x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
     {
-        selection_sprite.draw(x_cursor* 50 ,y_cursor* 50 );
-        building[0].draw(x_cursor* 50 ,y_cursor* 50 );
+        selection_sprite.draw( (x_cursor - y_cursor)* 25 ,(x_cursor + y_cursor)* 25 );
+        building[0].draw( ( x_cursor - y_cursor) * 25, (x_cursor +y_cursor) * 25);
     }
-    y_cursor = (selection_vector.y)* zoom/ 50;
-    x_cursor = (selection_vector.x)* zoom/ 50;
+    x_cursor = (selection_vector.x + selection_vector.y)* zoom/ 50;
+    y_cursor = (selection_vector.y - selection_vector.x)* zoom/ 50;
 
 
     if(is_l_click() && x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
@@ -767,7 +767,7 @@ void Game_Manager::draw_grid()
             }
             if(grid[i][j].ressource_type == WOOD && i< 5 && j < 5)
             {
-                ressource_sprite[0].draw(grid[i][j].x_pos * 50, grid[i][j].y_pos * 50);
+                ressource_sprite[0].draw( (grid[i][j].x_pos - grid[i][j].y_pos)* 25, (grid[i][j].x_pos + grid[i][j].y_pos)* 25);
             }
         }
     }
@@ -776,7 +776,8 @@ void Game_Manager::draw_grid()
 }
 void Game_Manager::draw_tile(int type , int x_pos, int y_pos)
 {
-    tile_sprite[type].draw(x_pos * 50, y_pos * 50);
+    //tile_sprite[type].draw(x_pos * 50, y_pos * 50);
+    tile_sprite[type].draw( ( x_pos - y_pos) * 25, (y_pos +x_pos) * 25);
 }
 
 bool Game_Manager::manage_event(bool anykey)

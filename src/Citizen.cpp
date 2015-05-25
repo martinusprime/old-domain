@@ -50,10 +50,12 @@ bool Citizen::get_goal()
 
 void Citizen::draw()
 {
-    sprite.draw(x * 50, y * 50);
+
+
+    sprite.draw( ( x - y) * 25, (y +x) * 25);
     if(is_goal)
     {
-        goal_sprite.draw(goal_x * 50, goal_y * 50);
+        goal_sprite.draw( ( goal_x - goal_y) * 25, (goal_x +goal_y) * 25);
     }
 }
 void Citizen::set_goal(int goal_x_get , int goal_y_get)
