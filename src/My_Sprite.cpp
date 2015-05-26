@@ -2,7 +2,7 @@
 
 My_Sprite::My_Sprite()
 {
-    //ctor
+    total_animation_time =0;
 }
 
 My_Sprite::~My_Sprite()
@@ -22,6 +22,31 @@ void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get
     h = a.height;
 
 }
+
+void My_Sprite::init(RenderWindow *app_get, string file_get, View *view_get, int animation_width_get, int animation_length_get, float total_animation_time_get)
+{
+    view1 = view_get;
+    file = file_get;
+    app = app_get;
+    texture.loadFromFile(file.c_str());
+    sprite.setTexture(texture);
+
+    animation_width =animation_width_get;
+    animation_length =animation_length_get;
+    total_animation_time =total_animation_time_get;
+    FloatRect  a= sprite.getGlobalBounds();
+    w = a.width;
+    h = a.height
+        ;
+    animation_rect.left = 0;
+    animation_rect.top = 0;
+    animation_rect.width = w/animation_length;
+    animation_rect.height = h;
+
+    clock1.restart();
+
+}
+
 
 void My_Sprite::add_sprite(string file)
 {
@@ -45,7 +70,6 @@ void My_Sprite::add_sprite(string file)
     texture.loadFromFile("ressources/buildings/buildingblock.png");
     sprite.setTexture(texture);
 }
-
 string My_Sprite::get_file()
 {
     return file;
@@ -118,8 +142,27 @@ void My_Sprite::draw(int x_get, int y_get)
 {
     x = x_get;
     y = y_get;
+    if(total_animation_time != 0)
+    {
+        time1 = clock1.getElapsedTime();
+        if(time1.asSeconds() > total_animation_time / animation_length)
+        {
+            clock1.restart();
+            animation_rect.left += animation_width;
+            if(animation_rect.left >= w)
+            {
+                animation_rect.left = 0;
+            }
+
+        }
+        sprite.setTextureRect(animation_rect);
+
+    }
+
+
     sprite.setPosition(x, y);
     app->draw(sprite);
+
 }
 
 void My_Sprite::scale(float x_rate, float y_rate)
@@ -136,7 +179,7 @@ void My_Sprite::set_color(int r, int g, int b, int alpha)
 
     Color ancient_pixel;
     Vector2u image_size;
-     image_size= image1.getSize();
+    image_size= image1.getSize();
     for(int i = 0; i< image_size.x; i++)
     {
 
@@ -165,7 +208,7 @@ void My_Sprite::set_color(Color color_get)
 
     Color ancient_pixel;
     Vector2u image_size;
-     image_size= image1.getSize();
+    image_size= image1.getSize();
     for(int i = 0; i< image_size.x; i++)
     {
 

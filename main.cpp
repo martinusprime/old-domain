@@ -12,8 +12,9 @@ using namespace sf;
 
 int main()
 {
-    try {
-        RenderWindow app(VideoMode(1600, 920), "SFML window" );
+    try
+    {
+        RenderWindow app(VideoMode(1920, 1080), "SFML window" );
         //app.setFramerateLimit(60);
         Game_Manager game_manager1;
 
@@ -26,7 +27,9 @@ int main()
             game_manager1.update();
             game_manager1.draw();
         }
-    } catch (const std::exception &ex) {
+    }
+    catch (const std::exception &ex)
+    {
         std::cerr << "Terminate program with exception " << ex.what();
         return EXIT_FAILURE;
     }

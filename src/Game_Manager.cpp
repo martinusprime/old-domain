@@ -19,7 +19,8 @@ Game_Manager::Game_Manager()
     iron = 0;
     zoom_change = 0;
     selected_citizen = 0;
-    tile_size = 100;
+    tile_size.x = 100;
+    tile_size.y = 60;
 
 }
 Game_Manager::~Game_Manager()
@@ -30,14 +31,14 @@ Game_Manager::~Game_Manager()
 void Game_Manager::init(RenderWindow *app_get)
 {
     app = app_get;
-    view1.reset(FloatRect(0, 0, 1000, 600));
+    view1.reset(FloatRect(0, 0, 1920, 1080));
     view1.setViewport(FloatRect(0, 0, 1.0f, 1.0f));
     app->setView(view1);
 
     window_vec = app->getSize();
     cout<<"x_window"<<window_vec.x<<"y_window "<<window_vec.y<<endl;
 
-    view2.reset(FloatRect(0, 0, 1000, 600));
+    view2.reset(FloatRect(0, 0, 1920, 1080));
     view2.setViewport(FloatRect(0, 0, 1.0f, 1.0f));
 
 
@@ -48,7 +49,7 @@ void Game_Manager::init(RenderWindow *app_get)
 
     if(is_menu)
     {
-        menu1.init(app);
+        menu1.init(app, & view2);
     }
     for(int i = 0; i < 6; i++)
     {
@@ -57,9 +58,10 @@ void Game_Manager::init(RenderWindow *app_get)
         string str = ss.str();
         string path = "ressources/tile" + str + ".png";
 
-        tile_sprite[i].init(app, path, &view1);
+        tile_sprite[i].init(app, path, &view1, 100, 5, 5.0);
 
         windows[i].init(app, "Map", 0.5f, 0.3f, 0, 0, &view2);
+        windows[i].desactivate();
         windows[i].add_glissor(100, 100);
         windows[i].add_button(300, 100);
     }
@@ -154,40 +156,7 @@ void Game_Manager::update()
         menu1.update();
         if(manage_key_event(event) == 1)
         {
-<<<<<<< HEAD
-            menu1.update();
-            if(manage_event(true) == 1)
-            {
-                is_menu = false;
-            }
-        }
-
-        if(screen_moved)
-        {
-            if(keys[5] == true)
-            {
-                y_offset-= tile_size;
-
-            }
-            if(keys[6] == true)
-            {
-                x_offset+= tile_size;
-
-            }
-            if(keys[7] == true)
-            {
-                y_offset+= tile_size;
-
-            }
-            if(keys[8] == true)
-            {
-                x_offset-= tile_size;
-            }
-
-            screen_moved = false;
-=======
             is_menu = false;
->>>>>>> 4f8871033a771533e1cd1390a9e6e9f2f2dce30d
         }
     }
 
@@ -242,11 +211,7 @@ void Game_Manager::draw()
 {
 
     app->clear();
-    if(is_menu)
-    {
-        menu1.draw();
-    }
-    else
+    if(! is_menu)
     {
         draw_grid();
         citizen[0].draw();
@@ -271,7 +236,13 @@ void Game_Manager::draw_gui()
     {
         selection();
     }
+
     app->setView(view2);
+    if(is_menu)
+    {
+        menu1.draw();
+    }
+
     open_window = false;
     if(citizen_selected)
     {
@@ -572,9 +543,10 @@ void Game_Manager::selection()
     selection_vector = app->mapPixelToCoords(mouse_vec, view1);
     if(x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
     {
-        selection_sprite.draw( (x_cursor - y_cursor)*  (tile_size / 2) ,(x_cursor + y_cursor)*  (tile_size / 2) );    }
-    x_cursor = (selection_vector.x + selection_vector.y - 50)* zoom/ tile_size ;
-    y_cursor = (selection_vector.y - selection_vector.x + 50)* zoom/ tile_size ;
+        selection_sprite.draw( (x_cursor - y_cursor)* (tile_size.x / 2) ,(x_cursor + y_cursor)* (tile_size.y / 2) );
+    }
+    x_cursor = (selection_vector.x / tile_size.x + selection_vector.y/ tile_size.y - 0.5)* zoom;
+    y_cursor = (selection_vector.y/ tile_size.y - selection_vector.x / tile_size.x + 0.5)* zoom;
 
 
     if(is_l_click() && x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
@@ -771,7 +743,7 @@ void Game_Manager::draw_grid()
             }
             if(grid[i][j].ressource_type == WOOD && i< 5 && j < 5)
             {
-                ressource_sprite[0].draw( (grid[i][j].x_pos - grid[i][j].y_pos)* 50, (grid[i][j].x_pos + grid[i][j].y_pos)* 50);
+                ressource_sprite[0].draw( (grid[i][j].x_pos - grid[i][j].y_pos)* (tile_size.x / 2), (grid[i][j].x_pos + grid[i][j].y_pos)* (tile_size.y / 2));
             }
         }
     }
@@ -781,7 +753,7 @@ void Game_Manager::draw_grid()
 void Game_Manager::draw_tile(int type , int x_pos, int y_pos)
 {
     //tile_sprite[type].draw(x_pos * 50, y_pos * 50);
-    tile_sprite[type].draw( ( x_pos - y_pos) * (tile_size/ 2), (y_pos +x_pos) * (tile_size/ 2));
+    tile_sprite[type].draw( ( x_pos - y_pos) * (tile_size.x / 2), (y_pos +x_pos) * (tile_size.y / 2));
 }
 
 bool Game_Manager::wasAnyKeyPressed(const Event &event)
@@ -835,7 +807,7 @@ bool Game_Manager::manage_key_event(const Event &event)
         {
             zoom_change = 2;
         }
-            // Close window : exit
+        // Close window : exit
         return true;
     }
     return false;

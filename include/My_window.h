@@ -24,6 +24,7 @@ public:
     void add_button(int x, int y);
     void update();
     void activate();
+    void desactivate();
     bool is_activated();
 protected:
 private:

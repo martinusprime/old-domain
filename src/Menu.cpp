@@ -9,22 +9,18 @@ Menu::~Menu()
 {
     //dtor
 }
-void Menu::init(RenderWindow *app_get)
+void Menu::init(RenderWindow *app_get, View *view1_get)
 {
     app = app_get;
-    if(!texture.loadFromFile("ressources/menu_background.png"))
-    {
-
-    }
+    view1 = view1_get;
+    sprite.init(app, "ressources/menu_background.png", view1);
     text1.init(app, "Ton puissant Royaume", 24, 0);
-
-    sprite.setTexture(texture);
 }
 
 void Menu::draw()
 {
-    app->draw(sprite);
-    text1.draw(500, 500, 25);
+    text1.draw(0, 0, 22);
+    sprite.draw(0, 0);
 }
 
 void Menu::update()

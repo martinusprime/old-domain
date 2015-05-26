@@ -14,6 +14,7 @@ public:
     My_Sprite();
     void draw(int x, int y);
     void init(RenderWindow *app_get, string file_get, View *view_get);
+    void init(RenderWindow *app_get, string file_get, View *view_get, int animation_width_get, int animation_length_get, float total_animation_time_get);
     void scale(float x_rate, float y_rate);
     void add_sprite( string file);
     void add_sprite( My_Sprite *added_sprite);
@@ -33,6 +34,11 @@ private:
     Event event;
     Texture texture;
     Sprite sprite;
+    //
+    int animation_width, animation_length, total_animation_time;
+    Clock clock1;
+    Time time1;
+    IntRect animation_rect;
 
 };
 

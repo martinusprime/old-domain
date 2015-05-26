@@ -64,6 +64,10 @@ void My_window::activate()
 {
     activation =true;
 }
+void My_window::desactivate()
+{
+    activation = false;
+}
 
 void My_window::update()
 {

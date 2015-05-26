@@ -61,26 +61,26 @@ void Hud::draw()
         }
         season_clock.restart();
     }
-        season_sprite[current_season].draw( screen_width - 40, 0 );
+    season_sprite[current_season].draw( screen_width - 40, 0 );
 
-        //displaying the year
-        stringstream ss;
-        ss << current_year;
-        string str = ss.str();
-        year_text.refill(str);
+    //displaying the year
+    stringstream ss;
+    ss << current_year;
+    string str = ss.str();
+    year_text.refill(str);
 
-        year_time = year_clock.getElapsedTime();
+    year_time = year_clock.getElapsedTime();
 
-        if(year_time.asSeconds() > year_lenght)
+    if(year_time.asSeconds() > year_lenght)
+    {
+        current_year++;
+        if( current_season > 3)
         {
-            current_year++;
-            if( current_season > 3)
-            {
-                current_season = 0;
-            }
-            year_clock.restart();
+            current_season = 0;
         }
+        year_clock.restart();
+    }
 
-        year_text.draw( screen_width - 110, 0 , 22);
+    year_text.draw( screen_width - 110, 0 , 22);
 
 }

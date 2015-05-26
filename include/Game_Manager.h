@@ -79,9 +79,16 @@ private:
         ressources_type_enum ressource_type;
 
     };
+
+    struct tile_dimension
+    {
+        int x;
+        int y;
+    };
+    tile_dimension tile_size;
     tile grid[202][202];
     int path[150][2];
-    int w, h, tile_size, city_number, citizen_number, selected_citizen;
+    int w, h, city_number, citizen_number, selected_citizen;
     Citizen citizen[50];
     My_Sprite selection_sprite;
     My_Sprite gui_1, action_sprite;
