@@ -128,12 +128,18 @@ void Game_Manager::update()
         case ACT_GO_LEFT:
             x_offset-= 50;
             break;
+        case ACT_ZOOM_IN:
+            zoom_change = ZOOM_ADD;
+            break;
+        case ACT_ZOOM_OUT:
+            zoom_change = ZOOM_LESS;
+            break;
         default:
             break;
         }
     }
 
-    zoom = 1;
+
     zoom_time = clock_zoom.getElapsedTime();
     if(zoom_time.asSeconds() >  0.05  && zoom_change != 0)
     {
@@ -149,6 +155,10 @@ void Game_Manager::update()
             zoom =1.1;
             zoom_rate ++;
         }
+    }
+    else
+    {
+        zoom = 1;
     }
     zoom_change = ZOOM_NONE;
 
