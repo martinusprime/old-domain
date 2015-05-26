@@ -135,7 +135,9 @@ bool Game_Manager::handle_key_events()
         default:
             break;
         }
+        return true;
     }
+    return false;
 }
 
 void Game_Manager::update()
@@ -345,7 +347,7 @@ void Game_Manager::create_map(int x_beg,int y_beg)
             for(int j = y_beg; j<map_size_y; j++)
             {
                 int random = rand()% 100;
-                if(random < deep_sea_expansion_rate && neighbours(i, j, 0, 4, true)>=2)
+                if(random < deep_sea_expansion_rate && count_neighbours(i, j, 0, 4, true)>=2)
                 {
                     grid[i][j].type = 4;
                     grid[i][j].height = -2;
@@ -368,7 +370,7 @@ void Game_Manager::create_map(int x_beg,int y_beg)
             is_grass = false;
             if(i > 0 && j>0 && grid[i][j].type != 4)
             {
-                if(neighbours(i, j, 0, 4, true)>=1)
+                if(count_neighbours(i, j, 0, 4, true)>=1)
                 {
 
                     grid[i][j].type = 2;
@@ -388,7 +390,7 @@ void Game_Manager::create_map(int x_beg,int y_beg)
                 is_grass = false;
                 if(i > 0 && j>0 && grid[i][j].type != 4)
                 {
-                    if(neighbours(i, j, 0, 2, true) >= 3)
+                    if(count_neighbours(i, j, 0, 2, true) >= 3)
                     {
                         int random = rand()% 100;
                         if(random <= water_rate)
@@ -416,7 +418,7 @@ void Game_Manager::create_map(int x_beg,int y_beg)
                 is_grass = false;
                 if(i > 0 && j>0 && grid[i][j].type != 4 && grid[i][j].type != 2 )
                 {
-                    if(neighbours(i, j, 0, 2, true)>= 1)
+                    if(count_neighbours(i, j, 0, 2, true)>= 1)
                     {
                         int random = rand()% 100;
                         if(random <= water_rate)
@@ -440,7 +442,7 @@ void Game_Manager::create_map(int x_beg,int y_beg)
             {
                 if(i > 0 && j>0 && grid[i][j].type != 4 && grid[i][j].type != 2 )
                 {
-                    if(neighbours(i, j, 0, 3, true)>=2)
+                    if(count_neighbours(i, j, 0, 3, true)>=2)
                     {
                         int random = rand()% 100;
                         if(random <= water_rate)
@@ -471,16 +473,16 @@ void Game_Manager::create_map(int x_beg,int y_beg)
                 int random = rand()% 100;
                 if(random <= sand_rate && i > 0 && j>0 && grid[i][j].type != 4 && grid[i][j].type != 2 )
                 {
-                    if(neighbours(i, j, 1, 0, true) >1 || (neighbours(i, j, 0, 1, true) >5  && neighbours(i, j, 0, 1, true)) <=8)
+                    if(count_neighbours(i, j, 1, 0, true) >1 || (count_neighbours(i, j, 0, 1, true) >5  && count_neighbours(i, j, 0, 1, true)) <=8)
                     {
-                        if(neighbours(i, j, 0, 0, true) >3 || neighbours(i, j, 0, 1, true) >=3)
+                        if(count_neighbours(i, j, 0, 0, true) >3 || count_neighbours(i, j, 0, 1, true) >=3)
                         {
                             grid[i][j].type = 1;
                             grid[i][j].height = 1;
 
                         }
                     }
-                    if(neighbours(i, j, 1, 0, true)>=3  && grid[i][j].type == 0 )
+                    if(count_neighbours(i, j, 1, 0, true)>=3  && grid[i][j].type == 0 )
                     {
                         grid[i][j].type = 3;
                         grid[i][j].height = 1;
@@ -505,7 +507,7 @@ void Game_Manager::create_map(int x_beg,int y_beg)
                 int random = rand()% 100;
                 if(random <= sand_rate && i > 0 && j>0 && grid[i][j].type != 4 && grid[i][j].type != 2 )
                 {
-                    if(neighbours(i, j, 0, 1, true) >=1 && neighbours(i, j, 0, 1, true) >=1  && grid[i][j].type != 1 )
+                    if(count_neighbours(i, j, 0, 1, true) >=1 && count_neighbours(i, j, 0, 1, true) >=1  && grid[i][j].type != 1 )
                     {
                         grid[i][j].type = 5;
                         grid[i][j].height = 1;
@@ -580,7 +582,6 @@ void Game_Manager::selection()
         {
             if( x_cursor != citizen[0].get_x() ||y_cursor != citizen[0].get_y() )
             {
-
                 citizen[0].set_goal(x_cursor, y_cursor);
                 //a* homemade :)
                 path[0][0] = citizen[0].get_x();
@@ -589,8 +590,6 @@ void Game_Manager::selection()
 
                 for(int i = 0; i<100; i++)
                 {
-
-
                     if( path [i][0] < x_cursor)
                     {
                         path[i +1][0] = path[i][0] + 1;
@@ -625,124 +624,86 @@ void Game_Manager::selection()
                         }
                     }
                 }
-
-
             }
-
         }
 
     }
 }
-int Game_Manager::neighbours(int i, int j , int typeorzoneorheight, int valor, bool diagonal)
+int Game_Manager::count_neighbours(unsigned int i, unsigned int j , int typeorzoneorheight, int value, bool diagonal)
 {
     int number = 0;
 
-    if(diagonal)
+
+    if(typeorzoneorheight == 0)
     {
-        if(typeorzoneorheight == 0 && i >0 && j > 0)
+        if(grid[i - 1][j].type == value)
+            number++;
+        if(grid[i ][j + 1].type == value)
+            number++;
+        if(grid[i ][j - 1].type == value)
+            number++;
+        if(grid[i + 1][j].type == value)
+            number++;
+        if (diagonal)  //diagonal + sides
         {
-            if(grid[i - 1][j].type == valor)
+            if(grid[i - 1][j + 1].type == value)
                 number++;
-            if(grid[i - 1][j + 1].type == valor)
+            if(grid[i - 1][j -1].type == value)
                 number++;
-            if(grid[i - 1][j -1].type == valor)
+            if(grid[i + 1][j + 1].type == value)
                 number++;
-            if(grid[i ][j].type == valor)
-                number++;
-            if(grid[i ][j + 1].type == valor)
-                number++;
-            if(grid[i ][j - 1].type == valor)
-                number++;
-            if(grid[i + 1][j].type == valor)
-                number++;
-            if(grid[i + 1][j + 1].type == valor)
-                number++;
-            if(grid[i + 1][j - 1].type == valor)
-                number++;
-        }
-        if(typeorzoneorheight == 1 && i >0 && j > 0)
-        {
-            if(grid[i - 1][j].zone == valor)
-                number++;
-            if(grid[i - 1][j + 1].zone == valor)
-                number++;
-            if(grid[i - 1][j -1].zone == valor)
-                number++;
-            if(grid[i ][j].zone == valor)
-                number++;
-            if(grid[i ][j + 1].zone == valor)
-                number++;
-            if(grid[i ][j - 1].zone == valor)
-                number++;
-            if(grid[i + 1][j].zone == valor)
-                number++;
-            if(grid[i + 1][j + 1].zone == valor)
-                number++;
-            if(grid[i + 1][j - 1].zone == valor)
-                number++;
-        }
-        if(typeorzoneorheight == 2 && i >0 && j > 0)
-        {
-            if(grid[i - 1][j].height == valor)
-                number++;
-            if(grid[i - 1][j + 1].height == valor)
-                number++;
-            if(grid[i - 1][j -1].height == valor)
-                number++;
-            if(grid[i ][j + 1].height == valor)
-                number++;
-            if(grid[i ][j - 1].height == valor)
-                number++;
-            if(grid[i + 1][j].height == valor)
-                number++;
-            if(grid[i + 1][j + 1].height == valor)
-                number++;
-            if(grid[i + 1][j - 1].height == valor)
+            if(grid[i + 1][j - 1].type == value)
                 number++;
         }
     }
-    else if(!diagonal)
+    if(typeorzoneorheight == 1)
     {
-        if(typeorzoneorheight == 0 && i >0 && j > 0)
-        {
-            if(grid[i - 1][j].type == valor)
-                number++;
-            if(grid[i ][j + 1].type == valor)
-                number++;
-            if(grid[i ][j - 1].type == valor)
-                number++;
-            if(grid[i + 1][j].type == valor)
-                number++;
-        }
-        if(typeorzoneorheight == 1 && i >0 && j > 0)
-        {
-            if(grid[i - 1][j].zone == valor)
-                number++;
-            if(grid[i ][j + 1].zone == valor)
-                number++;
-            if(grid[i ][j - 1].zone == valor)
-                number++;
-            if(grid[i + 1][j].zone == valor)
-                number++;
-        }
-        if(typeorzoneorheight == 2 && i >0 && j > 0)
-        {
-            if(grid[i - 1][j].height == valor)
-                number++;
-            if(grid[i ][j + 1].height == valor)
-                number++;
-            if(grid[i ][j - 1].height == valor)
-                number++;
-            if(grid[i + 1][j].height == valor)
-                number++;
-
+        if(grid[i - 1][j].zone == value)
             number++;
+        if(grid[i ][j + 1].zone == value)
+            number++;
+        if(grid[i ][j - 1].zone == value)
+            number++;
+        if(grid[i + 1][j].zone == value)
+            number++;
+        if (diagonal)
+        {
+            if(grid[i - 1][j + 1].zone == value)
+                number++;
+            if(grid[i - 1][j -1].zone == value)
+                number++;
+            if(grid[i + 1][j + 1].zone == value)
+                number++;
+            if(grid[i + 1][j - 1].zone == value)
+                number++;
+        }
+    }
+    if(typeorzoneorheight == 2)
+    {
+        if(grid[i - 1][j].height == value)
+            number++;
+        if(grid[i ][j + 1].height == value)
+            number++;
+        if(grid[i ][j - 1].height == value)
+            number++;
+        if(grid[i + 1][j].height == value)
+            number++;
+        if (diagonal)
+        {
+            if(grid[i - 1][j + 1].height == value)
+                number++;
+            if(grid[i - 1][j -1].height == value)
+                number++;
+            if(grid[i + 1][j + 1].height == value)
+                number++;
+            if(grid[i + 1][j - 1].height == value)
+                number++;
         }
     }
 
     return number;
-
 }
+
 void Game_Manager::draw_grid()
 {
 

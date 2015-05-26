@@ -32,7 +32,7 @@ public:
     void quit();
     void create_map(int x_beg, int y_beg);
     void update();
-    int neighbours(int i, int j , int typeorzoneorheight, int valor, bool diagonal);
+    int count_neighbours(unsigned int i, unsigned int j , int typeorzoneorheight, int value, bool diagonal);
     void draw_selection();
     void draw_resources();
     void tile_description(int tile_x, int tile_y);
