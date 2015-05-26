@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <string>
 #include <cmath>
+
+#include "Key_event.h"
 #include "Menu.h"
 #include "My_Sprite.h"
 #include "My_window.h"
@@ -26,40 +28,41 @@ public:
     void draw_tile(int type, int, int);
     void draw_grid();
     void draw_gui();
-    bool wasAnyKeyPressed(const Event &event);
     void init(RenderWindow *app_get);
     void quit();
     void create_map(int x_beg, int y_beg);
     void update();
-    int neighbours(int i, int j , int typeorzoneorheight, int valor, bool diagonal);
+    int count_neighbours(unsigned int i, unsigned int j , int typeorzoneorheight, int value, bool diagonal);
     void draw_selection();
     void draw_resources();
-    bool manage_key_event(const Event &event);
     void tile_description(int tile_x, int tile_y);
     void selection();
     void move_unit(int unit_id);
+    bool handle_key_events();
     virtual ~Game_Manager();
 protected:
 private:
+    Key_event_handler key_event;
     RenderWindow *app;
     View view1;
     View view2;
-    Vector2i mouse_vec ;
-    Vector2u window_vec ;
+    Vector2i mouse_vec;
+    Vector2u window_vec;
     Vector2f selection_vector;
     Texture tile_texture[10];
     My_Sprite tile_sprite[10];
-    bool is_menu;
+    bool is_menu_visible;
     bool is_r_click();
     int x_cursor,y_cursor;
     bool is_l_click();
     void citizen_update();
     Menu menu1;
     Clock clock_zoom;
-    sf::Time time1, key_time, zoom_time;
-    bool keys[10];
+    sf::Time zoom_time;
     bool citizen_selected, open_window;
-    int x_offset, map_size_x,map_size_y, water_rate, sand_rate, deep_sea_rate, deep_sea_expansion_rate, y_offset, mouse_wheel_x, zoom_change;//zoom change 0 none, 1 add, 2 less
+    int x_offset, map_size_x,map_size_y, water_rate, sand_rate, deep_sea_rate, deep_sea_expansion_rate, y_offset, mouse_wheel_x;
+    enum Zoom_change { ZOOM_NO_CHANGE, ZOOM_ADD, ZOOM_LESS };
+    Zoom_change zoom_change;
     float zoom, zoom_rate;
     enum owner {you, player2, player3};
     enum ressources_type_enum {no, WOOD, IRON};

@@ -12,7 +12,9 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add library="sfml-graphics-d" />
@@ -27,6 +29,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -56,6 +59,7 @@
 		<Unit filename="include/Game_Manager.h" />
 		<Unit filename="include/Glissor.h" />
 		<Unit filename="include/Hud.h" />
+		<Unit filename="include/Key_event.h" />
 		<Unit filename="include/Menu.h" />
 		<Unit filename="include/My_Sprite.h" />
 		<Unit filename="include/My_Text.h" />
@@ -71,6 +75,7 @@
 		<Unit filename="src/Game_Manager.cpp" />
 		<Unit filename="src/Glissor.cpp" />
 		<Unit filename="src/Hud.cpp" />
+		<Unit filename="src/Key_event.cpp" />
 		<Unit filename="src/Menu.cpp" />
 		<Unit filename="src/My_Sprite.cpp" />
 		<Unit filename="src/My_Text.cpp" />
