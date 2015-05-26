@@ -23,6 +23,51 @@ void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get
 
 }
 
+void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get, int file_number)
+{
+    view1 = view_get;
+    app = app_get;
+    int rand_limit = 3;
+    srand(time(0));
+    if(file_number != 0)
+    {
+            rand_limit = file_number;
+    }
+
+    int random = rand()% + rand_limit;
+    stringstream ss;
+    ss << random;
+    file = file_get + ss.str() + ".png";
+ cout<< file<<endl;
+    ifstream file_check(file.c_str());
+    while(file_check.is_open() == false || rand_limit != 1 )
+    {
+        rand_limit--;
+        random = rand()% + rand_limit;
+        ss.str("");
+        ss.clear();
+        ss << random;
+        file = file_get +ss.str() + ".png";
+        file_check.open(file.c_str());
+            cout<< file<<endl;
+
+    }
+    if(file_check.is_open() == false && rand_limit == 1 )
+       {
+            texture.loadFromFile("ressources/empty.png");
+       }
+    else
+    {
+        texture.loadFromFile(file.c_str());
+    }
+    sprite.setTexture(texture);
+
+    FloatRect  a= sprite.getGlobalBounds();
+    w = a.width;
+    h = a.height;
+
+}
+
 void My_Sprite::init(RenderWindow *app_get, string file_get, View *view_get, int animation_width_get, int animation_length_get, float total_animation_time_get)
 {
     view1 = view_get;

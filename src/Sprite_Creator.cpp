@@ -21,11 +21,12 @@ void Sprite_Creator::draw()
     whole.draw(250, 250);
 }
 
+
 void Sprite_Creator::create_character( int sunlight_get)
 {
     skin.init(app, "ressources/character/base_skin.png", view1);
     eyes.init(app, "ressources/character/eyes.png", view1);
-    hair.init(app, "ressources/character/hair.png", view1);
+    hair.init(app, "ressources/character/hair", view1, 10);
     whole.init(app, "ressources/empty.png", view1);
     whole.add_sprite(&skin, sunlight_get);
     hair.set_color(color_maker(1, 1, 1, true));
