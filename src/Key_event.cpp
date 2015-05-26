@@ -4,9 +4,13 @@ Key_event_handler::Key_event_handler()
 {
     key_action = std::map<sf::Keyboard::Key, Action> {
         {sf::Keyboard::Z, ACT_GO_UP},
+        {sf::Keyboard::Up, ACT_GO_UP},
         {sf::Keyboard::D, ACT_GO_RIGHT},
+        {sf::Keyboard::Right, ACT_GO_RIGHT},
         {sf::Keyboard::S, ACT_GO_DOWN},
+        {sf::Keyboard::Down, ACT_GO_DOWN},
         {sf::Keyboard::Q, ACT_GO_LEFT},
+        {sf::Keyboard::Left, ACT_GO_LEFT},
         {sf::Keyboard::T, ACT_ZOOM_IN},
         {sf::Keyboard::G, ACT_ZOOM_OUT}
     };
