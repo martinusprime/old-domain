@@ -17,7 +17,7 @@ Game_Manager::Game_Manager()
     rock = 0;
     wood = 0;
     iron = 0;
-    zoom_change = 0;
+    zoom_change = ZOOM_NONE;
     selected_citizen = 0;
     tile_size.x = 100;
     tile_size.y = 60;
@@ -112,23 +112,24 @@ void Game_Manager::update()
         app->close();
     }
 
-    if(isEvent && manage_key_event(event))
+    Action action;
+    if(isEvent && key_event.manage_key_event(event, app, action, mouse_vec))
     {
-        if(keys[5] == true)
-        {
+        switch (action) {
+        case ACT_GO_UP:
             y_offset-= 50;
-        }
-        if(keys[6] == true)
-        {
+            break;
+        case ACT_GO_RIGHT:
             x_offset+= 50;
-        }
-        if(keys[7] == true)
-        {
+            break;
+        case ACT_GO_DOWN:
             y_offset+= 50;
-        }
-        if(keys[8] == true)
-        {
+            break;
+        case ACT_GO_LEFT:
             x_offset-= 50;
+            break;
+        default:
+            break;
         }
     }
 
@@ -138,23 +139,24 @@ void Game_Manager::update()
     {
         clock_zoom.restart();
         cout<<"zoom"<<zoom<<endl;
-        if(zoom_change == 1)
+        if(zoom_change == ZOOM_ADD && zoom_rate >= -30)
         {
             zoom =0.90;
             zoom_rate --;
         }
-        if(zoom_change == 2)
+        if(zoom_change == ZOOM_LESS  && zoom_rate <= 50)
         {
             zoom =1.1;
             zoom_rate ++;
         }
     }
-    zoom_change = 0;
+    zoom_change = ZOOM_NONE;
 
     if(is_menu)
     {
         menu1.update();
-        if(manage_key_event(event) == 1)
+        Action action;
+        if(key_event.manage_key_event(event, app, action, mouse_vec) == 1)
         {
             is_menu = false;
         }
@@ -767,51 +769,6 @@ bool Game_Manager::wasAnyKeyPressed(const Event &event)
     }
 }
 
-/* return true if an event was handled */
-bool Game_Manager::manage_key_event(const Event &event)
-{
-    mouse_vec = Mouse::getPosition(*app);
-
-    keys[5] = false;
-    keys[6] = false;
-    keys[7] = false;
-    keys[8] = false;
-
-    if(event.type == Event::KeyPressed)
-    {
-        if(sf::Keyboard::isKeyPressed(Keyboard::Z))
-        {
-            keys[5] = true;
-        }
-        else keys[5] = false;
-        if(sf::Keyboard::isKeyPressed(Keyboard::D))
-        {
-            keys[6] = true;
-        }
-        else keys[6] = false;
-        if(sf::Keyboard::isKeyPressed(Keyboard::S))
-        {
-            keys[7] = true;
-        }
-        else keys[7] = false;
-        if(sf::Keyboard::isKeyPressed(Keyboard::Q))
-        {
-            keys[8] = true;
-        }
-        else keys[8] = false;
-        if(sf::Keyboard::isKeyPressed(Keyboard::T) & zoom_rate >= -30)
-        {
-            zoom_change = 1;
-        }
-        if(sf::Keyboard::isKeyPressed(Keyboard::G) && zoom_rate <= 50)
-        {
-            zoom_change = 2;
-        }
-        // Close window : exit
-        return true;
-    }
-    return false;
-}
 
 bool Game_Manager::is_l_click()
 {
