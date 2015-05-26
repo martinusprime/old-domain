@@ -28,7 +28,6 @@ public:
     void draw_tile(int type, int, int);
     void draw_grid();
     void draw_gui();
-    bool wasAnyKeyPressed(const Event &event);
     void init(RenderWindow *app_get);
     void quit();
     void create_map(int x_beg, int y_beg);
@@ -39,6 +38,7 @@ public:
     void tile_description(int tile_x, int tile_y);
     void selection();
     void move_unit(int unit_id);
+    bool handle_key_events();
     virtual ~Game_Manager();
 protected:
 private:
@@ -51,7 +51,7 @@ private:
     Vector2f selection_vector;
     Texture tile_texture[10];
     My_Sprite tile_sprite[10];
-    bool is_menu;
+    bool is_menu_visible;
     bool is_r_click();
     int x_cursor,y_cursor;
     bool is_l_click();
@@ -61,7 +61,7 @@ private:
     sf::Time zoom_time;
     bool citizen_selected, open_window;
     int x_offset, map_size_x,map_size_y, water_rate, sand_rate, deep_sea_rate, deep_sea_expansion_rate, y_offset, mouse_wheel_x;
-    enum Zoom_change { ZOOM_NONE, ZOOM_ADD, ZOOM_LESS };
+    enum Zoom_change { ZOOM_NO_CHANGE, ZOOM_ADD, ZOOM_LESS };
     Zoom_change zoom_change;
     float zoom, zoom_rate;
     enum owner {you, player2, player3};

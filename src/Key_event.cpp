@@ -31,5 +31,11 @@ bool Key_event_handler::manage_key_event(const sf::Event &event, const sf::Rende
         action = key_action[event.key.code];
         return true;
     }
+    else if (event.type == sf::Event::Closed)
+    {
+        //TODO handle escape key ?
+        action = ACT_CLOSE_APP;
+        return true;
+    }
     return false;
 }

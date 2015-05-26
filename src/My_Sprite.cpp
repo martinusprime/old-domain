@@ -180,10 +180,9 @@ void My_Sprite::set_color(int r, int g, int b, int alpha)
     Color ancient_pixel;
     Vector2u image_size;
     image_size= image1.getSize();
-    for(int i = 0; i< image_size.x; i++)
+    for(unsigned int i = 0; i< image_size.x; i++)
     {
-
-        for(int j = 0; j< image_size.y; j++)
+        for(unsigned int j = 0; j< image_size.y; j++)
         {
             ancient_pixel = image1.getPixel(i, j );
             ancient_pixel.r = r  ;
@@ -209,10 +208,9 @@ void My_Sprite::set_color(Color color_get)
     Color ancient_pixel;
     Vector2u image_size;
     image_size= image1.getSize();
-    for(int i = 0; i< image_size.x; i++)
+    for(unsigned int i = 0; i< image_size.x; i++)
     {
-
-        for(int j = 0; j< image_size.y; j++)
+        for(unsigned int j = 0; j< image_size.y; j++)
         {
             ancient_pixel = image1.getPixel(i, j );
 
