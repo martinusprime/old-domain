@@ -109,7 +109,8 @@ bool Game_Manager::handle_key_events()
     Action action;
     if (isEvent && key_event.manage_key_event(event, app, action, mouse_vec))
     {
-        switch (action) {
+        switch (action)
+        {
         case ACT_GO_UP:
             y_offset-= 50;
             break;
@@ -204,13 +205,13 @@ void Game_Manager::citizen_update()
 
     if(citizen_action[0].is_activated() && city_number == 0)
     {
-        city[0].init(app, &view1, citizen[0].get_x(), citizen[0].get_y());
+        city[0].init(app, &view1, citizen[0].get_x(), citizen[0].get_y(), tile_size.x, tile_size.y );
         city_number++;
         grid[citizen[0].get_x()][citizen[0].get_x()].is_city = true;
     }
     if(citizen_action[2].is_activated() )  //l'action sur la ressources
     {
-        city[0].init(app, &view1, citizen[0].get_x(), citizen[0].get_y());
+        city[0].init(app, &view1, citizen[0].get_x(), citizen[0].get_y(), tile_size.x, tile_size.y );
         // windows[1].init(app, "Action", 550, 400, w/2, h/2, &view1);
 
         grid[citizen[0].get_x()][citizen[0].get_x()].is_city = true;

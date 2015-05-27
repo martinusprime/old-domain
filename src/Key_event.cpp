@@ -2,7 +2,8 @@
 
 Key_event_handler::Key_event_handler()
 {
-    key_action = std::map<sf::Keyboard::Key, Action> {
+    key_action = std::map<sf::Keyboard::Key, Action>
+    {
         {sf::Keyboard::Z, ACT_GO_UP},
         {sf::Keyboard::Up, ACT_GO_UP},
         {sf::Keyboard::D, ACT_GO_RIGHT},

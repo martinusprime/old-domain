@@ -31,14 +31,14 @@ void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get
     srand(time(0));
     if(file_number != 0)
     {
-            rand_limit = file_number;
+        rand_limit = file_number;
     }
 
     int random = rand()% + rand_limit;
     stringstream ss;
     ss << random;
     file = file_get + ss.str() + ".png";
- cout<< file<<endl;
+    cout<< file<<endl;
     ifstream file_check(file.c_str());
     while(file_check.is_open() == false || rand_limit != 1 )
     {
@@ -49,13 +49,13 @@ void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get
         ss << random;
         file = file_get +ss.str() + ".png";
         file_check.open(file.c_str());
-            cout<< file<<endl;
+        cout<< file<<endl;
 
     }
     if(file_check.is_open() == false && rand_limit == 1 )
-       {
-            texture.loadFromFile("ressources/empty.png");
-       }
+    {
+        texture.loadFromFile("ressources/empty.png");
+    }
     else
     {
         texture.loadFromFile(file.c_str());
@@ -230,9 +230,13 @@ void My_Sprite::set_color(int r, int g, int b, int alpha)
         for(unsigned int j = 0; j< image_size.y; j++)
         {
             ancient_pixel = image1.getPixel(i, j );
-            ancient_pixel.r = r  ;
-            ancient_pixel.g = g ;
-            ancient_pixel.b = b ;
+            if(ancient_pixel != sf::Color::White)
+            {
+                ancient_pixel.r = r  ;
+                ancient_pixel.g = g ;
+                ancient_pixel.b = b ;
+
+            }
 
             image1.setPixel(i, j, ancient_pixel );
         }
@@ -258,10 +262,13 @@ void My_Sprite::set_color(Color color_get)
         for(unsigned int j = 0; j< image_size.y; j++)
         {
             ancient_pixel = image1.getPixel(i, j );
+            if(ancient_pixel != sf::Color::White)
+            {
+                ancient_pixel.r = color_get.r;
+                ancient_pixel.g = color_get.g;
+                ancient_pixel.b = color_get.b;
+            }
 
-            ancient_pixel.r = color_get.r;
-            ancient_pixel.g = color_get.g;
-            ancient_pixel.b = color_get.b;
 
             image1.setPixel(i, j, ancient_pixel );
         }
