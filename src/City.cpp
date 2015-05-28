@@ -25,6 +25,6 @@ void City::init(RenderWindow *app_get, View *view_get, int x_get, int y_get, int
 
 void City::draw()
 {
-    sprite.draw(( x - y) * (tile_size_x / 2), (x +y) * (tile_size_y / 2));
-    name.draw(( x - y)  * (tile_size_x / 2), ( x + y)  * (tile_size_y / 2) - 10, 10);
+    sprite.draw(( x - y) * (tile_size_x / 2), (x +y - 2) * (tile_size_y / 2));
+    name.draw(( x - y)  * (tile_size_x / 2), ( x + y - 2)  * (tile_size_y / 2) - 10, 10);
 }

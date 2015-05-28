@@ -18,6 +18,8 @@
 #include "Sprite_Creator.h"
 #include "Hud.h"
 
+#include "PerlinNoise.h"
+
 using namespace sf;
 
 class Game_Manager
@@ -60,16 +62,15 @@ private:
     Clock clock_zoom;
     sf::Time zoom_time;
     bool citizen_selected, open_window;
-    int x_offset, map_size_x,map_size_y, water_rate, sand_rate, deep_sea_rate, deep_sea_expansion_rate, y_offset, mouse_wheel_x;
+    int screen_x, screen_y, x_offset, map_size_x,map_size_y, water_rate, sand_rate, deep_sea_rate, deep_sea_expansion_rate, y_offset, mouse_wheel_x;
     enum Zoom_change { ZOOM_NO_CHANGE, ZOOM_ADD, ZOOM_LESS };
     Zoom_change zoom_change;
     float zoom, zoom_rate;
-    enum owner {you, player2, player3};
+    enum owner_enum {YOU, OTHER, OPPONENT};
     enum ressources_type_enum {no, WOOD, IRON};
     struct tile
     {
         int type;
-        int influence_point;
         int x_pos;
         int y_pos;
         int height;
@@ -78,7 +79,7 @@ private:
         int citizen_id;
         int zone;
         bool passing_trought;
-        enum owner {you, player2, player3};
+        owner_enum owner ;
         ressources_type_enum ressource_type;
 
     };
@@ -93,7 +94,7 @@ private:
     int path[150][2];
     int w, h, city_number, citizen_number, selected_citizen;
     Citizen citizen[50];
-    My_Sprite selection_sprite;
+    My_Sprite selection_sprite, influence_sprite;
     My_Sprite gui_1, action_sprite;
     My_Text selection_text[2], tile_info;
     My_window windows[8];//1  for citizen window

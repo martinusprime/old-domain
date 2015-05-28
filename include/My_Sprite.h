@@ -21,6 +21,8 @@ public:
     void init(RenderWindow *app_get, string file_get, View *view_get, int animation_width_get, int animation_length_get, float total_animation_time_get);
     void scale(float x_rate, float y_rate);
     void add_sprite( string file);
+    int get_w();
+    int get_h();
     void add_sprite( My_Sprite *added_sprite);
     void add_sprite( My_Sprite *added_sprite, int sunlight_get);
     void set_color(int r, int g, int b, int alpha);

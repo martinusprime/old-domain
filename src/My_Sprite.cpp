@@ -40,7 +40,7 @@ void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get
     file = file_get + ss.str() + ".png";
     cout<< file<<endl;
     ifstream file_check(file.c_str());
-    while(file_check.is_open() == false || rand_limit != 1 )
+    while(file_check.is_open() == false && rand_limit != 1 )
     {
         rand_limit--;
         random = rand()% + rand_limit;
@@ -213,6 +213,9 @@ void My_Sprite::draw(int x_get, int y_get)
 void My_Sprite::scale(float x_rate, float y_rate)
 {
     sprite.scale(Vector2f(x_rate, y_rate));
+    FloatRect  a= sprite.getGlobalBounds();
+    w = a.width;
+    h = a.height;
 }
 void My_Sprite::set_color(int r, int g, int b, int alpha)
 {
@@ -293,4 +296,14 @@ bool My_Sprite::is_over()
         return true;
     }
     else return false;
+}
+
+int My_Sprite::get_w()
+{
+    return w;
+}
+
+int My_Sprite::get_h()
+{
+    return h;
 }
