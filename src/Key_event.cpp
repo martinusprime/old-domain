@@ -29,6 +29,9 @@ bool Key_event_handler::manage_key_event(const sf::Event &event, const sf::Rende
 
     if(event.type == sf::Event::KeyPressed)
     {
+        if (key_action.count(event.key.code) == 0) {
+            return false;
+        }
         action = key_action[event.key.code];
         return true;
     }
