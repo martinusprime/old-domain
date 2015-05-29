@@ -8,6 +8,8 @@ class My_Text
 {
 public:
     My_Text();
+    /* copy constructor */
+    My_Text(const My_Text &text_get);
     virtual ~My_Text();
     void init(RenderWindow *app_get, string content, int character_size, bool color);
     void init(RenderWindow *app_get, string content, int character_size, bool color, int color_r,  int color_g, int color_b);
@@ -21,7 +23,8 @@ private:
     Event event;
     Texture texture;
     Sprite sprite;
-    Font font1;
+    //can not be destroyed (see sf::Text documentation)
+    static Font font1;
     Text text1;
     Color current_color;
 };

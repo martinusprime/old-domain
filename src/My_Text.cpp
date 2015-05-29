@@ -1,8 +1,20 @@
 #include "My_Text.h"
 
+Font My_Text::font1;
+
 My_Text::My_Text()
 {
     //ctor
+}
+
+My_Text::My_Text(const My_Text &text_get)
+{
+    app = text_get.app;
+    event = text_get.event;
+    texture = text_get.texture;
+    sprite = text_get.sprite;
+    text1 = text_get.text1;
+    current_color = text_get.current_color;
 }
 
 My_Text::~My_Text()
@@ -17,7 +29,7 @@ void My_Text::init(RenderWindow *app_get, string content, int character_size, bo
     {
 
     }
-    if(font1.loadFromFile("ressources/font2.ttf"))
+    if(My_Text::font1.loadFromFile("ressources/font2.ttf"))
     {
         if(color)
         {
@@ -29,7 +41,7 @@ void My_Text::init(RenderWindow *app_get, string content, int character_size, bo
             current_color = {0, 0, 0};
 
         }
-        text1.setFont(font1);
+        text1.setFont(My_Text::font1);
         text1.setString(content.c_str());
         text1.setCharacterSize(character_size);
         text1.setColor(current_color);

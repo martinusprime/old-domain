@@ -2,7 +2,6 @@
 
 My_window::My_window()
 {
-    glissor_number = 0;
     button_number = 0;
     x = 0;
     y = 0;
@@ -39,9 +38,9 @@ void My_window::draw()
     grip_bar.draw(x, y);
     name.draw(x+  20, y + 0, 18);
     cross.draw();
-    for(int i = 0; i<glissor_number; i++)
+    for(Glissor &glissor : glissors)
     {
-        glissor[i].draw();
+        glissor.draw();
     }
     for(int i = 0; i<button_number; i++)
     {
@@ -51,18 +50,19 @@ void My_window::draw()
 
 void My_window::add_glissor(int x, int y)
 {
-    glissor[glissor_number].init(app, x, y,100, 100 + 100 * glissor_number, view1);
-    glissor_number++;
-
+    Glissor glissor;
+    glissor.init(app, x, y,100, 100 + 100 * glissors.size(), view1);
+    glissors.push_back(glissor);
 }
+
 int My_window::get_glissor(int glissor_number_get)
 {
-    return glissor[glissor_number_get].get_value();
+    return glissors[glissor_number_get].get_value();
 }
 
 void My_window::add_button(int x, int y)
 {
-    button[button_number].init(app, "h", x, y, 300 , 100 * glissor_number , view1);
+    button[button_number].init(app, "h", x, y, 300 , 100 * button_number , view1);
     button_number++;
 
 }
@@ -116,9 +116,9 @@ void My_window::update()
     Vector2i a = Mouse::getPosition(*app);
     mouse_save_vec = app->mapPixelToCoords(a, *view1);
 
-    for(int i = 0; i < glissor_number; i++)
+    for(Glissor &glissor : glissors)
     {
-        glissor[i].update(x, y);
+        glissor.update(x, y);
     }
 
     for(int i = 0; i < button_number; i++)

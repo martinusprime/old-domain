@@ -16,6 +16,8 @@ class Glissor
 {
 public:
     Glissor();
+    /* copy-constructor */
+    Glissor(const Glissor &glissor_get);
     virtual ~Glissor();
     void draw();
     void update(int x_get, int y_get);
@@ -30,7 +32,6 @@ private:
     bool mouse_on;
     Vector2f a;
     Vector2i mouse_vec ;
-    stringstream ss;
     My_Text rate;
 };
 
