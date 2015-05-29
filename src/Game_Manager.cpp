@@ -199,7 +199,7 @@ void Game_Manager::update()
     for(int i = 0; i<6; i++)
     {
         if(windows[i].is_activated())
-        {
+        {/*
             windows[i].update();
             int multiplicator = windows[i].get_glissor(8) + 1;
             int divisor = windows[i].get_glissor(4) * multiplicator;
@@ -222,7 +222,7 @@ void Game_Manager::update()
                 iteration = 0;
             create_map(1, 1 );
 
-            }
+            }*/
         }
     }
     citizen_update();
@@ -361,7 +361,7 @@ void Game_Manager::create_map(int x_beg,int y_beg)
     }
 //perlin noise expreimentation
 PerlinNoise perlin4;
-perlin4.Set(persistence, frequence, amplitude, 1, 20);
+//perlin4.Set(persistence, frequence, amplitude, octave, 20);
             double noise_value = 0;
 
 
@@ -369,7 +369,7 @@ perlin4.Set(persistence, frequence, amplitude, 1, 20);
     {
         for(int j = y_beg; j<map_size_y; j++)
         {
-            noise_value = floor(10 * (perlin4.GetHeight(i, j))) ;
+            noise_value = floor(100 * (perlin4.GetHeight(i, j))) ;
             if(noise_value <= 0 && noise_value > -15)
             {
                 grid[i][j].type = 0;
@@ -406,7 +406,7 @@ perlin4.Set(persistence, frequence, amplitude, 1, 20);
 
             }
 
-          //  cout<<noise_value<<endl;
+           cout<<noise_value<<endl;
         }
     }
 

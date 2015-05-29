@@ -12,7 +12,7 @@ public:
     Sprite_Creator();
     void init(RenderWindow *app_get, View *view_get);
     void draw();
-    void create_character( int sunlight_get);
+    string create_character( int sunlight_get);
     string get_file();
     Color color_maker(int red_get, int green_get, int blue_get, bool large_randomness);
     virtual ~Sprite_Creator();

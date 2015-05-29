@@ -20,7 +20,7 @@ void Sprite_Creator::draw()
 {
     whole.draw(250, 250);
 }
-void Sprite_Creator::create_character( int sunlight_get)
+string Sprite_Creator::create_character( int sunlight_get)
 {
     skin.init(app, "ressources/character/base_skin.png", view1);
     eyes.init(app, "ressources/character/eyes", view1, 10 );
@@ -31,8 +31,8 @@ void Sprite_Creator::create_character( int sunlight_get)
     whole.add_sprite(&hair);
     eyes.set_color(color_maker(0,1, 1, true));
     whole.add_sprite(&eyes);
-   // string file = whole.get_file().c_str();
-    //cout<<"file"<<file<<endl;
+    string file = whole.get_file().c_str();
+    return file;
 }
 
 Color Sprite_Creator::color_maker(int red_get, int green_get, int blue_get, bool large_randomness)

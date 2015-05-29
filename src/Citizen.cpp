@@ -22,9 +22,8 @@ void Citizen::init(RenderWindow *app_get, View *view_get)
     path_place = 0;
     path_number = 0;
     selection = false;
-    //sprite_creator1->init(app, view1);
+    sprite_creator1->init(app, view1);
         sprite.init(app,"ressources/character/character01.png" , view1);
-    //sprite_creator1->color_maker( 1, 1, 1, true);
 }
 int Citizen::get_x()
 {
