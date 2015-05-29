@@ -55,6 +55,10 @@ void My_window::add_glissor(int x, int y)
     glissor_number++;
 
 }
+int My_window::get_glissor(int glissor_number_get)
+{
+    return glissor[glissor_number_get].get_value();
+}
 
 void My_window::add_button(int x, int y)
 {

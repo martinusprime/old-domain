@@ -9,24 +9,11 @@
 #include <cmath>
 #include "Menu.h"
 #include "My_Sprite.h"
+#include "Sprite_Creator.h"
 
 class Citizen
 {
 public:
-    struct tile
-    {
-        int type;
-        int influence_point;
-        int x_pos;
-        int y_pos;
-        int height;
-        bool has_citizen;
-        bool is_city;
-        int citizen_id;
-        int zone;
-        bool passing_trought;
-        enum owner {you, player2, player3};
-    };
     Citizen();
     virtual ~Citizen();
     void init(RenderWindow *app_get, View *view_get);
@@ -46,6 +33,21 @@ public:
     void set_goal(int goal_x_get , int goal_y_get);
 protected:
 private:
+
+    struct Tile
+    {
+        int type;
+        int influence_point;
+        int x_pos;
+        int y_pos;
+        int height;
+        bool has_citizen;
+        bool is_city;
+        int citizen_id;
+        int zone;
+        bool passing_trought;
+        enum owner {you, player2, player3};
+    };
     View *view1;
     RenderWindow *app;
     Event event;
@@ -54,9 +56,12 @@ private:
     Time elapsed_move;
     My_Sprite sprite;
     My_Sprite goal_sprite;
+
+    Sprite_Creator *sprite_creator1;
+
     int x, y, goal_x, goal_y, path_place, path_number;
     int path[100][2];
-    tile over_tile;
+    Tile over_tile;
     //CITIZEN INFO
     string name;
     int age;

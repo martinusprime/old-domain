@@ -24,6 +24,7 @@ public:
     void add_button(int x, int y);
     void update();
     void activate();
+    int get_glissor(int glissor_number_get);
     void desactivate();
     bool is_activated();
 protected:

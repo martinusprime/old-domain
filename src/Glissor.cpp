@@ -32,6 +32,13 @@ void Glissor::draw()
     rate.draw(x + window_x - 75 , y + window_x , 25);
 
 }
+
+int Glissor::get_value()
+{
+    cout<<value<<endl;
+   return value;
+
+}
 void Glissor::update( int x_get, int y_get)
 {
     x = x_get;

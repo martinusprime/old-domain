@@ -1,28 +1,39 @@
-#include <vector>
-
-// THIS CLASS IS A TRANSLATION TO C++11 FROM THE REFERENCE
-// JAVA IMPLEMENTATION OF THE IMPROVED PERLIN FUNCTION (see http://mrl.nyu.edu/~perlin/noise/)
-// THE ORIGINAL JAVA IMPLEMENTATION IS COPYRIGHT 2002 KEN PERLIN
-
-// I ADDED AN EXTRA METHOD THAT GENERATES A NEW PERMUTATION VECTOR (THIS IS NOT PRESENT IN THE ORIGINAL IMPLEMENTATION)
-
-#ifndef PERLINNOISE_H
-#define PERLINNOISE_H
-
-class PerlinNoise {
-	// The permutation vector
-	std::vector<int> p;
+#pragma once
+//http://stackoverflow.com/questions/4753055/perlin-noise-generation-for-terrain
+class PerlinNoise
+{
 public:
-	// Initialize with the reference values for the permutation vector
-	PerlinNoise();
-	// Generate a new permutation vector based on the value of seed
-	PerlinNoise(unsigned int seed);
-	// Get a noise value, for 2D images z can have any value
-	double noise(double x, double y, double z);
-private:
-	double fade(double t);
-	double lerp(double t, double a, double b);
-	double grad(int hash, double x, double y, double z);
-};
 
-#endif
+  // Constructor
+    PerlinNoise();
+    PerlinNoise(double _persistence, double _frequency, double _amplitude, int _octaves, int _randomseed);
+
+  // Get Height
+    double GetHeight(double x, double y) const;
+
+  // Get
+  double Persistence() const { return persistence; }
+  double Frequency()   const { return frequency;   }
+  double Amplitude()   const { return amplitude;   }
+  int    Octaves()     const { return octaves;     }
+  int    RandomSeed()  const { return randomseed;  }
+
+  // Set
+  void Set(double _persistence, double _frequency, double _amplitude, int _octaves, int _randomseed);
+
+  void SetPersistence(double _persistence) { persistence = _persistence; }
+  void SetFrequency(  double _frequency)   { frequency = _frequency;     }
+  void SetAmplitude(  double _amplitude)   { amplitude = _amplitude;     }
+  void SetOctaves(    int    _octaves)     { octaves = _octaves;         }
+  void SetRandomSeed( int    _randomseed)  { randomseed = _randomseed;   }
+
+private:
+
+    double Total(double i, double j) const;
+    double GetValue(double x, double y) const;
+    double Interpolate(double x, double y, double a) const;
+    double Noise(int x, int y) const;
+
+    double persistence, frequency, amplitude;
+    int octaves, randomseed;
+};

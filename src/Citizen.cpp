@@ -14,17 +14,17 @@ Citizen::~Citizen()
 void Citizen::init(RenderWindow *app_get, View *view_get)
 {
     move_clock.restart();
+    view1 = view_get;
     app = app_get;
-    sprite.init(app, "ressources/citizen.png", view1);
     goal_sprite.init(app, "ressources/goal.png", view1);
     x = 0;
     y = 0;
     path_place = 0;
     path_number = 0;
     selection = false;
-
-
-
+    //sprite_creator1->init(app, view1);
+        sprite.init(app,"ressources/character/character01.png" , view1);
+    //sprite_creator1->color_maker( 1, 1, 1, true);
 }
 int Citizen::get_x()
 {
@@ -71,6 +71,7 @@ void Citizen::set_goal(int goal_x_get , int goal_y_get)
 }
 void Citizen::set_path(int x_path, int y_path, int path_id)
 {
+
     path[path_id][0] = x_path;
     path[path_id][1] = y_path;
     path_number ++;

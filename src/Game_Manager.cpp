@@ -24,6 +24,8 @@ Game_Manager::Game_Manager()
     tile_size.x = 100;
     tile_size.y = 60;
 
+    iteration = 0;
+
 }
 Game_Manager::~Game_Manager()
 {
@@ -53,7 +55,7 @@ void Game_Manager::init(RenderWindow *app_get)
     {
         menu1.init(app, & view2);
     }
-    for(int i = 0; i < 6; i++)
+    for(int i = 0; i < 10; i++)
     {
         stringstream ss;
         ss << i;
@@ -64,10 +66,19 @@ void Game_Manager::init(RenderWindow *app_get)
 
 
     }
-        windows[0].init(app, "Map", 0.5f, 0.3f, 0, 0, &view2, screen_x, screen_y);
+        windows[0].init(app, "Map", 0.5f, 0.5f, 0, 0, &view2, screen_x, screen_y);
         //windows[i].desactivate();
         windows[0].add_glissor(100, 100);
+        windows[0].add_glissor(100, 200);
+        windows[0].add_glissor(100, 300);
+        windows[0].add_glissor(100, 400);
+        windows[0].add_glissor(300, 100);
+        windows[0].add_glissor(300, 200);
+        windows[0].add_glissor(300, 300);
+        windows[0].add_glissor(300, 400);
+        windows[0].add_glissor(300, 500);
         windows[0].add_button(300, 100);
+        windows[0].add_button(400, 100);
 
     for(int i = 0; i < 2; i++)
     {
@@ -101,8 +112,8 @@ void Game_Manager::init(RenderWindow *app_get)
     ressource_sprite[0].init(app, "ressources/wood_ressource.png", &view1);
     tile_info.init(app, "lieu vierge", 10, 1);
 //test of the sprite creator
-    sprite_created_1_test.init(app, &view1);
-    sprite_created_1_test.create_character( 0);
+   // sprite_created_1_test.init(app, &view1);
+   // sprite_created_1_test.create_character( 0);
 
     interface1.init(app, &view1, w, h);
 }
@@ -155,7 +166,6 @@ void Game_Manager::update()
     if(zoom_time.asSeconds() >  0.05  && zoom_change != ZOOM_NO_CHANGE)
     {
         clock_zoom.restart();
-        cout<<"zoom"<<zoom<<endl;
         if(zoom_change == ZOOM_ADD && zoom_rate >= -30)
         {
             zoom =0.90;
@@ -191,6 +201,28 @@ void Game_Manager::update()
         if(windows[i].is_activated())
         {
             windows[i].update();
+            int multiplicator = windows[i].get_glissor(8) + 1;
+            int divisor = windows[i].get_glissor(4) * multiplicator;
+            if(divisor == 0)divisor = 1;
+            amplitude = windows[i].get_glissor(0) /divisor;
+            divisor = windows[i].get_glissor(5) * multiplicator;
+            if(divisor == 0)divisor = 1;
+            frequence = windows[i].get_glissor(1)/divisor;
+            divisor = windows[i].get_glissor(6) * multiplicator;
+            if(divisor == 0)divisor = 1;
+            octave = windows[i].get_glissor(2)/divisor;
+            divisor = windows[i].get_glissor(7) * multiplicator;
+            if(divisor == 0)divisor = 1;
+            persistence = windows[i].get_glissor(3)/divisor;
+
+            iteration++;
+            if(iteration >= 10)
+            {
+                //cout<<"createmap "<<amplitude<<endl;
+                iteration = 0;
+            create_map(1, 1 );
+
+            }
         }
     }
     citizen_update();
@@ -236,7 +268,7 @@ void Game_Manager::draw()
     {
         draw_grid();
         //drwing of the test created sprite
-        sprite_created_1_test.draw();
+        //sprite_created_1_test.draw();
 
         for(int i = 0; i < city_number; i++)
         {
@@ -328,46 +360,53 @@ void Game_Manager::create_map(int x_beg,int y_beg)
         }
     }
 //perlin noise expreimentation
+PerlinNoise perlin4;
+perlin4.Set(persistence, frequence, amplitude, 1, 20);
+            double noise_value = 0;
 
-PerlinNoise perlin(18465);
-int noise_value = 0.5445;
-float z;
+
  for(int i = x_beg; i <map_size_x; i++)
     {
         for(int j = y_beg; j<map_size_y; j++)
         {
-            z+= 0.01;
-            noise_value =floor(100 * perlin.noise(i, j, 0.5));
-            if(noise_value < 25)
-            {
-                grid[i][j].type = 5;
-
-            }
-            if(noise_value < 25 && noise_value > 25)
-            {
-                grid[i][j].type = 4;
-
-            }
-            if(noise_value < 45 && noise_value > 25)
-            {
-                grid[i][j].type = 3;
-
-            }
-            if(noise_value < 5 && noise_value > 5)
-            {
-                grid[i][j].type = 2;
-
-            }
-            if(noise_value < 6 && noise_value > 5)
-            {
-                grid[i][j].type = 1;
-
-            }if(noise_value < 90 && noise_value > 65)
+            noise_value = floor(10 * (perlin4.GetHeight(i, j))) ;
+            if(noise_value <= 0 && noise_value > -15)
             {
                 grid[i][j].type = 0;
 
             }
-            cout<<noise_value<<endl;
+            if(noise_value <= -15 && noise_value > -35)
+            {
+                grid[i][j].type = 1;
+
+            }
+            if(noise_value <= -35 && noise_value > -50)
+            {
+                grid[i][j].type = 2;
+
+            }
+            if(noise_value <= -50 && noise_value > -75)
+            {
+                grid[i][j].type = 3;
+
+            }
+            if(noise_value <= -75 && noise_value > -100)
+            {
+                grid[i][j].type = 4;
+
+            }
+            if(noise_value > 0 && noise_value <= 35)
+            {
+                grid[i][j].type = 7;
+
+            }
+            if(noise_value > 35 && noise_value <= 50)
+            {
+                grid[i][j].type = 8;
+
+            }
+
+          //  cout<<noise_value<<endl;
         }
     }
 
