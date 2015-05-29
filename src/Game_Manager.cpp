@@ -1,6 +1,7 @@
 #include "Game_Manager.h"
 
 Game_Manager::Game_Manager()
+: grid(GRID_WIDTH, std::vector<tile>(GRID_HEIGTH))
 {
     is_menu_visible = true;
     x_offset = 0;
@@ -249,7 +250,7 @@ void Game_Manager::draw_gui()
     //highlight the tile
     if(!open_window)
     {
-        selection();
+        mouse_selection();
     }
 
     app->setView(view2);
@@ -553,7 +554,7 @@ void Game_Manager::tile_description(int tile_x, int tile_y)
 
     tile_info.draw(0 , window_vec.y - 700 , 24);
 }
-void Game_Manager::selection()
+void Game_Manager::mouse_selection()
 {
     selection_vector = app->mapPixelToCoords(mouse_vec, view1);
     if(x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
@@ -632,7 +633,9 @@ void Game_Manager::selection()
 int Game_Manager::count_neighbours(unsigned int i, unsigned int j , int typeorzoneorheight, int value, bool diagonal)
 {
     int number = 0;
-
+    if (i == 0 || j == 0 || j + 1 >= GRID_HEIGTH || i + 1 >= GRID_WIDTH) {
+        return 0; //TODO handle this correctly
+    }
 
     if(typeorzoneorheight == 0)
     {
