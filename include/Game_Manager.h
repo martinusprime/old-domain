@@ -21,14 +21,14 @@
 #include "PerlinNoise.h"
 
 using namespace sf;
-enum Owner
+enum Owner_enum
 {
-    you,
-    player2,
-    player3
+    YOU,
+    PLAYER2,
+    PLAYER3
 };
 
-enum ressources_type_enum
+enum Ressources_type_enum
 {
     no,
     WOOD,
@@ -47,8 +47,8 @@ struct tile
     int citizen_id;
     int zone;
     bool passing_trought;
-    Owner owner;
-    ressources_type_enum ressource_type;
+    Owner_enum owner;
+    Ressources_type_enum ressource_type;
 
 };
 
@@ -97,6 +97,7 @@ private:
     My_Sprite tile_sprite[10];
     bool is_menu_visible;
     int x_cursor,y_cursor;
+    int iteration;
     Menu menu1;
     Clock clock_zoom;
     sf::Time zoom_time;
@@ -119,6 +120,8 @@ private:
     std::vector<std::vector<tile> > grid;
     int path[150][2];
     int w, h, city_number, citizen_number, selected_citizen;
+    int screen_y;
+    int screen_x;
     Citizen citizen[50];
     My_Sprite selection_sprite, influence_sprite;
     My_Sprite gui_1, action_sprite;
