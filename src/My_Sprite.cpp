@@ -65,7 +65,10 @@ void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get
     FloatRect  a= sprite.getGlobalBounds();
     w = a.width;
     h = a.height;
-
+    animation_rect.height = h;
+    animation_rect.top = 0;
+    animation_rect.left = 0;
+    animation_rect.width = 128;
 }
 
 void My_Sprite::init(RenderWindow *app_get, string file_get, View *view_get, int animation_width_get, int animation_length_get, float total_animation_time_get)
@@ -81,8 +84,7 @@ void My_Sprite::init(RenderWindow *app_get, string file_get, View *view_get, int
     total_animation_time =total_animation_time_get;
     FloatRect  a= sprite.getGlobalBounds();
     w = a.width;
-    h = a.height
-        ;
+    h = a.height;
     animation_rect.left = 0;
     animation_rect.top = 0;
     animation_rect.width = w/animation_length;
@@ -204,9 +206,20 @@ void My_Sprite::draw(int x_get, int y_get)
 
     }
 
-
     sprite.setPosition(x, y);
     app->draw(sprite);
+
+}
+void My_Sprite::draw_tile(int x_get, int y_get, int random)
+{
+    x = x_get;
+    y = y_get;
+    animation_rect.left = 128 * random;
+    animation_rect.width = 128 ;
+    sprite.setTextureRect(animation_rect);
+    sprite.setPosition(x, y);
+    app->draw(sprite);
+                //cout<<" ra "<<animation_rect.left<<endl;
 
 }
 

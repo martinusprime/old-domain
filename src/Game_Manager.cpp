@@ -22,8 +22,8 @@ Game_Manager::Game_Manager()
     iron = 0;
     zoom_change = ZOOM_NO_CHANGE;
     selected_citizen = 0;
-    tile_size.x = 100;
-    tile_size.y = 60;
+    tile_size.x = 128;
+    tile_size.y = 64;
 
     iteration = 0;
 
@@ -63,12 +63,12 @@ void Game_Manager::init(RenderWindow *app_get)
         string str = ss.str();
         string path = "ressources/tile" + str + ".png";
 
-        tile_sprite[i].init(app, path, &view1, 100, 5, 5.0);
+        tile_sprite[i].init(app, path, &view1, 128, 5 , 1);
 
 
     }
         windows[0].init(app, "Map", 0.5f, 0.5f, 0, 0, &view2, screen_x, screen_y);
-        //windows[i].desactivate();
+        windows[0].desactivate();
         windows[0].add_glissor(100, 100);
         windows[0].add_glissor(100, 200);
         windows[0].add_glissor(100, 300);
@@ -356,8 +356,8 @@ void Game_Manager::create_map(int x_beg,int y_beg)
             grid[i][j].passing_trought = false;
             grid[i][j].is_city = false;
             grid[i][j].ressource_type = RSC_WOOD;
-            grid[i][j].owner = YOU;
-
+            grid[i][j].owner = PLAYER2;
+            grid[i][j].random_pattern = rand()% + 4;
         }
     }
 //perlin noise expreimentation
@@ -407,7 +407,7 @@ PerlinNoise perlin4;
 
             }
 
-           cout<<noise_value<<endl;
+        //   cout<<noise_value<<endl;
         }
     }
 
@@ -620,8 +620,7 @@ void Game_Manager::draw_grid()
 }
 void Game_Manager::draw_tile(int type , int x_pos, int y_pos)
 {
-    //tile_sprite[type].draw(x_pos * 50, y_pos * 50);
-    tile_sprite[type].draw( ( x_pos - y_pos) * (tile_size.x / 2), (y_pos +x_pos) * (tile_size.y / 2));
+    tile_sprite[type].draw_tile( ( x_pos - y_pos) * (tile_size.x / 2), (y_pos +x_pos) * (tile_size.y / 2), grid[x_pos][y_pos].random_pattern);
 
     if(grid[x_pos][y_pos].owner == YOU)
     {

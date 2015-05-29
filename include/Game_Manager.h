@@ -45,6 +45,7 @@ enum Ressources_type_enum
 struct tile
 {
     int type;
+    int random_pattern;
     int influence_point;
     int x_pos;
     int y_pos;
