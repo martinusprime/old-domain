@@ -5,6 +5,22 @@ Glissor::Glissor()
     //ctor
 }
 
+Glissor::Glissor(const Glissor &glissor_get)
+{
+    view1 = glissor_get.view1;
+    app = glissor_get.app;
+    bar = glissor_get.bar;
+    cursor_bar = glissor_get.cursor_bar;
+    x = glissor_get.x;
+    y = glissor_get.y;
+    value = glissor_get.value;
+    window_x = glissor_get.window_x;
+    window_y = glissor_get.window_y;
+    mouse_on = glissor_get.mouse_on;
+    a = glissor_get.a;
+    mouse_vec = glissor_get.mouse_vec;
+    rate = glissor_get.rate;
+}
 Glissor::~Glissor()
 {
     //dtor
@@ -27,9 +43,9 @@ void Glissor::init(RenderWindow *app_get, int x_get, int y_get, int window_x_get
 
 void Glissor::draw()
 {
-    bar.draw(x + window_x, y + window_x);
+    bar.draw(x + window_x, y + window_y);
     cursor_bar.draw(x + value * 2 + window_x, y + window_y - 13);
-    rate.draw(x + window_x - 75 , y + window_x , 25);
+    rate.draw(x + window_x - 75 , y + window_y , 25);
 
 }
 
@@ -65,10 +81,10 @@ void Glissor::update( int x_get, int y_get)
         }
         if(value != cache_value)
         {
+            stringstream ss;
             ss << value;
             string str = ss.str();
             rate.refill(str);
-            ss.str("");
         }
     }
     if(!Mouse::isButtonPressed(Mouse::Left))

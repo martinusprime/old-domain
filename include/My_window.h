@@ -35,7 +35,7 @@ private:
     Vector2f mouse_save_vec;
     int w, h,screen_y, screen_x, x, y, glissor_number, button_number, window_w, window_h;
     My_Text name;
-    Glissor glissor[10];
+    vector<Glissor> glissors;
     Button button[10];
     Button cross;
     bool activation, moving;
