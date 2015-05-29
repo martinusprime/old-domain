@@ -18,6 +18,8 @@
 #include "Sprite_Creator.h"
 #include "Hud.h"
 
+#include "PerlinNoise.h"
+
 using namespace sf;
 enum Owner
 {
@@ -118,7 +120,7 @@ private:
     int path[150][2];
     int w, h, city_number, citizen_number, selected_citizen;
     Citizen citizen[50];
-    My_Sprite selection_sprite;
+    My_Sprite selection_sprite, influence_sprite;
     My_Sprite gui_1, action_sprite;
     My_Text selection_text[2], tile_info;
     My_window windows[8];//1  for citizen window

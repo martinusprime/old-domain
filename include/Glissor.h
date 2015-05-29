@@ -19,6 +19,7 @@ public:
     virtual ~Glissor();
     void draw();
     void update(int x_get, int y_get);
+    int get_value();
     void init(RenderWindow *app_get, int x_get, int y_get, int , int, View *view1_get);
 protected:
 private:

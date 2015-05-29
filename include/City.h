@@ -18,7 +18,7 @@ class City
 public:
     City();
     virtual ~City();
-    void init(RenderWindow *app_get, View *view_get, int x_get, int y_get );
+    void init(RenderWindow *app_get, View *view_get, int x_get, int y_get ,  int tile_size_x_get, int tile_size_y_get);
     void draw();
     void selected();
     int get_x();
@@ -27,7 +27,7 @@ private:
     View *view1;
     RenderWindow *app;
     My_Sprite sprite;
-    int x, y, type;
+    int x, y, type, tile_size_x, tile_size_y;
     My_Text name;
 };
 

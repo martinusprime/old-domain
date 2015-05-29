@@ -23,6 +23,51 @@ void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get
 
 }
 
+void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get, int file_number)
+{
+    view1 = view_get;
+    app = app_get;
+    int rand_limit = 3;
+    srand(time(0));
+    if(file_number != 0)
+    {
+        rand_limit = file_number;
+    }
+
+    int random = rand()% + rand_limit;
+    stringstream ss;
+    ss << random;
+    file = file_get + ss.str() + ".png";
+    cout<< file<<endl;
+    ifstream file_check(file.c_str());
+    while(file_check.is_open() == false && rand_limit != 1 )
+    {
+        rand_limit--;
+        random = rand()% + rand_limit;
+        ss.str("");
+        ss.clear();
+        ss << random;
+        file = file_get +ss.str() + ".png";
+        file_check.open(file.c_str());
+        cout<< file<<endl;
+
+    }
+    if(file_check.is_open() == false && rand_limit == 1 )
+    {
+        texture.loadFromFile("ressources/empty.png");
+    }
+    else
+    {
+        texture.loadFromFile(file.c_str());
+    }
+    sprite.setTexture(texture);
+
+    FloatRect  a= sprite.getGlobalBounds();
+    w = a.width;
+    h = a.height;
+
+}
+
 void My_Sprite::init(RenderWindow *app_get, string file_get, View *view_get, int animation_width_get, int animation_length_get, float total_animation_time_get)
 {
     view1 = view_get;
@@ -168,6 +213,9 @@ void My_Sprite::draw(int x_get, int y_get)
 void My_Sprite::scale(float x_rate, float y_rate)
 {
     sprite.scale(Vector2f(x_rate, y_rate));
+    FloatRect  a= sprite.getGlobalBounds();
+    w = a.width;
+    h = a.height;
 }
 void My_Sprite::set_color(int r, int g, int b, int alpha)
 {
@@ -185,9 +233,13 @@ void My_Sprite::set_color(int r, int g, int b, int alpha)
         for(unsigned int j = 0; j< image_size.y; j++)
         {
             ancient_pixel = image1.getPixel(i, j );
-            ancient_pixel.r = r  ;
-            ancient_pixel.g = g ;
-            ancient_pixel.b = b ;
+            if(ancient_pixel != sf::Color::White)
+            {
+                ancient_pixel.r = r  ;
+                ancient_pixel.g = g ;
+                ancient_pixel.b = b ;
+
+            }
 
             image1.setPixel(i, j, ancient_pixel );
         }
@@ -213,10 +265,13 @@ void My_Sprite::set_color(Color color_get)
         for(unsigned int j = 0; j< image_size.y; j++)
         {
             ancient_pixel = image1.getPixel(i, j );
+            if(ancient_pixel != sf::Color::White)
+            {
+                ancient_pixel.r = color_get.r;
+                ancient_pixel.g = color_get.g;
+                ancient_pixel.b = color_get.b;
+            }
 
-            ancient_pixel.r = color_get.r;
-            ancient_pixel.g = color_get.g;
-            ancient_pixel.b = color_get.b;
 
             image1.setPixel(i, j, ancient_pixel );
         }
@@ -241,4 +296,14 @@ bool My_Sprite::is_over()
         return true;
     }
     else return false;
+}
+
+int My_Sprite::get_w()
+{
+    return w;
+}
+
+int My_Sprite::get_h()
+{
+    return h;
 }

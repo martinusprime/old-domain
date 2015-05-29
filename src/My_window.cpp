@@ -14,13 +14,13 @@ My_window::~My_window()
     //dtor
 }
 
-void My_window::init(RenderWindow *app_get, string name_get,  float width, float height,int x_get, int y_get, View *view1_get)
+void My_window::init(RenderWindow *app_get, string name_get,  float width, float height,int x_get, int y_get, View *view1_get, int screen_x_get, int screen_y_get)
 {
     x = x_get;
     y = y_get;
     view1 = view1_get;
-    window_x = width;
-    window_y = height;
+    screen_x = screen_x_get;
+    screen_y = screen_y_get;
     app = app_get;
     window_sprite.init(app, "ressources/window.png", view1);
     grip_bar.init(app, "ressources/grip_bar.png", view1);
@@ -29,13 +29,15 @@ void My_window::init(RenderWindow *app_get, string name_get,  float width, float
     name.init(app, name_get, 55, 1);
     cross.init(app, true,  0, 0,1000 * width - 32, view1);
     activation = true;
+    window_w = window_sprite.get_w();
+    window_h = window_sprite.get_h();
 }
 
 void My_window::draw()
 {
     window_sprite.draw(x, y);
     grip_bar.draw(x, y);
-    name.draw( 20, 0, 18);
+    name.draw(x+  20, y + 0, 18);
     cross.draw();
     for(int i = 0; i<glissor_number; i++)
     {
@@ -52,6 +54,10 @@ void My_window::add_glissor(int x, int y)
     glissor[glissor_number].init(app, x, y,100, 100 + 100 * glissor_number, view1);
     glissor_number++;
 
+}
+int My_window::get_glissor(int glissor_number_get)
+{
+    return glissor[glissor_number_get].get_value();
 }
 
 void My_window::add_button(int x, int y)
@@ -77,7 +83,7 @@ void My_window::update()
     {
         moving = true;
     }
-    else if(!Mouse::isButtonPressed(Mouse::Left))
+    else if(!Mouse::isButtonPressed(Mouse::Left) )
     {
         moving = false;
     }
@@ -88,13 +94,14 @@ void My_window::update()
 
         x += (a.x - mouse_save_vec.x);
         y += (a.y - mouse_save_vec.y);
-        if(x > 500)
+        cout<<x<<endl;
+        if(x > screen_x -  window_w)
         {
-            x = 500;
+            x = screen_x - window_w;
         }
-        if(y > 500)
+        if(y > screen_y - window_h)
         {
-            y = 500;
+            y = screen_y - window_h;
         }
         if(x < 0)
         {
@@ -108,6 +115,7 @@ void My_window::update()
 
     Vector2i a = Mouse::getPosition(*app);
     mouse_save_vec = app->mapPixelToCoords(a, *view1);
+
     for(int i = 0; i < glissor_number; i++)
     {
         glissor[i].update(x, y);

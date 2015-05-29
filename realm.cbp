@@ -64,8 +64,10 @@
 		<Unit filename="include/My_Sprite.h" />
 		<Unit filename="include/My_Text.h" />
 		<Unit filename="include/My_window.h" />
+		<Unit filename="include/PerlinNoise.h" />
 		<Unit filename="include/Skills.h" />
 		<Unit filename="include/Sprite_Creator.h" />
+		<Unit filename="include/Timer.h" />
 		<Unit filename="include/dialog.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Building.cpp" />
@@ -80,8 +82,10 @@
 		<Unit filename="src/My_Sprite.cpp" />
 		<Unit filename="src/My_Text.cpp" />
 		<Unit filename="src/My_window.cpp" />
+		<Unit filename="src/PerlinNoise.cpp" />
 		<Unit filename="src/Skills.cpp" />
 		<Unit filename="src/Sprite_Creator.cpp" />
+		<Unit filename="src/Timer.cpp" />
 		<Unit filename="src/dialog.cpp" />
 		<Extensions>
 			<code_completion />

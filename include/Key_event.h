@@ -4,7 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 
-enum Action {
+enum Action
+{
     ACT_ZOOM_IN,
     ACT_ZOOM_OUT,
     ACT_GO_UP,
