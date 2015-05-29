@@ -21,6 +21,13 @@
 #include "PerlinNoise.h"
 
 using namespace sf;
+
+enum Caracteristic {
+    CRC_TYPE,
+    CRC_ZONE,
+    CRC_HEIGTH
+};
+
 enum Owner_enum
 {
     YOU,
@@ -30,9 +37,9 @@ enum Owner_enum
 
 enum Ressources_type_enum
 {
-    no,
-    WOOD,
-    IRON
+    RSC_NO,
+    RSC_WOOD,
+    RSC_IRON
 };
 
 struct tile
@@ -75,7 +82,7 @@ private:
     void draw_tile(int type, int, int);
     void draw_grid();
     void draw_gui();
-    int count_neighbours(unsigned int i, unsigned int j , int typeorzoneorheight, int value, bool diagonal);
+    int count_neighbours(unsigned int i, unsigned int j , Caracteristic typeorzoneorheight, int value, bool diagonal);
     void draw_selection();
     void draw_resources();
     void tile_description(int tile_x, int tile_y);
