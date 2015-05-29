@@ -1,6 +1,7 @@
 #include "Game_Manager.h"
 
 Game_Manager::Game_Manager()
+: grid(GRID_WIDTH, std::vector<tile>(GRID_HEIGTH))
 {
     is_menu_visible = true;
     screen_x = 1920;
@@ -287,7 +288,7 @@ void Game_Manager::draw_gui()
     //highlight the tile
     if(!open_window)
     {
-        selection();
+        mouse_selection();
     }
 
     app->setView(view2);
@@ -354,7 +355,7 @@ void Game_Manager::create_map(int x_beg,int y_beg)
             grid[i][j].has_citizen = false;
             grid[i][j].passing_trought = false;
             grid[i][j].is_city = false;
-            grid[i][j].ressource_type = WOOD;
+            grid[i][j].ressource_type = RSC_WOOD;
             grid[i][j].owner = YOU;
 
         }
@@ -428,9 +429,10 @@ void Game_Manager::draw_selection()
         tile_description(x_cursor, y_cursor);
     }
 }
+
 void Game_Manager::tile_description(int tile_x, int tile_y)
 {
-    if(grid[tile_x][tile_y].ressource_type == WOOD)
+    if(grid[tile_x][tile_y].ressource_type == RSC_WOOD)
     {
         tile_info.refill("Frêne");
     }
@@ -441,7 +443,8 @@ void Game_Manager::tile_description(int tile_x, int tile_y)
 
     tile_info.draw(0 , window_vec.y - 700 , 24);
 }
-void Game_Manager::selection()
+
+void Game_Manager::mouse_selection()
 {
     selection_vector = app->mapPixelToCoords(mouse_vec, view1);
     if(x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
@@ -517,12 +520,15 @@ void Game_Manager::selection()
 
     }
 }
-int Game_Manager::count_neighbours(unsigned int i, unsigned int j , int typeorzoneorheight, int value, bool diagonal)
+
+int Game_Manager::count_neighbours(unsigned int i, unsigned int j , Caracteristic typeorzoneorheight, int value, bool diagonal)
 {
     int number = 0;
+    if (i == 0 || j == 0 || j + 1 >= GRID_HEIGTH || i + 1 >= GRID_WIDTH) {
+        return 0; //TODO handle this correctly
+    }
 
-
-    if(typeorzoneorheight == 0)
+    if(typeorzoneorheight == CRC_TYPE)
     {
         if(grid[i - 1][j].type == value)
             number++;
@@ -544,7 +550,7 @@ int Game_Manager::count_neighbours(unsigned int i, unsigned int j , int typeorzo
                 number++;
         }
     }
-    if(typeorzoneorheight == 1)
+    if(typeorzoneorheight == CRC_ZONE)
     {
         if(grid[i - 1][j].zone == value)
             number++;
@@ -566,7 +572,7 @@ int Game_Manager::count_neighbours(unsigned int i, unsigned int j , int typeorzo
                 number++;
         }
     }
-    if(typeorzoneorheight == 2)
+    if(typeorzoneorheight == CRC_HEIGTH)
     {
         if(grid[i - 1][j].height == value)
             number++;
@@ -603,7 +609,7 @@ void Game_Manager::draw_grid()
             {
                 draw_tile(grid[i][j].type, grid[i][j].x_pos, grid[i][j].y_pos );
             }
-            if(grid[i][j].ressource_type == WOOD && i< 5 && j < 5)
+            if(grid[i][j].ressource_type == RSC_WOOD && i< 5 && j < 5)
             {
                 ressource_sprite[0].draw( (grid[i][j].x_pos - grid[i][j].y_pos)* (tile_size.x / 2), (grid[i][j].x_pos + grid[i][j].y_pos)* (tile_size.y / 2));
             }

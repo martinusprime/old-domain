@@ -57,7 +57,7 @@ private:
     My_Sprite sprite;
     My_Sprite goal_sprite;
 
-    Sprite_Creator *sprite_creator1;
+    Sprite_Creator sprite_creator1;
 
     int x, y, goal_x, goal_y, path_place, path_number;
     int path[100][2];

@@ -22,28 +22,77 @@
 
 using namespace sf;
 
+enum Caracteristic {
+    CRC_TYPE,
+    CRC_ZONE,
+    CRC_HEIGTH
+};
+
+enum Owner_enum
+{
+    YOU,
+    PLAYER2,
+    PLAYER3
+};
+
+enum Ressources_type_enum
+{
+    RSC_NO,
+    RSC_WOOD,
+    RSC_IRON
+};
+
+struct tile
+{
+    int type;
+    int influence_point;
+    int x_pos;
+    int y_pos;
+    int height;
+    bool has_citizen;
+    bool is_city;
+    int citizen_id;
+    int zone;
+    bool passing_trought;
+    Owner_enum owner;
+    Ressources_type_enum ressource_type;
+
+};
+
+struct tile_dimension
+{
+    int x;
+    int y;
+};
+enum Zoom_change { ZOOM_NO_CHANGE, ZOOM_ADD, ZOOM_LESS };
+
 class Game_Manager
 {
 public:
     Game_Manager();
     void draw();
-    void draw_tile(int type, int, int);
-    void draw_grid();
-    void draw_gui();
     void init(RenderWindow *app_get);
     void quit();
     void create_map(int x_beg, int y_beg);
     void update();
-    int count_neighbours(unsigned int i, unsigned int j , int typeorzoneorheight, int value, bool diagonal);
-    void draw_selection();
-    void draw_resources();
-    void tile_description(int tile_x, int tile_y);
-    void selection();
-    void move_unit(int unit_id);
-    bool handle_key_events();
+
     virtual ~Game_Manager();
 protected:
 private:
+    void draw_tile(int type, int, int);
+    void draw_grid();
+    void draw_gui();
+    int count_neighbours(unsigned int i, unsigned int j , Caracteristic typeorzoneorheight, int value, bool diagonal);
+    void draw_selection();
+    void draw_resources();
+    void tile_description(int tile_x, int tile_y);
+    void mouse_selection();
+    void move_unit(int unit_id);
+    bool handle_key_events();
+    bool is_r_click();
+    bool is_l_click();
+    void citizen_update();
+
     Key_event_handler key_event;
     RenderWindow *app;
     View view1;
@@ -54,48 +103,32 @@ private:
     Texture tile_texture[10];
     My_Sprite tile_sprite[10];
     bool is_menu_visible;
-    bool is_r_click();
     int x_cursor,y_cursor;
-    bool is_l_click();
-    void citizen_update();
+    int iteration;
     Menu menu1;
     Clock clock_zoom;
     sf::Time zoom_time;
     bool citizen_selected, open_window;
-    int screen_x, screen_y, x_offset, map_size_x,map_size_y, water_rate, sand_rate, deep_sea_rate, deep_sea_expansion_rate, y_offset, mouse_wheel_x, iteration;
-    enum Zoom_change { ZOOM_NO_CHANGE, ZOOM_ADD, ZOOM_LESS };
+    int x_offset;
+    int map_size_x;
+    int map_size_y;
+    int water_rate;
+    int sand_rate;
+    int deep_sea_rate;
+    int deep_sea_expansion_rate;
+    int y_offset;
+    int mouse_wheel_x;
     Zoom_change zoom_change;
-    float zoom, zoom_rate;
-
-    float amplitude, octave, frequence, persistence;
-
-    enum Owner_enum {YOU, OTHER, OPPONENT};
-    enum Ressources_type_enum {no, WOOD, IRON};
-    struct Tile
-    {
-        int type;
-        int x_pos;
-        int y_pos;
-        int height;
-        bool has_citizen;
-        bool is_city;
-        int citizen_id;
-        int zone;
-        bool passing_trought;
-        Owner_enum owner ;
-        Ressources_type_enum ressource_type;
-
-    };
-
-    struct tile_dimension
-    {
-        int x;
-        int y;
-    };
+    float zoom;
+    float zoom_rate;
     tile_dimension tile_size;
-    Tile grid[202][202];
+    static const int GRID_WIDTH = 202;
+    static const int GRID_HEIGTH = 202;
+    std::vector<std::vector<tile> > grid;
     int path[150][2];
     int w, h, city_number, citizen_number, selected_citizen;
+    int screen_y;
+    int screen_x;
     Citizen citizen[50];
     My_Sprite selection_sprite, influence_sprite;
     My_Sprite gui_1, action_sprite;
@@ -108,8 +141,6 @@ private:
     Button citizen_action[5];
     City city[5];
     Sprite_Creator sprite_created_1_test;
-
-
 };
 
 #endif // GAME_MANAGER_H
