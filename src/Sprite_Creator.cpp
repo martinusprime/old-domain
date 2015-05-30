@@ -47,9 +47,51 @@ string Sprite_Creator::create_resources( int resources_id)
     resources_sprite[0].add_sprite(&resources_sprite[2], "ressources/resources/tree0.png");
 
     string file = resources_sprite[0].get_file().c_str();
-    rand(time(0));
-    flexibility =  rand%() 1 + 8;
-    solidity =  rand%() 2 + 10;
+    srand(time(0));
+    flexibility =  rand()% 1 + 8;
+    solidity =  rand()% 2 + 10;
+
+
+    string temp_name[3];
+    int random = rand()% + 5;
+    ifstream name_file("ressources/resources/names.txt");
+
+    if(name_file)
+    {
+        for(int i = 0; i< random; i++)
+        {
+            temp_name[0] = "";
+            name_file >> temp_name[0];
+        }
+
+    }
+ifstream name_file2("ressources/resources/suffixes.txt");
+    random = rand()% + 5;
+    if(name_file2)
+    {
+        for(int i = 0; i< random; i++)
+        {
+            temp_name[1] = "";
+            name_file2 >> temp_name[1];
+        }
+
+    }
+ifstream name_file3("ressources/resources/adjectives.txt");
+    random = rand()% + 5;
+
+    if(name_file3)
+    {
+        for(int i = 0; i< random; i++)
+        {
+            temp_name[2] = "";
+            name_file3 >> temp_name[2];
+        }
+
+    }
+    resource_name =  temp_name[0] +  temp_name[1] + " " + temp_name[2];
+        cout<<resource_name<<" beeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeuh"<<endl;
+
+
     return file;
 }
 float Sprite_Creator::get_flexibility()

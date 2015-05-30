@@ -20,10 +20,9 @@ Grid::Grid(unsigned int width, unsigned int heigth, sf::View *view1, sf::RenderW
     , m_app(app)
 {
     My_Sprite resource_sprite0;
-    resource_sprite0.init(m_app, "ressources/wood_ressource.png", m_view1);
+    m_sprite_creator1.init(m_app, m_view1);
     m_resource_sprites.push_back(resource_sprite0);
-
-
+    m_resource_sprites[0].init(m_app, m_sprite_creator1.create_resources(0) , m_view1);
 }
 
 Grid::~Grid()

@@ -83,7 +83,6 @@ Game_Manager::Game_Manager(RenderWindow *app_get)
             create_map(i *50,j *  50);
         }
     }
-sprite_created_1_test.init(app, &view1);
 
     citizen[0].init(app, &view1);
     grid(0, 0).has_citizen = true;
@@ -94,16 +93,8 @@ sprite_created_1_test.init(app, &view1);
     citizen_action[0].init(app, "Fonder une ville", 0, 0, 0, 0, &view2);
     citizen_action[1].init(app, "Rentrer dans la ville", 0, 0, 0, 0, &view2);
     citizen_action[2].init(app, "Observer la ressource", 0, 0, 0, 0, &view2);
-<<<<<<< HEAD
-      //  ressource_sprite[0].init(app, "ressources/wood_ressource.png", &view1);
 
-    ressource_sprite[0].init(app, sprite_created_1_test.create_resources(0) , &view1);
-=======
-
->>>>>>> 19712c319b5125667347010f198de0a347d43327
     tile_info.init(app, "lieu vierge", 10, 1);
-//test of the sprite creator
-   // sprite_created_1_test.create_character( 0);
 
     interface1.init(app, &view1, w, h);
 
@@ -596,40 +587,6 @@ int Game_Manager::count_neighbours(unsigned int i, unsigned int j , Caracteristi
 
     return number;
 }
-
-<<<<<<< HEAD
-void Game_Manager::draw_grid()
-{
-
-    for(int i = 0; i <map_size_x; i++)
-    {
-        for(int j = 0; j<map_size_y; j++)
-        {
-            if(!grid(i, j).passing_trought)
-            {
-                draw_tile(grid(i, j).type, grid(i, j).x_pos, grid(i, j).y_pos );
-            }
-            if(grid(i, j).ressource_type == RSC_WOOD && i< 5 && j < 5)
-            {
-                ressource_sprite[0].draw( (grid(i, j).x_pos - grid(i, j).y_pos)* (tile_size.x / 2), (grid(i, j).x_pos + grid(i, j).y_pos)* (tile_size.y / 2));
-            }
-        }
-    }
-
-    // Update the window
-}
-void Game_Manager::draw_tile(int type , int x_pos, int y_pos)
-{
-    tile_sprite[type].draw_tile( ( x_pos - y_pos) * (tile_size.x / 2), (y_pos +x_pos) * (tile_size.y / 2), grid(x_pos, y_pos).random_pattern);
-
-    if(grid(x_pos, y_pos).owner == YOU)
-    {
-    //influence_sprite.draw( ( x_pos - y_pos) * (tile_size.x / 2), (y_pos +x_pos) * (tile_size.y / 2));
-
-    }
-}
-=======
->>>>>>> 19712c319b5125667347010f198de0a347d43327
 
 bool Game_Manager::is_l_click()
 {
