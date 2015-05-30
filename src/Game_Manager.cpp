@@ -357,7 +357,7 @@ void Game_Manager::create_map(int x_beg,int y_beg)
             grid[i][j].is_city = false;
             grid[i][j].ressource_type = RSC_WOOD;
             grid[i][j].owner = PLAYER2;
-            grid[i][j].random_pattern = rand()% + 4;
+            grid[i][j].random_pattern = rand()% + 5;
         }
     }
 //perlin noise expreimentation

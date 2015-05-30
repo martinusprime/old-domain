@@ -29,7 +29,7 @@ string Sprite_Creator::create_character( int sunlight_get)
     whole.add_sprite(&skin, sunlight_get);
     hair.set_color(color_maker(1, 1, 1, true));
     whole.add_sprite(&hair);
-    eyes.set_color(color_maker(0,1, 1, true));
+    eyes.set_color(color_maker(0,1, 1, false));
     whole.add_sprite(&eyes);
     string file = whole.get_file().c_str();
     return file;
