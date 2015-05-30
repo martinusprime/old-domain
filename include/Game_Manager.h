@@ -31,7 +31,6 @@ enum Caracteristic {
 
 
 
-
 struct tile_dimension
 {
     int x;

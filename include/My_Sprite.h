@@ -16,6 +16,7 @@ class My_Sprite
 public:
     My_Sprite();
     void draw(int x, int y);
+    void draw_tile(int x_get, int y_get, int random);
     void init(RenderWindow *app_get, string file_get, View *view_get);
     void init(RenderWindow *app_get, string file_get, View *view_get, int file_number);
     void init(RenderWindow *app_get, string file_get, View *view_get, int animation_width_get, int animation_length_get, float total_animation_time_get);
