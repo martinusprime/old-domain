@@ -76,7 +76,8 @@ void Citizen::set_path(int x_path, int y_path, int path_id)
     path_number ++;
 
 }
-void Citizen::selected()
+
+void Citizen::select()
 {
     selection = true;
     sprite.add_color(90, 120, 40, 255);

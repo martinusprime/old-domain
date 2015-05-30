@@ -31,19 +31,14 @@ enum Caracteristic {
 
 
 
-struct tile_dimension
-{
-    int x;
-    int y;
-};
+
 enum Zoom_change { ZOOM_NO_CHANGE, ZOOM_ADD, ZOOM_LESS };
 
 class Game_Manager
 {
 public:
-    Game_Manager();
+    Game_Manager(RenderWindow *app_get);
     void draw();
-    void init(RenderWindow *app_get);
     void quit();
     void create_map(int x_beg, int y_beg);
     void update();
@@ -52,7 +47,6 @@ public:
 protected:
 private:
     void draw_tile(int type, int, int);
-    void draw_grid();
     void draw_gui();
     int count_neighbours(unsigned int i, unsigned int j , Caracteristic typeorzoneorheight, int value, bool diagonal);
     void draw_selection();
@@ -73,7 +67,6 @@ private:
     Vector2u window_vec;
     Vector2f selection_vector;
     Texture tile_texture[10];
-    My_Sprite tile_sprite[10];
     bool is_menu_visible;
     int x_cursor,y_cursor;
     int iteration;
@@ -93,7 +86,7 @@ private:
     Zoom_change zoom_change;
     float zoom;
     float zoom_rate;
-    tile_dimension tile_size;
+
     static const int GRID_WIDTH = 202;
     static const int GRID_HEIGTH = 202;
     Grid grid;
@@ -103,14 +96,13 @@ private:
     int screen_y;
     int screen_x;
     Citizen citizen[50];
-    My_Sprite selection_sprite, influence_sprite;
+    My_Sprite selection_sprite;
     My_Sprite gui_1, action_sprite;
     My_Text selection_text[2], tile_info;
     My_window windows[8];//1  for citizen window
     Hud interface1;
     Building building[5];
     int wood, iron, sand, glass, rock;
-    My_Sprite ressource_sprite[5];
     Button citizen_action[5];
     City city[5];
     Sprite_Creator sprite_created_1_test;
