@@ -101,6 +101,7 @@ void Game_Manager::init(RenderWindow *app_get)
             create_map(i *50,j *  50);
         }
     }
+sprite_created_1_test.init(app, &view1);
 
     citizen[0].init(app, &view1);
     grid(0, 0).has_citizen = true;
@@ -111,10 +112,11 @@ void Game_Manager::init(RenderWindow *app_get)
     citizen_action[0].init(app, "Fonder une ville", 0, 0, 0, 0, &view2);
     citizen_action[1].init(app, "Rentrer dans la ville", 0, 0, 0, 0, &view2);
     citizen_action[2].init(app, "Observer la ressource", 0, 0, 0, 0, &view2);
-    ressource_sprite[0].init(app, "ressources/wood_ressource.png", &view1);
+      //  ressource_sprite[0].init(app, "ressources/wood_ressource.png", &view1);
+
+    ressource_sprite[0].init(app, sprite_created_1_test.create_resources(0) , &view1);
     tile_info.init(app, "lieu vierge", 10, 1);
 //test of the sprite creator
-   // sprite_created_1_test.init(app, &view1);
    // sprite_created_1_test.create_character( 0);
 
     interface1.init(app, &view1, w, h);
@@ -629,7 +631,7 @@ void Game_Manager::draw_tile(int type , int x_pos, int y_pos)
 
     if(grid(x_pos, y_pos).owner == YOU)
     {
-    influence_sprite.draw( ( x_pos - y_pos) * (tile_size.x / 2), (y_pos +x_pos) * (tile_size.y / 2));
+    //influence_sprite.draw( ( x_pos - y_pos) * (tile_size.x / 2), (y_pos +x_pos) * (tile_size.y / 2));
 
     }
 }
