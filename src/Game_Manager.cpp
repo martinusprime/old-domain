@@ -625,7 +625,7 @@ void Game_Manager::draw_grid()
 }
 void Game_Manager::draw_tile(int type , int x_pos, int y_pos)
 {
-    tile_sprite[type].draw_tile( ( x_pos - y_pos) * (tile_size.x / 2), (y_pos +x_pos) * (tile_size.y / 2), grid[x_pos][y_pos].random_pattern);
+    tile_sprite[type].draw_tile( ( x_pos - y_pos) * (tile_size.x / 2), (y_pos +x_pos) * (tile_size.y / 2), grid(x_pos, y_pos).random_pattern);
 
     if(grid(x_pos, y_pos).owner == YOU)
     {
