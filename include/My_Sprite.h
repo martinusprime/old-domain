@@ -24,7 +24,7 @@ public:
     void add_sprite( string file);
     int get_w();
     int get_h();
-    void add_sprite( My_Sprite *added_sprite);
+    void add_sprite( My_Sprite *added_sprite, string save_slot);
     void add_sprite( My_Sprite *added_sprite, int sunlight_get);
     void set_color(int r, int g, int b, int alpha);
     void set_color(Color color_get);

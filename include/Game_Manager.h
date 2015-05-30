@@ -105,7 +105,6 @@ private:
     int wood, iron, sand, glass, rock;
     Button citizen_action[5];
     City city[5];
-    Sprite_Creator sprite_created_1_test;
 };
 
 #endif // GAME_MANAGER_H

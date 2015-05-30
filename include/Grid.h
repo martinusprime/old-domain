@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "My_Sprite.h"
+#include "Sprite_Creator.h"
 
 enum Owner_enum
 {
@@ -64,6 +65,7 @@ private:
     std::vector<std::vector<Tile> > m_grid;
     sf::View *m_view1;
     sf::RenderWindow *m_app;
+    Sprite_Creator m_sprite_creator1;
 
     std::vector<My_Sprite> m_resource_sprites;
 

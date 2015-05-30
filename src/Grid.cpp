@@ -34,8 +34,10 @@ Grid::Grid(const Grid& other)
 void Grid::loadFiles()
 {
     My_Sprite resource_sprite0;
+    m_sprite_creator1.init(m_app, m_view1);
     resource_sprite0.init(m_app, "ressources/wood_ressource.png", m_view1);
     m_resource_sprites.push_back(resource_sprite0);
+    m_resource_sprites[0].init(m_app, m_sprite_creator1.create_resources(0) , m_view1);
     for(int i = 0; i < 10; i++)
     {
         stringstream ss;

@@ -3,6 +3,10 @@
 My_Sprite::My_Sprite()
 {
     total_animation_time =0;
+    animation_rect.height = 64;
+    animation_rect.top = 0;
+    animation_rect.left = 0;
+    animation_rect.width = 128;
 }
 
 My_Sprite::~My_Sprite()
@@ -65,7 +69,7 @@ void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get
     FloatRect  a= sprite.getGlobalBounds();
     w = a.width;
     h = a.height;
-    animation_rect.height = h;
+    animation_rect.height = 64;
     animation_rect.top = 0;
     animation_rect.left = 0;
     animation_rect.width = 128;
@@ -122,27 +126,29 @@ string My_Sprite::get_file()
     return file;
 }
 
-void My_Sprite::add_sprite(My_Sprite *added_sprite)
+void My_Sprite::add_sprite(My_Sprite *added_sprite, string save_slot)
 {
-    Texture texture2;
+    animation_rect.height = 64;
+    animation_rect.top = 0;
+    animation_rect.left = 0;
+    animation_rect.width = 128;
 
     Image background;
     background.loadFromFile(file.c_str());
     Image background2;
     background2.loadFromFile(added_sprite->get_file().c_str());
 
-    // Create a 20x20 image filled with black color
     sf::Image image;
-    image.create(50, 50);
-    // Copy image1 on image2 at position (10, 10)
-    image.copy(background, 0, 0,  IntRect(0, 0, 50, 50));
-    image.copy(background2, 0, 0, IntRect(0, 0, 50, 50),true);
+    image.create(128, 64);
 
-    image.saveToFile("ressources/character/character01.png");
+    image.copy(background, 0, 0,  IntRect(0, 0, 128, 64));
+    image.copy(background2, 0, 0, IntRect(0, 0, 128, 64), true);
+
+    image.saveToFile(save_slot);
 
 
-    texture.loadFromFile("ressources/character/character01.png");
-    file ="ressources/character/character01.png";
+    texture.loadFromFile(save_slot);
+    file =save_slot;
     sprite.setTexture(texture);
 }
 

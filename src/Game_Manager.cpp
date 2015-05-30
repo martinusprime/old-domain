@@ -94,9 +94,6 @@ Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_
     //now that view1 has been reseted we can load tile files
     grid.loadFiles();
     tile_info.init(app, "lieu vierge", 10, 1);
-//test of the sprite creator
-   // sprite_created_1_test.init(app, &view1);
-   // sprite_created_1_test.create_character( 0);
 
     interface1.init(app, &view1, w, h);
 
@@ -589,7 +586,6 @@ int Game_Manager::count_neighbours(unsigned int i, unsigned int j , Caracteristi
 
     return number;
 }
-
 
 bool Game_Manager::is_l_click()
 {
