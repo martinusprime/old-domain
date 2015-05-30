@@ -347,7 +347,6 @@ void Game_Manager::create_map(int x_beg,int y_beg)
     {
         for(int j = y_beg; j<map_size_y; j++)
         {
-
             grid(i, j).type = 2;
             grid(i, j).x_pos = i;
             grid(i, j).y_pos = j;
@@ -358,7 +357,7 @@ void Game_Manager::create_map(int x_beg,int y_beg)
             grid(i, j).is_city = false;
             grid(i, j).ressource_type = RSC_WOOD;
             grid(i, j).owner = PLAYER2;
-            grid(i, j).random_pattern = rand()% + 4;
+            grid(i, j).random_pattern = rand()% + 5;
 
         }
     }
