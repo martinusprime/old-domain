@@ -16,11 +16,11 @@ int main()
     {
         RenderWindow app(VideoMode(1920, 1080), "SFML window" );
         //app.setFramerateLimit(60);
-        Game_Manager game_manager1;
+        Game_Manager game_manager1(&app);
 
         // Create the main window
         //app.setMouseCursorVisible(false);
-        game_manager1.init(&app);
+
         // Start the game loop
         while (app.isOpen() )
         {

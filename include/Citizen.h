@@ -18,7 +18,7 @@ public:
     virtual ~Citizen();
     void init(RenderWindow *app_get, View *view_get);
     void draw();
-    void selected();
+    void select();
     bool is_selected();
     void set_path(int x_path, int y_path, int path_id);
     void update();

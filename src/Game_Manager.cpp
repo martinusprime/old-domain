@@ -1,7 +1,7 @@
 #include "Game_Manager.h"
 
-Game_Manager::Game_Manager()
-: grid(GRID_WIDTH, GRID_HEIGTH)
+Game_Manager::Game_Manager(RenderWindow *app_get)
+: grid(GRID_WIDTH, GRID_HEIGTH, &view1, app_get)
 , move_path(150, std::vector<int>(2))
 {
     is_menu_visible = true;
@@ -23,20 +23,9 @@ Game_Manager::Game_Manager()
     iron = 0;
     zoom_change = ZOOM_NO_CHANGE;
     selected_citizen = 0;
-    tile_size.x = 128;
-    tile_size.y = 64;
 
     iteration = 0;
-
-}
-Game_Manager::~Game_Manager()
-{
-    //dtor
-}
-
-void Game_Manager::init(RenderWindow *app_get)
-{
-    app = app_get;
+        app = app_get;
     view1.reset(FloatRect(0, 0, screen_x, screen_y));
     view1.setViewport(FloatRect(0, 0, 1.0f, 1.0f));
     app->setView(view1);
@@ -57,17 +46,8 @@ void Game_Manager::init(RenderWindow *app_get)
     {
         menu1.init(app, & view2);
     }
-    for(int i = 0; i < 10; i++)
-    {
-        stringstream ss;
-        ss << i;
-        string str = ss.str();
-        string path = "ressources/tile" + str + ".png";
-
-        tile_sprite[i].init(app, path, &view1, 128, 5 , 1);
 
 
-    }
         windows[0].init(app, "Map", 0.5f, 0.5f, 0, 0, &view2, screen_x, screen_y);
         windows[0].desactivate();
         windows[0].add_glissor(100, 100);
@@ -89,7 +69,6 @@ void Game_Manager::init(RenderWindow *app_get)
 
     }
     selection_sprite.init(app, "ressources/selection.png", &view1);
-    influence_sprite.init(app, "ressources/player_influence.png", &view1);
 
     int x_tiles = 1;
     int y_tiles = 1;
@@ -111,13 +90,19 @@ void Game_Manager::init(RenderWindow *app_get)
     citizen_action[0].init(app, "Fonder une ville", 0, 0, 0, 0, &view2);
     citizen_action[1].init(app, "Rentrer dans la ville", 0, 0, 0, 0, &view2);
     citizen_action[2].init(app, "Observer la ressource", 0, 0, 0, 0, &view2);
-    ressource_sprite[0].init(app, "ressources/wood_ressource.png", &view1);
+
     tile_info.init(app, "lieu vierge", 10, 1);
 //test of the sprite creator
    // sprite_created_1_test.init(app, &view1);
    // sprite_created_1_test.create_character( 0);
 
     interface1.init(app, &view1, w, h);
+
+}
+
+Game_Manager::~Game_Manager()
+{
+    //dtor
 }
 
 bool Game_Manager::handle_key_events()
@@ -244,13 +229,13 @@ void Game_Manager::citizen_update()
 
     if(citizen_action[0].is_activated() && city_number == 0)
     {
-        city[0].init(app, &view1, citizen[0].get_x(), citizen[0].get_y(), tile_size.x, tile_size.y );
+        city[0].init(app, &view1, citizen[0].get_x(), citizen[0].get_y(), Tile::tile_size.x, Tile::tile_size.y );
         city_number++;
         grid(citizen[0].get_x(), citizen[0].get_x()).is_city = true;
     }
     if(citizen_action[2].is_activated() )  //l'action sur la ressources
     {
-        city[0].init(app, &view1, citizen[0].get_x(), citizen[0].get_y(), tile_size.x, tile_size.y );
+        city[0].init(app, &view1, citizen[0].get_x(), citizen[0].get_y(), Tile::tile_size.x, Tile::tile_size.y );
         // windows[1].init(app, "Action", 550, 400, w/2, h/2, &view1);
 
         grid(citizen[0].get_x(), citizen[0].get_x()).is_city = true;
@@ -268,7 +253,7 @@ void Game_Manager::draw()
     app->clear();
     if(! is_menu_visible)
     {
-        draw_grid();
+        grid.draw();
         //drwing of the test created sprite
         //sprite_created_1_test.draw();
 
@@ -450,17 +435,17 @@ void Game_Manager::mouse_selection()
     selection_vector = app->mapPixelToCoords(mouse_vec, view1);
     if(x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
     {
-        selection_sprite.draw( (x_cursor - y_cursor)* (tile_size.x / 2) ,(x_cursor + y_cursor)* (tile_size.y / 2) );
+        selection_sprite.draw( (x_cursor - y_cursor)* (Tile::tile_size.x / 2) ,(x_cursor + y_cursor)* (Tile::tile_size.y / 2) );
     }
-    x_cursor = (selection_vector.x / tile_size.x + selection_vector.y/ tile_size.y - 0.5)* zoom;
-    y_cursor = (selection_vector.y/ tile_size.y - selection_vector.x / tile_size.x + 0.5)* zoom;
+    x_cursor = (selection_vector.x / Tile::tile_size.x + selection_vector.y/ Tile::tile_size.y - 0.5)* zoom;
+    y_cursor = (selection_vector.y/ Tile::tile_size.y - selection_vector.x / Tile::tile_size.x + 0.5)* zoom;
 
 
     if(is_l_click() && x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
     {
         if(grid(x_cursor, y_cursor).has_citizen && !citizen_selected)
         {
-            citizen[0].selected();
+            citizen[0].select();
             selected_citizen = 0;
             citizen_selected = true;
             for(int i = 0; i < move_path.size(); i++)
@@ -603,36 +588,6 @@ int Game_Manager::count_neighbours(unsigned int i, unsigned int j , Caracteristi
     return number;
 }
 
-void Game_Manager::draw_grid()
-{
-
-    for(int i = 0; i <map_size_x; i++)
-    {
-        for(int j = 0; j<map_size_y; j++)
-        {
-            if(!grid(i, j).passing_trought)
-            {
-                draw_tile(grid(i, j).type, grid(i, j).x_pos, grid(i, j).y_pos );
-            }
-            if(grid(i, j).ressource_type == RSC_WOOD && i< 5 && j < 5)
-            {
-                ressource_sprite[0].draw( (grid(i, j).x_pos - grid(i, j).y_pos)* (tile_size.x / 2), (grid(i, j).x_pos + grid(i, j).y_pos)* (tile_size.y / 2));
-            }
-        }
-    }
-
-    // Update the window
-}
-void Game_Manager::draw_tile(int type , int x_pos, int y_pos)
-{
-    tile_sprite[type].draw_tile( ( x_pos - y_pos) * (tile_size.x / 2), (y_pos +x_pos) * (tile_size.y / 2), grid(x_pos, y_pos).random_pattern);
-
-    if(grid(x_pos, y_pos).owner == YOU)
-    {
-    influence_sprite.draw( ( x_pos - y_pos) * (tile_size.x / 2), (y_pos +x_pos) * (tile_size.y / 2));
-
-    }
-}
 
 bool Game_Manager::is_l_click()
 {
