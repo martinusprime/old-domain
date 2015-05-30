@@ -19,11 +19,6 @@ Grid::Grid(unsigned int width, unsigned int heigth, sf::View *view1, sf::RenderW
     , m_view1(view1)
     , m_app(app)
 {
-    My_Sprite resource_sprite0;
-    resource_sprite0.init(m_app, "ressources/wood_ressource.png", m_view1);
-    m_resource_sprites.push_back(resource_sprite0);
-
-
 }
 
 Grid::~Grid()
@@ -38,6 +33,9 @@ Grid::Grid(const Grid& other)
 
 void Grid::loadFiles()
 {
+    My_Sprite resource_sprite0;
+    resource_sprite0.init(m_app, "ressources/wood_ressource.png", m_view1);
+    m_resource_sprites.push_back(resource_sprite0);
     for(int i = 0; i < 10; i++)
     {
         stringstream ss;

@@ -14,9 +14,14 @@ int main()
 {
     try
     {
-        RenderWindow app(VideoMode(1920, 1080), "SFML window" );
-        //app.setFramerateLimit(60);
-        Game_Manager game_manager1(&app);
+        int screen_y = 1080;
+        int screen_x = 1920;
+        RenderWindow app(VideoMode(screen_x, screen_y), "SFML window" );
+        View view1;
+        view1.reset(FloatRect(0, 0, screen_x, screen_y));
+        view1.setViewport(FloatRect(0, 0, 1.0f, 1.0f));
+
+        Game_Manager game_manager1(&app, view1, screen_x, screen_y);
 
         // Create the main window
         //app.setMouseCursorVisible(false);

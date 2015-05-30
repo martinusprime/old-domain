@@ -1,12 +1,13 @@
 #include "Game_Manager.h"
 
-Game_Manager::Game_Manager(RenderWindow *app_get)
-: grid(GRID_WIDTH, GRID_HEIGTH, &view1, app_get)
+Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_get, int screen_y_get)
+: view1(view1_get)
+, grid(GRID_WIDTH, GRID_HEIGTH, &view1, app_get)
 , move_path(150, std::vector<int>(2))
 {
     is_menu_visible = true;
-    screen_x = 1920;
-    screen_y = 1080;
+    screen_x = screen_x_get;
+    screen_y = screen_y_get;
     x_offset = 0;
     y_offset = 0;
     zoom = 1;
@@ -26,12 +27,9 @@ Game_Manager::Game_Manager(RenderWindow *app_get)
 
     iteration = 0;
     app = app_get;
-    view1.reset(FloatRect(0, 0, screen_x, screen_y));
-    view1.setViewport(FloatRect(0, 0, 1.0f, 1.0f));
     app->setView(view1);
 
-    //now that view1 has been reseted we can load tile files
-    grid.loadFiles();
+
 
     window_vec = app->getSize();
     cout<<"x_window"<<window_vec.x<<"y_window "<<window_vec.y<<endl;
@@ -93,7 +91,8 @@ Game_Manager::Game_Manager(RenderWindow *app_get)
     citizen_action[0].init(app, "Fonder une ville", 0, 0, 0, 0, &view2);
     citizen_action[1].init(app, "Rentrer dans la ville", 0, 0, 0, 0, &view2);
     citizen_action[2].init(app, "Observer la ressource", 0, 0, 0, 0, &view2);
-
+    //now that view1 has been reseted we can load tile files
+    grid.loadFiles();
     tile_info.init(app, "lieu vierge", 10, 1);
 //test of the sprite creator
    // sprite_created_1_test.init(app, &view1);
