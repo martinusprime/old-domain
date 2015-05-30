@@ -1,7 +1,8 @@
 #include "Game_Manager.h"
 
 Game_Manager::Game_Manager()
-: grid(GRID_WIDTH, std::vector<tile>(GRID_HEIGTH))
+: grid(GRID_WIDTH, GRID_HEIGTH)
+, move_path(150, std::vector<int>(2))
 {
     is_menu_visible = true;
     screen_x = 1920;
@@ -68,7 +69,7 @@ void Game_Manager::init(RenderWindow *app_get)
 
     }
         windows[0].init(app, "Map", 0.5f, 0.5f, 0, 0, &view2, screen_x, screen_y);
-        //windows[i].desactivate();
+        windows[0].desactivate();
         windows[0].add_glissor(100, 100);
         windows[0].add_glissor(100, 200);
         windows[0].add_glissor(100, 300);
@@ -102,8 +103,8 @@ void Game_Manager::init(RenderWindow *app_get)
     }
 
     citizen[0].init(app, &view1);
-    grid[0][0].has_citizen = true;
-    grid[0][0].citizen_id = 0;
+    grid(0, 0).has_citizen = true;
+    grid(0, 0).citizen_id = 0;
 
     building[0].init(app, &view1, 0);
 
@@ -233,28 +234,28 @@ void Game_Manager::citizen_update()
 {
 
     citizen[0].update();
-    grid[citizen[0].get_previous_x()][citizen[0].get_previous_y()].has_citizen = false;
+    grid(citizen[0].get_previous_x(), citizen[0].get_previous_y()).has_citizen = false;
     if(citizen[0].is_selected() )
     {
         citizen_action[0].update(0, h - 50);
 
     }
-    grid[citizen[0].get_x()][citizen[0].get_y()].has_citizen = true;
+    grid(citizen[0].get_x(), citizen[0].get_y()).has_citizen = true;
 
     if(citizen_action[0].is_activated() && city_number == 0)
     {
         city[0].init(app, &view1, citizen[0].get_x(), citizen[0].get_y(), tile_size.x, tile_size.y );
         city_number++;
-        grid[citizen[0].get_x()][citizen[0].get_x()].is_city = true;
+        grid(citizen[0].get_x(), citizen[0].get_x()).is_city = true;
     }
     if(citizen_action[2].is_activated() )  //l'action sur la ressources
     {
         city[0].init(app, &view1, citizen[0].get_x(), citizen[0].get_y(), tile_size.x, tile_size.y );
         // windows[1].init(app, "Action", 550, 400, w/2, h/2, &view1);
 
-        grid[citizen[0].get_x()][citizen[0].get_x()].is_city = true;
+        grid(citizen[0].get_x(), citizen[0].get_x()).is_city = true;
     }
-    if(grid[citizen[0].get_x()][citizen[0].get_y()].is_city == true)
+    if(grid(citizen[0].get_x(), citizen[0].get_y()).is_city == true)
     {
         citizen[0].on_city();
     }
@@ -347,16 +348,16 @@ void Game_Manager::create_map(int x_beg,int y_beg)
         for(int j = y_beg; j<map_size_y; j++)
         {
 
-            grid[i][j].type = 2;
-            grid[i][j].x_pos = i;
-            grid[i][j].y_pos = j;
-            grid[i][j].height = 1;
-            grid[i][j].zone = 1;
-            grid[i][j].has_citizen = false;
-            grid[i][j].passing_trought = false;
-            grid[i][j].is_city = false;
-            grid[i][j].ressource_type = RSC_WOOD;
-            grid[i][j].owner = YOU;
+            grid(i, j).type = 2;
+            grid(i, j).x_pos = i;
+            grid(i, j).y_pos = j;
+            grid(i, j).height = 1;
+            grid(i, j).zone = 1;
+            grid(i, j).has_citizen = false;
+            grid(i, j).passing_trought = false;
+            grid(i, j).is_city = false;
+            grid(i, j).ressource_type = RSC_WOOD;
+            grid(i, j).owner = YOU;
 
         }
     }
@@ -373,37 +374,37 @@ PerlinNoise perlin4;
             noise_value = floor(100 * (perlin4.GetHeight(i, j))) ;
             if(noise_value <= 0 && noise_value > -15)
             {
-                grid[i][j].type = 0;
+                grid(i, j).type = 0;
 
             }
             if(noise_value <= -15 && noise_value > -35)
             {
-                grid[i][j].type = 1;
+                grid(i, j).type = 1;
 
             }
             if(noise_value <= -35 && noise_value > -50)
             {
-                grid[i][j].type = 2;
+                grid(i, j).type = 2;
 
             }
             if(noise_value <= -50 && noise_value > -75)
             {
-                grid[i][j].type = 3;
+                grid(i, j).type = 3;
 
             }
             if(noise_value <= -75 && noise_value > -100)
             {
-                grid[i][j].type = 4;
+                grid(i, j).type = 4;
 
             }
             if(noise_value > 0 && noise_value <= 35)
             {
-                grid[i][j].type = 7;
+                grid(i, j).type = 7;
 
             }
             if(noise_value > 35 && noise_value <= 50)
             {
-                grid[i][j].type = 8;
+                grid(i, j).type = 8;
 
             }
 
@@ -421,7 +422,7 @@ void Game_Manager::draw_selection()
     {
         //show height
         stringstream ss;
-        ss << grid[x_cursor][y_cursor].height;
+        ss << grid(x_cursor, y_cursor).height;
         string str = ss.str();
         string path1 = "height " + str;
         selection_text[0].refill(path1);
@@ -432,7 +433,7 @@ void Game_Manager::draw_selection()
 
 void Game_Manager::tile_description(int tile_x, int tile_y)
 {
-    if(grid[tile_x][tile_y].ressource_type == RSC_WOOD)
+    if(grid(tile_x, tile_y).ressource_type == RSC_WOOD)
     {
         tile_info.refill("Frêne");
     }
@@ -457,16 +458,20 @@ void Game_Manager::mouse_selection()
 
     if(is_l_click() && x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
     {
-        if(grid[x_cursor][y_cursor].has_citizen && !citizen_selected)
+        if(grid(x_cursor, y_cursor).has_citizen && !citizen_selected)
         {
             citizen[0].selected();
             selected_citizen = 0;
             citizen_selected = true;
-            for(int i = 0; i< 100; i++)
+            for(int i = 0; i < move_path.size(); i++)
             {
-                grid[path[i][0] ][path[i][1]].passing_trought = false;
-                path[i][0] = -1;
-                path[i][1] = -1;
+                if (move_path[i][0] == -1 || move_path[i][1] == -1)
+                {
+                    break;
+                }
+                grid(move_path[i][0], move_path[i][1]).passing_trought = false;
+                move_path[i][0] = -1;
+                move_path[i][1] = -1;
             }
         }
         if(citizen_selected )
@@ -475,44 +480,44 @@ void Game_Manager::mouse_selection()
             {
                 citizen[0].set_goal(x_cursor, y_cursor);
                 //a* homemade :)
-                path[0][0] = citizen[0].get_x();
-                path[0][1] = citizen[0].get_y();
+                move_path[0][0] = citizen[0].get_x();
+                move_path[0][1] = citizen[0].get_y();
                 citizen_selected = false;
 
                 for(int i = 0; i<100; i++)
                 {
-                    if( path [i][0] < x_cursor)
+                    if( move_path [i][0] < x_cursor)
                     {
-                        path[i +1][0] = path[i][0] + 1;
+                        move_path[i +1][0] = move_path[i][0] + 1;
                     }
-                    else if( path [i][0] > x_cursor)
+                    else if( move_path [i][0] > x_cursor)
                     {
-                        path[i +1][0] = path[i][0] - 1;
+                        move_path[i +1][0] = move_path[i][0] - 1;
                     }
-                    else path[i +1][0] = path[i][0];
-                    if( path[i][1] < y_cursor)
+                    else move_path[i +1][0] = move_path[i][0];
+                    if( move_path[i][1] < y_cursor)
                     {
-                        path[i +1][1] = path[i][1] + 1;
+                        move_path[i +1][1] = move_path[i][1] + 1;
                     }
-                    else if( path[i][1] > y_cursor)
+                    else if( move_path[i][1] > y_cursor)
                     {
-                        path[i +1][1] = path[i][1] - 1;
+                        move_path[i +1][1] = move_path[i][1] - 1;
                     }
-                    else path[i +1][1] = path[i][1];
+                    else move_path[i +1][1] = move_path[i][1];
 
-                    grid[path[i][0] ][path[i][1]].passing_trought = true;
+                    grid(move_path[i][0], move_path[i][1]).passing_trought = true;
 
-                    if(path[i][0] == x_cursor && path[i][1] == y_cursor)
+                    if(move_path[i][0] == x_cursor && move_path[i][1] == y_cursor)
                     {
-                        i =100;
-                        for(int i = 0; i< 200; i++)
+                        for(int k = 0; k< move_path.size(); k++)
                         {
-                            citizen[0].set_path( path[i][0], path[i][1], i);
-                            if(path[i][0] == 0 && path[i][1] == 1)
+                            citizen[0].set_path( move_path[k][0], move_path[k][1], k);
+                            if(move_path[k][0] == 0 && move_path[k][1] == 1)
                             {
-                                i = 200;
+                                break;
                             }
                         }
+                        break;
                     }
                 }
             }
@@ -530,67 +535,67 @@ int Game_Manager::count_neighbours(unsigned int i, unsigned int j , Caracteristi
 
     if(typeorzoneorheight == CRC_TYPE)
     {
-        if(grid[i - 1][j].type == value)
+        if(grid(i - 1, j).type == value)
             number++;
-        if(grid[i ][j + 1].type == value)
+        if(grid(i, j + 1).type == value)
             number++;
-        if(grid[i ][j - 1].type == value)
+        if(grid(i, j - 1).type == value)
             number++;
-        if(grid[i + 1][j].type == value)
+        if(grid(i + 1, j).type == value)
             number++;
         if (diagonal)  //diagonal + sides
         {
-            if(grid[i - 1][j + 1].type == value)
+            if(grid(i - 1, j + 1).type == value)
                 number++;
-            if(grid[i - 1][j -1].type == value)
+            if(grid(i - 1, j - 1).type == value)
                 number++;
-            if(grid[i + 1][j + 1].type == value)
+            if(grid(i + 1, j + 1).type == value)
                 number++;
-            if(grid[i + 1][j - 1].type == value)
+            if(grid(i + 1, j - 1).type == value)
                 number++;
         }
     }
     if(typeorzoneorheight == CRC_ZONE)
     {
-        if(grid[i - 1][j].zone == value)
+        if(grid(i - 1, j).zone == value)
             number++;
-        if(grid[i ][j + 1].zone == value)
+        if(grid(i, j + 1).zone == value)
             number++;
-        if(grid[i ][j - 1].zone == value)
+        if(grid(i, j - 1).zone == value)
             number++;
-        if(grid[i + 1][j].zone == value)
+        if(grid(i + 1, j).zone == value)
             number++;
         if (diagonal)
         {
-            if(grid[i - 1][j + 1].zone == value)
+            if(grid(i - 1, j + 1).zone == value)
                 number++;
-            if(grid[i - 1][j -1].zone == value)
+            if(grid(i - 1, j - 1).zone == value)
                 number++;
-            if(grid[i + 1][j + 1].zone == value)
+            if(grid(i + 1, j + 1).zone == value)
                 number++;
-            if(grid[i + 1][j - 1].zone == value)
+            if(grid(i + 1, j - 1).zone == value)
                 number++;
         }
     }
     if(typeorzoneorheight == CRC_HEIGTH)
     {
-        if(grid[i - 1][j].height == value)
+        if(grid(i - 1, j).height == value)
             number++;
-        if(grid[i ][j + 1].height == value)
+        if(grid(i, j + 1).height == value)
             number++;
-        if(grid[i ][j - 1].height == value)
+        if(grid(i, j - 1).height == value)
             number++;
-        if(grid[i + 1][j].height == value)
+        if(grid(i + 1, j).height == value)
             number++;
         if (diagonal)
         {
-            if(grid[i - 1][j + 1].height == value)
+            if(grid(i - 1, j + 1).height == value)
                 number++;
-            if(grid[i - 1][j -1].height == value)
+            if(grid(i - 1, j - 1).height == value)
                 number++;
-            if(grid[i + 1][j + 1].height == value)
+            if(grid(i + 1, j + 1).height == value)
                 number++;
-            if(grid[i + 1][j - 1].height == value)
+            if(grid(i + 1, j - 1).height == value)
                 number++;
         }
     }
@@ -605,13 +610,13 @@ void Game_Manager::draw_grid()
     {
         for(int j = 0; j<map_size_y; j++)
         {
-            if(!grid[i][j].passing_trought)
+            if(!grid(i, j).passing_trought)
             {
-                draw_tile(grid[i][j].type, grid[i][j].x_pos, grid[i][j].y_pos );
+                draw_tile(grid(i, j).type, grid(i, j).x_pos, grid(i, j).y_pos );
             }
-            if(grid[i][j].ressource_type == RSC_WOOD && i< 5 && j < 5)
+            if(grid(i, j).ressource_type == RSC_WOOD && i< 5 && j < 5)
             {
-                ressource_sprite[0].draw( (grid[i][j].x_pos - grid[i][j].y_pos)* (tile_size.x / 2), (grid[i][j].x_pos + grid[i][j].y_pos)* (tile_size.y / 2));
+                ressource_sprite[0].draw( (grid(i, j).x_pos - grid(i, j).y_pos)* (tile_size.x / 2), (grid(i, j).x_pos + grid(i, j).y_pos)* (tile_size.y / 2));
             }
         }
     }
@@ -623,7 +628,7 @@ void Game_Manager::draw_tile(int type , int x_pos, int y_pos)
     //tile_sprite[type].draw(x_pos * 50, y_pos * 50);
     tile_sprite[type].draw( ( x_pos - y_pos) * (tile_size.x / 2), (y_pos +x_pos) * (tile_size.y / 2));
 
-    if(grid[x_pos][y_pos].owner == YOU)
+    if(grid(x_pos, y_pos).owner == YOU)
     {
     influence_sprite.draw( ( x_pos - y_pos) * (tile_size.x / 2), (y_pos +x_pos) * (tile_size.y / 2));
 

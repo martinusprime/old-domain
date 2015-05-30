@@ -58,6 +58,7 @@
 		<Unit filename="include/City.h" />
 		<Unit filename="include/Game_Manager.h" />
 		<Unit filename="include/Glissor.h" />
+		<Unit filename="include/Grid.h" />
 		<Unit filename="include/Hud.h" />
 		<Unit filename="include/Key_event.h" />
 		<Unit filename="include/Menu.h" />
@@ -76,6 +77,7 @@
 		<Unit filename="src/City.cpp" />
 		<Unit filename="src/Game_Manager.cpp" />
 		<Unit filename="src/Glissor.cpp" />
+		<Unit filename="src/Grid.cpp" />
 		<Unit filename="src/Hud.cpp" />
 		<Unit filename="src/Key_event.cpp" />
 		<Unit filename="src/Menu.cpp" />

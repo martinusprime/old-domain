@@ -8,6 +8,7 @@
 #include <cmath>
 
 #include "Key_event.h"
+#include "Grid.h"
 #include "Menu.h"
 #include "My_Sprite.h"
 #include "My_window.h"
@@ -28,36 +29,8 @@ enum Caracteristic {
     CRC_HEIGTH
 };
 
-enum Owner_enum
-{
-    YOU,
-    PLAYER2,
-    PLAYER3
-};
 
-enum Ressources_type_enum
-{
-    RSC_NO,
-    RSC_WOOD,
-    RSC_IRON
-};
 
-struct tile
-{
-    int type;
-    int influence_point;
-    int x_pos;
-    int y_pos;
-    int height;
-    bool has_citizen;
-    bool is_city;
-    int citizen_id;
-    int zone;
-    bool passing_trought;
-    Owner_enum owner;
-    Ressources_type_enum ressource_type;
-
-};
 
 struct tile_dimension
 {
@@ -124,8 +97,9 @@ private:
     tile_dimension tile_size;
     static const int GRID_WIDTH = 202;
     static const int GRID_HEIGTH = 202;
-    std::vector<std::vector<tile> > grid;
-    int path[150][2];
+    Grid grid;
+    /* path through which the citizen move, -1 for no path */
+    vector<vector<int> > move_path;
     int w, h, city_number, citizen_number, selected_citizen;
     int screen_y;
     int screen_x;
