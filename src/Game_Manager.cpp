@@ -25,10 +25,13 @@ Game_Manager::Game_Manager(RenderWindow *app_get)
     selected_citizen = 0;
 
     iteration = 0;
-        app = app_get;
+    app = app_get;
     view1.reset(FloatRect(0, 0, screen_x, screen_y));
     view1.setViewport(FloatRect(0, 0, 1.0f, 1.0f));
     app->setView(view1);
+
+    //now that view1 has been reseted we can load tile files
+    grid.loadFiles();
 
     window_vec = app->getSize();
     cout<<"x_window"<<window_vec.x<<"y_window "<<window_vec.y<<endl;

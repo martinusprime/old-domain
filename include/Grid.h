@@ -54,6 +54,7 @@ public:
     Grid(unsigned int width, unsigned int heigth, sf::View *view1, sf::RenderWindow *app);
     virtual ~Grid();
     Grid(const Grid& other);
+    void loadFiles();
     //get tile at position
     struct Tile &operator()(size_t x, size_t y);
     void draw();

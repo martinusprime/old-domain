@@ -23,16 +23,7 @@ Grid::Grid(unsigned int width, unsigned int heigth, sf::View *view1, sf::RenderW
     resource_sprite0.init(m_app, "ressources/wood_ressource.png", m_view1);
     m_resource_sprites.push_back(resource_sprite0);
 
-    for(int i = 0; i < 10; i++)
-    {
-        stringstream ss;
-        ss << i;
-        string str = ss.str();
-        string path = "ressources/tile" + str + ".png";
 
-        Tile::tile_sprite[i].init(app, path, m_view1, 128, 5 , 1);
-    }
-    Tile::influence_sprite.init(app, "ressources/player_influence.png", m_view1);
 }
 
 Grid::~Grid()
@@ -45,6 +36,20 @@ Grid::Grid(const Grid& other)
     //copy ctor
 }
 
+void Grid::loadFiles()
+{
+    for(int i = 0; i < 10; i++)
+    {
+        stringstream ss;
+        ss << i;
+        string str = ss.str();
+        string path = "ressources/tile" + str + ".png";
+
+        Tile::tile_sprite[i].init(m_app, path, m_view1, 128, 5 , 1);
+    }
+    Tile::influence_sprite.init(m_app, "ressources/player_influence.png", m_view1);
+}
+
 Tile &Grid::operator()(size_t x, size_t y)
 {
     return m_grid.at(x).at(y);
@@ -52,6 +57,8 @@ Tile &Grid::operator()(size_t x, size_t y)
 
 void Grid::draw()
 {
+
+
     for(size_t i = 0; i < m_grid.size(); i++)
     {
         for(size_t j = 0; j<m_grid[0].size(); j++)
