@@ -26,6 +26,7 @@ public:
     int get_h();
     void add_sprite( My_Sprite *added_sprite, string save_slot);
     void add_sprite( My_Sprite *added_sprite, int sunlight_get);
+    sf::Sprite get_sprite();
     void set_color(int r, int g, int b, int alpha);
     void set_color(Color color_get);
     void add_color(int r, int g, int b, int alpha);

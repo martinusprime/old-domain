@@ -1,12 +1,15 @@
 #ifndef CITIZEN_H
 #define CITIZEN_H
 #pragma once
+
 #include <SFML/Graphics.hpp>
 #include <sstream>
 #include <iostream>
 #include <cstdlib>
 #include <string>
 #include <cmath>
+
+#include "Grid.h"
 #include "Menu.h"
 #include "My_Sprite.h"
 #include "Sprite_Creator.h"
@@ -27,27 +30,11 @@ public:
     bool get_goal();
     void is_over_city();
     int get_x();
-    int get_previous_x();
-    int get_previous_y();
     int get_y();
     void set_goal(int goal_x_get , int goal_y_get);
+    Sprite get_sprite();
 protected:
 private:
-
-    struct Tile
-    {
-        int type;
-        int influence_point;
-        int x_pos;
-        int y_pos;
-        int height;
-        bool has_citizen;
-        bool is_city;
-        int citizen_id;
-        int zone;
-        bool passing_trought;
-        enum owner {you, player2, player3};
-    };
     View *view1;
     RenderWindow *app;
     Event event;

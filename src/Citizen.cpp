@@ -34,14 +34,7 @@ int Citizen::get_y()
 {
     return y;
 }
-int Citizen::get_previous_x()
-{
-    return path[path_place - 1][0];
-}
-int Citizen::get_previous_y()
-{
-    return path[path_place - 1][1];
-}
+
 bool Citizen::get_goal()
 {
     return is_goal;
@@ -93,6 +86,11 @@ bool Citizen::is_on_city()
     return over_city;
 }
 
+Sprite Citizen::get_sprite()
+{
+    return sprite.get_sprite();
+}
+
 bool Citizen::is_selected()
 {
     return selection;
@@ -107,13 +105,12 @@ void Citizen::update()
         over_city = false;
     }
 
-    if(elapsed_move.asSeconds() >  1.0 && is_goal && path[path_place + 1][0] != -1)
-
+    if(elapsed_move.asSeconds() >  0.5 && is_goal && path[path_place + 1][0] != -1)
     {
         move_clock.restart();
         path_place ++;
         x = path[path_place][0];
         y = path[path_place][1];
-
+        cout << "move to (" << x << ", " << y << ")\n";
     }
 }

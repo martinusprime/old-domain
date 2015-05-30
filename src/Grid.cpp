@@ -52,7 +52,7 @@ void Grid::loadFiles()
 
 Tile &Grid::operator()(size_t x, size_t y)
 {
-    return m_grid.at(x).at(y);
+    return m_grid[x][y];//.at(x).at(y);
 }
 
 void Grid::draw()

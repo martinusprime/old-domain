@@ -83,7 +83,6 @@ Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_
     }
 
     citizen[0].init(app, &view1);
-    grid(0, 0).has_citizen = true;
     grid(0, 0).citizen_id = 0;
 
     building[0].init(app, &view1, 0);
@@ -218,13 +217,10 @@ void Game_Manager::citizen_update()
 {
 
     citizen[0].update();
-    grid(citizen[0].get_previous_x(), citizen[0].get_previous_y()).has_citizen = false;
     if(citizen[0].is_selected() )
     {
         citizen_action[0].update(0, h - 50);
-
     }
-    grid(citizen[0].get_x(), citizen[0].get_y()).has_citizen = true;
 
     if(citizen_action[0].is_activated() && city_number == 0)
     {
@@ -336,7 +332,6 @@ void Game_Manager::create_map(int x_beg,int y_beg)
             grid(i, j).y_pos = j;
             grid(i, j).height = 1;
             grid(i, j).zone = 1;
-            grid(i, j).has_citizen = false;
             grid(i, j).passing_trought = false;
             grid(i, j).is_city = false;
             grid(i, j).ressource_type = RSC_WOOD;
@@ -442,8 +437,9 @@ void Game_Manager::mouse_selection()
 
     if(is_l_click() && x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
     {
-        if(grid(x_cursor, y_cursor).has_citizen && !citizen_selected)
+        if(citizen[0].get_sprite().getGlobalBounds().contains(selection_vector) && !citizen_selected) //TODO check all units
         {
+            std::cout << "Unit selected" << std::endl;
             citizen[0].select();
             selected_citizen = 0;
             citizen_selected = true;
