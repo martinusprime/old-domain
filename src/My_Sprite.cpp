@@ -3,10 +3,6 @@
 My_Sprite::My_Sprite()
 {
     total_animation_time =0;
-    animation_rect.height = 64;
-    animation_rect.top = 0;
-    animation_rect.left = 0;
-    animation_rect.width = 128;
 }
 
 My_Sprite::~My_Sprite()
@@ -75,9 +71,9 @@ void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get
     w = a.width;
     h = a.height;
     animation_rect.height = 64;
+    animation_rect.width = 128;
     animation_rect.top = 0;
     animation_rect.left = 0;
-    animation_rect.width = 128;
 }
 
 void My_Sprite::init(RenderWindow *app_get, string file_get, View *view_get, int animation_width_get, int animation_length_get, float total_animation_time_get)
@@ -115,10 +111,10 @@ void My_Sprite::add_sprite(string file)
 
 // Create a 20x20 image filled with black color
     sf::Image image;
-    image.create(50, 50);
+    image.create(128, 64);
 // Copy image1 on image2 at position (10, 10)
-    image.copy(background, 0, 0,  IntRect(0, 0, 50, 50));
-    image.copy(background2, 0, 0, IntRect(0, 0, 50, 50),true);
+    image.copy(background, 0, 0,  IntRect(0, 0, 128, 64));
+    image.copy(background2, 0, 0, IntRect(0, 0, 128, 64),true);
 
     image.saveToFile("ressources/buildings/buildingblock.png");
 
@@ -133,10 +129,8 @@ string My_Sprite::get_file()
 
 void My_Sprite::add_sprite(My_Sprite *added_sprite, string save_slot)
 {
-    animation_rect.height = 64;
     animation_rect.top = 0;
     animation_rect.left = 0;
-    animation_rect.width = 128;
 
     Image background;
     background.loadFromFile(file.c_str());
@@ -144,15 +138,15 @@ void My_Sprite::add_sprite(My_Sprite *added_sprite, string save_slot)
     background2.loadFromFile(added_sprite->get_file().c_str());
 
     sf::Image image;
-    image.create(128, 64);
+     image.create(128, 64);
 
     image.copy(background, 0, 0,  IntRect(0, 0, 128, 64));
     image.copy(background2, 0, 0, IntRect(0, 0, 128, 64), true);
 
-    image.saveToFile(save_slot);
+    image.saveToFile(save_slot.c_str());
 
 
-    texture.loadFromFile(save_slot);
+    texture.loadFromFile(save_slot.c_str());
     file =save_slot;
     sprite.setTexture(texture);
 }
@@ -169,16 +163,16 @@ void My_Sprite::add_sprite(My_Sprite *added_sprite, int sunlight_get)
     background2.loadFromFile(added_sprite->get_file().c_str());
 
     sf::Image image;
-    image.create(50, 50);
+    image.create(128, 64);
     // Copy image1 on image2 at position (10, 10)
-    image.copy(background, 0, 0,  IntRect(0, 0, 50, 50));
-    image.copy(background2, 0, 0, IntRect(0, 0, 50, 50),true);
+    image.copy(background, 0, 0,  IntRect(0, 0, 128, 64));
+    image.copy(background2, 0, 0, IntRect(0, 0, 128, 64),true);
     Color ancient_pixel;
 
-    for(int i = 0; i< 50; i++)
+    for(int i = 0; i< 128; i++)
     {
 
-        for(int j = 0; j< 50; j++)
+        for(int j = 0; j< 64; j++)
         {
             ancient_pixel = image.getPixel(i, j );
             ancient_pixel.r += sunlight  ;
@@ -275,9 +269,6 @@ void My_Sprite::set_color(int r, int g, int b, int alpha)
 
 void My_Sprite::set_color(Color color_get)
 {
-    //sprite.setColor(Color(r, g, b, alpha));
-    // Copy image1 on image2 at position (10, 10)Texture texture2;
-
     Image image1;
     image1.loadFromFile(file.c_str());
 
@@ -289,7 +280,7 @@ void My_Sprite::set_color(Color color_get)
         for(unsigned int j = 0; j< image_size.y; j++)
         {
             ancient_pixel = image1.getPixel(i, j );
-            if(ancient_pixel != sf::Color::White)
+            if(ancient_pixel.r <= 252 && ancient_pixel.g <= 252 && ancient_pixel.b <= 252 )
             {
                 ancient_pixel.r = color_get.r;
                 ancient_pixel.g = color_get.g;
