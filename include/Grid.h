@@ -35,7 +35,6 @@ struct Tile
     int x_pos;
     int y_pos;
     int height;
-    bool has_citizen;
     bool is_city;
     int citizen_id;
     int zone;

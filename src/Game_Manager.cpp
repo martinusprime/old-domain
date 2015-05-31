@@ -1,12 +1,13 @@
 #include "Game_Manager.h"
 
-Game_Manager::Game_Manager(RenderWindow *app_get)
-: grid(GRID_WIDTH, GRID_HEIGTH, &view1, app_get)
+Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_get, int screen_y_get)
+: view1(view1_get)
+, grid(GRID_WIDTH, GRID_HEIGTH, &view1, app_get)
 , move_path(150, std::vector<int>(2))
 {
     is_menu_visible = true;
-    screen_x = 1920;
-    screen_y = 1080;
+    screen_x = screen_x_get;
+    screen_y = screen_y_get;
     x_offset = 0;
     y_offset = 0;
     zoom = 1;
@@ -26,12 +27,9 @@ Game_Manager::Game_Manager(RenderWindow *app_get)
 
     iteration = 0;
     app = app_get;
-    view1.reset(FloatRect(0, 0, screen_x, screen_y));
-    view1.setViewport(FloatRect(0, 0, 1.0f, 1.0f));
     app->setView(view1);
 
-    //now that view1 has been reseted we can load tile files
-    grid.loadFiles();
+
 
     window_vec = app->getSize();
     cout<<"x_window"<<window_vec.x<<"y_window "<<window_vec.y<<endl;
@@ -85,7 +83,6 @@ Game_Manager::Game_Manager(RenderWindow *app_get)
     }
 
     citizen[0].init(app, &view1);
-    grid(0, 0).has_citizen = true;
     grid(0, 0).citizen_id = 0;
 
     building[0].init(app, &view1, 0);
@@ -93,7 +90,8 @@ Game_Manager::Game_Manager(RenderWindow *app_get)
     citizen_action[0].init(app, "Fonder une ville", 0, 0, 0, 0, &view2);
     citizen_action[1].init(app, "Rentrer dans la ville", 0, 0, 0, 0, &view2);
     citizen_action[2].init(app, "Observer la ressource", 0, 0, 0, 0, &view2);
-
+    //now that view1 has been reseted we can load tile files
+    grid.loadFiles();
     tile_info.init(app, "lieu vierge", 10, 1);
 
     interface1.init(app, &view1, w, h);
@@ -219,13 +217,10 @@ void Game_Manager::citizen_update()
 {
 
     citizen[0].update();
-    grid(citizen[0].get_previous_x(), citizen[0].get_previous_y()).has_citizen = false;
     if(citizen[0].is_selected() )
     {
         citizen_action[0].update(0, h - 50);
-
     }
-    grid(citizen[0].get_x(), citizen[0].get_y()).has_citizen = true;
 
     if(citizen_action[0].is_activated() && city_number == 0)
     {
@@ -337,7 +332,6 @@ void Game_Manager::create_map(int x_beg,int y_beg)
             grid(i, j).y_pos = j;
             grid(i, j).height = 1;
             grid(i, j).zone = 1;
-            grid(i, j).has_citizen = false;
             grid(i, j).passing_trought = false;
             grid(i, j).is_city = false;
             grid(i, j).ressource_type = RSC_WOOD;
@@ -443,8 +437,9 @@ void Game_Manager::mouse_selection()
 
     if(is_l_click() && x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
     {
-        if(grid(x_cursor, y_cursor).has_citizen && !citizen_selected)
+        if(citizen[0].get_sprite().getGlobalBounds().contains(selection_vector) && !citizen_selected) //TODO check all units
         {
+            std::cout << "Unit selected" << std::endl;
             citizen[0].select();
             selected_citizen = 0;
             citizen_selected = true;

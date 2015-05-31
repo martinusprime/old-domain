@@ -37,7 +37,7 @@ enum Zoom_change { ZOOM_NO_CHANGE, ZOOM_ADD, ZOOM_LESS };
 class Game_Manager
 {
 public:
-    Game_Manager(RenderWindow *app_get);
+    Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_get, int screen_y_get);
     void draw();
     void quit();
     void create_map(int x_beg, int y_beg);

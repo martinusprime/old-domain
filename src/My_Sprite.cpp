@@ -23,6 +23,11 @@ void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get
 
 }
 
+sf::Sprite My_Sprite::get_sprite()
+{
+    return sprite;
+}
+
 void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get, int file_number)
 {
     view1 = view_get;
