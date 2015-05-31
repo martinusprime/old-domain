@@ -29,9 +29,9 @@ string Sprite_Creator::create_character( int sunlight_get)
     whole.init(app, "ressources/empty.png", view1);
     whole.add_sprite(&skin, sunlight_get);
     hair.set_color(color_maker(1, 1, 1, true, false));
-    whole.add_sprite(&hair, "ressources/character/character0.png");
-    eyes.set_color(color_maker(0,1, 1, true, true));
-    whole.add_sprite(&eyes, "ressources/character/character0.png");
+    whole.add_sprite(&hair, "ressources/character/character01.png");
+    eyes.set_color(color_maker(0 , 1, 1, false, true));
+    whole.add_sprite(&eyes, "ressources/character/character01.png");
     string file = whole.get_file().c_str();
     return file;
 }
@@ -39,7 +39,7 @@ string Sprite_Creator::create_character( int sunlight_get)
 string Sprite_Creator::create_resources( int resources_id)
 {
     resources_sprite[1].init(app, "ressources/resources/tree_trunk", view1, 5);
-    resources_sprite[1].set_color(color_maker(1, 0, 0, true, false));
+    resources_sprite[1].set_color(color_maker(1, 0, 0, false, true));
     resources_sprite[2].init(app, "ressources/resources/tree_leaves", view1, 5);
     resources_sprite[2].set_color(color_maker(1, 1, 1, true, false));
     resources_sprite[0].init(app, "ressources/empty.png", view1);
@@ -122,17 +122,42 @@ Color Sprite_Creator::color_maker(int red_get, int green_get, int blue_get, bool
 
     srand(time(0));
     int random = rand()% random_limit;
-    uint8_t red = base_color * red_get + (random - random_limit);
+    int red = base_color * red_get + (random - random_limit);
     cout<< "rand"<< random<<endl;
 
     random = rand()% random_limit;
-    uint8_t blue = base_color * blue_get + (random - random_limit);
+    int blue = base_color * blue_get + (random - random_limit);
     cout<< "rand"<< random<<endl;
 
     random = rand()% random_limit;
-    uint8_t green = base_color * green_get + (random - random_limit);
+    int green = base_color * green_get + (random - random_limit);
     cout<< "rand"<< random<<endl;
 
+    if(red <0)
+    {
+        red = 0;
+    }
+    if(green < 0)
+    {
+        green = 0;
+    }
+    if(blue <0)
+    {
+        blue = 0;
+    }
+
+    if(red >255)
+    {
+        red = 255;
+    }
+    if(green > 255)
+    {
+        green = 255;
+    }
+    if(blue >255)
+    {
+        blue = 255;
+    }
     Color color1(red , green, blue, 255);
     return color1;
 }
