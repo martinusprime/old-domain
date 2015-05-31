@@ -7,6 +7,8 @@ My_Sprite::My_Sprite()
 
 My_Sprite::My_Sprite(const My_Sprite &other)
 {
+    total_animation_time =0;
+
     view1 = other.view1;
     file = other.file;
     app = other.app;
@@ -38,6 +40,8 @@ My_Sprite::~My_Sprite()
 
 void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get)
 {
+    total_animation_time =0;
+
     view1 = view_get;
     file = file_get;
     app = app_get;
@@ -56,6 +60,8 @@ sf::Sprite My_Sprite::get_sprite()
 
 void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get, int file_number)
 {
+    total_animation_time =0;
+
     view1 = view_get;
     app = app_get;
     int rand_limit = 3;
@@ -123,28 +129,6 @@ void My_Sprite::init(RenderWindow *app_get, string file_get, View *view_get, int
 }
 
 
-void My_Sprite::add_sprite(string file)
-{
-    Texture texture2;
-
-    Image background;
-    background.loadFromFile("ressources/tile1.png");
-    Image background2;
-    background2.loadFromFile("ressources/buildings/colonnepierre.png");
-
-// Create a 20x20 image filled with black color
-    sf::Image image;
-    image.create(128, 64);
-// Copy image1 on image2 at position (10, 10)
-    image.copy(background, 0, 0,  IntRect(0, 0, 128, 64));
-    image.copy(background2, 0, 0, IntRect(0, 0, 128, 64),true);
-
-    image.saveToFile("ressources/buildings/buildingblock.png");
-
-
-    texture.loadFromFile("ressources/buildings/buildingblock.png");
-    sprite.setTexture(texture);
-}
 string My_Sprite::get_file()
 {
     return file;
@@ -235,9 +219,9 @@ void My_Sprite::draw(int x_get, int y_get)
             {
                 animation_rect.left = 0;
             }
-
-        }
         sprite.setTextureRect(animation_rect);
+        }
+
 
     }
 

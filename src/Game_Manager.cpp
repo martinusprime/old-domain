@@ -15,7 +15,7 @@ Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_
     mouse_wheel_x = 0;
     zoom_rate = 10;
     city_number = 0;
-    open_window = true;
+    open_window = false;
     rock = 0;
     wood = 0;
     iron = 0;
@@ -47,19 +47,8 @@ Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_
 
 
         windows[0].init(app, "Map", 0.5f, 0.5f, 0, 0, &view2, screen_x, screen_y);
-        windows[0].desactivate();
         windows[0].add_glissor(100, 100);
-        windows[0].add_glissor(100, 200);
-        windows[0].add_glissor(100, 300);
-        windows[0].add_glissor(100, 400);
-        windows[0].add_glissor(300, 100);
-        windows[0].add_glissor(300, 200);
-        windows[0].add_glissor(300, 300);
-        windows[0].add_glissor(300, 400);
-        windows[0].add_glissor(300, 500);
-        windows[0].add_button(300, 100);
-        windows[0].add_button(400, 100);
-
+        windows[0].desactivate();
     for(int i = 0; i < 2; i++)
     {
         selection_text[i].init(app, "rien", 12, 1);
@@ -181,30 +170,8 @@ void Game_Manager::update()
     for(int i = 0; i<6; i++)
     {
         if(windows[i].is_activated())
-        {/*
+        {
             windows[i].update();
-            int multiplicator = windows[i].get_glissor(8) + 1;
-            int divisor = windows[i].get_glissor(4) * multiplicator;
-            if(divisor == 0)divisor = 1;
-            amplitude = windows[i].get_glissor(0) /divisor;
-            divisor = windows[i].get_glissor(5) * multiplicator;
-            if(divisor == 0)divisor = 1;
-            frequence = windows[i].get_glissor(1)/divisor;
-            divisor = windows[i].get_glissor(6) * multiplicator;
-            if(divisor == 0)divisor = 1;
-            octave = windows[i].get_glissor(2)/divisor;
-            divisor = windows[i].get_glissor(7) * multiplicator;
-            if(divisor == 0)divisor = 1;
-            persistence = windows[i].get_glissor(3)/divisor;
-
-            iteration++;
-            if(iteration >= 10)
-            {
-                //cout<<"createmap "<<amplitude<<endl;
-                iteration = 0;
-            create_map(1, 1 );
-
-            }*/
         }
     }
     citizen_update();
