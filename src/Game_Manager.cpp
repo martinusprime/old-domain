@@ -3,7 +3,6 @@
 Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_get, int screen_y_get)
 : view1(view1_get)
 , grid(GRID_WIDTH, GRID_HEIGTH, &view1, app_get)
-, move_path(150, std::vector<int>(2))
 {
     is_menu_visible = true;
     screen_x = screen_x_get;
@@ -15,8 +14,6 @@ Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_
     map_size_y = 0;
     mouse_wheel_x = 0;
     zoom_rate = 10;
-    citizen_selected = false;
-    citizen_number = 1;
     city_number = 0;
     open_window = true;
     rock = 0;
@@ -82,7 +79,7 @@ Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_
         }
     }
 
-    citizen[0].init(app, &view1);
+    m_citizens.push_back(Citizen{grid, app, &view1});
     grid(0, 0).citizen_id = 0;
 
     building[0].init(app, &view1, 0);
@@ -216,28 +213,28 @@ void Game_Manager::update()
 void Game_Manager::citizen_update()
 {
 
-    citizen[0].update();
-    if(citizen[0].is_selected() )
+    m_citizens[0].update();
+    if(m_citizens[0].is_selected() )
     {
         citizen_action[0].update(0, h - 50);
     }
 
     if(citizen_action[0].is_activated() && city_number == 0)
     {
-        city[0].init(app, &view1, citizen[0].get_x(), citizen[0].get_y(), Tile::tile_size.x, Tile::tile_size.y );
+        city[0].init(app, &view1, m_citizens[0].get_x(), m_citizens[0].get_y(), Tile::tile_size.x, Tile::tile_size.y );
         city_number++;
-        grid(citizen[0].get_x(), citizen[0].get_x()).is_city = true;
+        grid(m_citizens[0].get_x(), m_citizens[0].get_x()).is_city = true;
     }
     if(citizen_action[2].is_activated() )  //l'action sur la ressources
     {
-        city[0].init(app, &view1, citizen[0].get_x(), citizen[0].get_y(), Tile::tile_size.x, Tile::tile_size.y );
+        city[0].init(app, &view1, m_citizens[0].get_x(), m_citizens[0].get_y(), Tile::tile_size.x, Tile::tile_size.y );
         // windows[1].init(app, "Action", 550, 400, w/2, h/2, &view1);
 
-        grid(citizen[0].get_x(), citizen[0].get_x()).is_city = true;
+        grid(m_citizens[0].get_x(), m_citizens[0].get_x()).is_city = true;
     }
-    if(grid(citizen[0].get_x(), citizen[0].get_y()).is_city == true)
+    if(grid(m_citizens[0].get_x(), m_citizens[0].get_y()).is_city == true)
     {
-        citizen[0].on_city();
+        m_citizens[0].on_city();
     }
 
 }
@@ -256,7 +253,7 @@ void Game_Manager::draw()
         {
             city[i].draw();
         }
-        citizen[0].draw();
+        m_citizens[0].draw();
 
     }
     // Update the window
@@ -279,10 +276,10 @@ void Game_Manager::draw_gui()
     }
 
     open_window = false;
-    if(citizen_selected)
+    if(m_citizens[0].is_selected())
     {
         citizen_action[0].draw();
-        if(citizen[0].is_on_city())
+        if(m_citizens[0].is_on_city())
         {
             citizen_action[1].draw();
         }
@@ -390,10 +387,8 @@ PerlinNoise perlin4;
         //   cout<<noise_value<<endl;
         }
     }
-
-
-
 }
+
 void Game_Manager::draw_selection()
 {
 
@@ -435,74 +430,23 @@ void Game_Manager::mouse_selection()
     y_cursor = (selection_vector.y/ Tile::tile_size.y - selection_vector.x / Tile::tile_size.x + 0.5)* zoom;
 
 
-    if(is_l_click() && x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
+    if(!is_l_click() || x_cursor < 0 || x_cursor >= map_size_x || y_cursor < 0 || y_cursor >= map_size_y)
     {
-        if(citizen[0].get_sprite().getGlobalBounds().contains(selection_vector) && !citizen_selected) //TODO check all units
-        {
-            std::cout << "Unit selected" << std::endl;
-            citizen[0].select();
-            selected_citizen = 0;
-            citizen_selected = true;
-            for(int i = 0; i < move_path.size(); i++)
-            {
-                if (move_path[i][0] == -1 || move_path[i][1] == -1)
-                {
-                    break;
-                }
-                grid(move_path[i][0], move_path[i][1]).passing_trought = false;
-                move_path[i][0] = -1;
-                move_path[i][1] = -1;
-            }
-        }
-        if(citizen_selected )
-        {
-            if( x_cursor != citizen[0].get_x() ||y_cursor != citizen[0].get_y() )
-            {
-                citizen[0].set_goal(x_cursor, y_cursor);
-                //a* homemade :)
-                move_path[0][0] = citizen[0].get_x();
-                move_path[0][1] = citizen[0].get_y();
-                citizen_selected = false;
+        return;
+    }
 
-                for(int i = 0; i<100; i++)
-                {
-                    if( move_path [i][0] < x_cursor)
-                    {
-                        move_path[i +1][0] = move_path[i][0] + 1;
-                    }
-                    else if( move_path [i][0] > x_cursor)
-                    {
-                        move_path[i +1][0] = move_path[i][0] - 1;
-                    }
-                    else move_path[i +1][0] = move_path[i][0];
-                    if( move_path[i][1] < y_cursor)
-                    {
-                        move_path[i +1][1] = move_path[i][1] + 1;
-                    }
-                    else if( move_path[i][1] > y_cursor)
-                    {
-                        move_path[i +1][1] = move_path[i][1] - 1;
-                    }
-                    else move_path[i +1][1] = move_path[i][1];
-
-                    grid(move_path[i][0], move_path[i][1]).passing_trought = true;
-
-                    if(move_path[i][0] == x_cursor && move_path[i][1] == y_cursor)
-                    {
-                        for(int k = 0; k< move_path.size(); k++)
-                        {
-                            citizen[0].set_path( move_path[k][0], move_path[k][1], k);
-                            if(move_path[k][0] == 0 && move_path[k][1] == 1)
-                            {
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-
+    //TODO check all units, not only citizen 0
+    if(m_citizens[0].get_sprite().getGlobalBounds().contains(selection_vector) && !m_citizens[0].is_selected())
+    {
+        std::cout << "Unit selected" << std::endl;
+        m_citizens[0].select();
+        selected_citizen = 0;
+        m_citizens[0].reset_goal();
+    }
+    if(m_citizens[0].is_selected() && x_cursor != m_citizens[0].get_x() && y_cursor != m_citizens[0].get_y())
+    {
+        m_citizens[0].set_goal(x_cursor, y_cursor);
+        m_citizens[0].deselect();
     }
 }
 

@@ -73,7 +73,7 @@ private:
     Menu menu1;
     Clock clock_zoom;
     sf::Time zoom_time;
-    bool citizen_selected, open_window;
+    bool open_window;
     int x_offset;
     int map_size_x;
     int map_size_y;
@@ -87,15 +87,14 @@ private:
     float zoom;
     float zoom_rate;
 
-    static const int GRID_WIDTH = 202;
-    static const int GRID_HEIGTH = 202;
+    static const size_t GRID_WIDTH = 202;
+    static const size_t GRID_HEIGTH = 202;
     Grid grid;
-    /* path through which the citizen move, -1 for no path */
-    vector<vector<int> > move_path;
-    int w, h, city_number, citizen_number, selected_citizen;
+
+    int w, h, city_number, selected_citizen;
     int screen_y;
     int screen_x;
-    Citizen citizen[50];
+    vector<Citizen> m_citizens;
     My_Sprite selection_sprite;
     My_Sprite gui_1, action_sprite;
     My_Text selection_text[2], tile_info;

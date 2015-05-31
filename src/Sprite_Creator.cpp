@@ -2,14 +2,15 @@
 
 Sprite_Creator::Sprite_Creator()
 {
-flexibility = 0;
-solidity = 0;
+    flexibility = 0;
+    solidity = 0;
 }
 
 Sprite_Creator::~Sprite_Creator()
 {
     //dtor
 }
+
 void Sprite_Creator::init(RenderWindow *app_get, View *view_get)
 {
     view1 = view_get;
@@ -17,10 +18,12 @@ void Sprite_Creator::init(RenderWindow *app_get, View *view_get)
 
 
 }
+
 void Sprite_Creator::draw()
 {
     whole.draw(250, 250);
 }
+
 string Sprite_Creator::create_character( int sunlight_get)
 {
     skin.init(app, "ressources/character/base_skin.png", view1);
@@ -32,7 +35,7 @@ string Sprite_Creator::create_character( int sunlight_get)
     whole.add_sprite(&hair, "ressources/character/character01.png");
     eyes.set_color(color_maker(0 , 1, 1, false, true));
     whole.add_sprite(&eyes, "ressources/character/character01.png");
-    string file = whole.get_file().c_str();
+    string file = whole.get_file();
     return file;
 }
 
@@ -46,14 +49,14 @@ string Sprite_Creator::create_resources( int resources_id)
     resources_sprite[0].add_sprite(&resources_sprite[1], "ressources/resources/tree0.png");
     resources_sprite[0].add_sprite(&resources_sprite[2], "ressources/resources/tree0.png");
 
-    string file = resources_sprite[0].get_file().c_str();
+    string file = resources_sprite[0].get_file();
     srand(time(0));
     flexibility =  rand()% 1 + 8;
     solidity =  rand()% 2 + 10;
 
 
     string temp_name[3];
-    int random = rand()% + 5;
+    int random = rand() % 5;
     ifstream name_file("ressources/resources/names.txt");
 
     if(name_file)
@@ -65,8 +68,8 @@ string Sprite_Creator::create_resources( int resources_id)
         }
 
     }
-ifstream name_file2("ressources/resources/suffixes.txt");
-    random = rand()% + 5;
+    ifstream name_file2("ressources/resources/suffixes.txt");
+    random = rand() % 5;
     if(name_file2)
     {
         for(int i = 0; i< random; i++)
@@ -76,8 +79,8 @@ ifstream name_file2("ressources/resources/suffixes.txt");
         }
 
     }
-ifstream name_file3("ressources/resources/adjectives.txt");
-    random = rand()% + 5;
+    ifstream name_file3("ressources/resources/adjectives.txt");
+    random = rand() % 5;
 
     if(name_file3)
     {
@@ -89,15 +92,17 @@ ifstream name_file3("ressources/resources/adjectives.txt");
 
     }
     resource_name =  temp_name[0] +  temp_name[1] + " " + temp_name[2];
-        cout<<resource_name<<" beeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeuh"<<endl;
+    cout<<resource_name<<" beeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeuh"<<endl;
 
 
     return file;
 }
+
 float Sprite_Creator::get_flexibility()
 {
     return flexibility;
 }
+
 float Sprite_Creator::get_solidity()
 {
     return solidity;

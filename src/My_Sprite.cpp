@@ -5,10 +5,37 @@ My_Sprite::My_Sprite()
     total_animation_time =0;
 }
 
+My_Sprite::My_Sprite(const My_Sprite &other)
+{
+    view1 = other.view1;
+    file = other.file;
+    app = other.app;
+    x = other.x;
+    y = other.y;
+    w = other.w;
+    h = other.h;
+    event = other.event;
+    texture = other.texture;
+
+    /* sf::Sprite can not simply be copied, see "white square problem:
+    http://www.sfml-dev.org/tutorials/2.1/graphics-sprite.php#the-white-square-problem */
+    sprite = other.sprite;
+    texture.loadFromFile(file.c_str());
+    sprite.setTexture(texture);
+
+    animation_width = other.animation_width;
+    animation_length = other.animation_length;
+    total_animation_time = other.total_animation_time;
+    clock1 = other.clock1;
+    time1 = other.time1;
+    animation_rect = other.animation_rect;
+}
+
 My_Sprite::~My_Sprite()
 {
     //dtor
 }
+
 void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get)
 {
     view1 = view_get;

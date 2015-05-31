@@ -17,37 +17,49 @@
 class Citizen
 {
 public:
-    Citizen();
+    Citizen(Grid &grid, RenderWindow *app_get, View *view_get);
     virtual ~Citizen();
-    void init(RenderWindow *app_get, View *view_get);
-    void draw();
+
     void select();
+    void deselect();
     bool is_selected();
-    void set_path(int x_path, int y_path, int path_id);
-    void update();
+
     void on_city();
     bool is_on_city();
+
     bool get_goal();
+    void set_goal(int goal_x , int goal_y);
+    void reset_goal();
+
+    void draw();
+    void set_path(int x_path, int y_path, int path_id);
+    void update();
     void is_over_city();
     int get_x();
     int get_y();
-    void set_goal(int goal_x_get , int goal_y_get);
     Sprite get_sprite();
-protected:
+    void find_path_to_goal();
+
 private:
+    void find_path();
+
+    Grid &m_grid;
     View *view1;
     RenderWindow *app;
     Event event;
-    bool is_goal, selection, over_city;
+    bool has_goal;
+    bool m_is_selected;
+    bool over_city;
     Clock move_clock;
     Time elapsed_move;
     My_Sprite sprite;
     My_Sprite goal_sprite;
-
     Sprite_Creator sprite_creator1;
-
-    int x, y, goal_x, goal_y, path_place, path_number;
-    int path[100][2];
+    /* path through which the citizen move, -1 for no path */
+    vector<vector<int> > m_move_path;
+    int x, y, m_goal_x, m_goal_y, path_place, path_number;
+    static const size_t path_size = 150;
+    vector<vector<int> > m_path;
     Tile over_tile;
     //CITIZEN INFO
     string name;
