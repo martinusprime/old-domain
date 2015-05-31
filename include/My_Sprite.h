@@ -15,6 +15,8 @@ class My_Sprite
 {
 public:
     My_Sprite();
+    /* copy constructor */
+    My_Sprite(const My_Sprite &other);
     void draw(int x, int y);
     void draw_tile(int x_get, int y_get, int random);
     void init(RenderWindow *app_get, string file_get, View *view_get);
@@ -47,7 +49,6 @@ private:
     Clock clock1;
     Time time1;
     IntRect animation_rect;
-
 };
 
 #endif // MY_SPRITE_H
