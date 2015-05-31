@@ -37,7 +37,7 @@ void Grid::loadFiles()
     m_sprite_creator1.init(m_app, m_view1);
     resource_sprite0.init(m_app, "ressources/wood_ressource.png", m_view1);
     m_resource_sprites.push_back(resource_sprite0);
-    m_resource_sprites[0].init(m_app, m_sprite_creator1.create_resources(0) , m_view1);
+    m_resource_sprites[0].init(m_app, m_sprite_creator1.create_resources(0).c_str() , m_view1);
     for(int i = 0; i < 10; i++)
     {
         stringstream ss;
@@ -70,6 +70,8 @@ void Grid::draw()
             if((*this)(i, j).ressource_type == RSC_WOOD && i< 5 && j < 5)
             {
                 m_resource_sprites[0].draw( ((*this)(i, j).x_pos - (*this)(i, j).y_pos)* (Tile::tile_size.x / 2), ((*this)(i, j).x_pos + (*this)(i, j).y_pos)* (Tile::tile_size.y / 2));
+
+
             }
         }
     }

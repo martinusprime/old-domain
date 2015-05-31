@@ -23,30 +23,29 @@ void Sprite_Creator::draw()
 }
 string Sprite_Creator::create_character( int sunlight_get)
 {
-    skin.init(app, "ressources/character/base_skin.png", view1);
-    eyes.init(app, "ressources/character/eyes", view1, 10 );
-    hair.init(app, "ressources/character/hair", view1, 10);
+    skin.init(app, "ressources/generated/character/base_skin.png", view1);
+    eyes.init(app, "ressources/generated/character/eyes", view1, 10 );
+    hair.init(app, "ressources/generated/character/hair", view1, 10);
     whole.init(app, "ressources/empty.png", view1);
     whole.add_sprite(&skin, sunlight_get);
     hair.set_color(color_maker(1, 1, 1, true, false));
-    whole.add_sprite(&hair, "ressources/character/character01.png");
+    whole.add_sprite(&hair, "ressources/generated/character/character01.png");
     eyes.set_color(color_maker(0 , 1, 1, false, true));
-    whole.add_sprite(&eyes, "ressources/character/character01.png");
+    whole.add_sprite(&eyes, "ressources/generated/character/character01.png");
     string file = whole.get_file().c_str();
     return file;
 }
 
 string Sprite_Creator::create_resources( int resources_id)
 {
-    resources_sprite[1].init(app, "ressources/resources/tree_trunk", view1, 5);
+    whole.init(app, "ressources/empty.png", view1);
+    resources_sprite[1].init(app, "ressources/generated/resources/tree_trunk", view1, 5);
     resources_sprite[1].set_color(color_maker(1, 0, 0, false, true));
-    resources_sprite[2].init(app, "ressources/resources/tree_leaves", view1, 5);
+    resources_sprite[2].init(app, "ressources/generated/resources/tree_leaves", view1, 5);
     resources_sprite[2].set_color(color_maker(1, 1, 1, true, false));
-    resources_sprite[0].init(app, "ressources/empty.png", view1);
-    resources_sprite[0].add_sprite(&resources_sprite[1], "ressources/resources/tree0.png");
-    resources_sprite[0].add_sprite(&resources_sprite[2], "ressources/resources/tree0.png");
+    whole.add_sprite(&resources_sprite[1], "ressources/generated/resources/tree0.png");
+    whole.add_sprite(&resources_sprite[2], "ressources/generated/resources/tree0.png");
 
-    string file = resources_sprite[0].get_file().c_str();
     srand(time(0));
     flexibility =  rand()% 1 + 8;
     solidity =  rand()% 2 + 10;
@@ -89,9 +88,8 @@ ifstream name_file3("ressources/resources/adjectives.txt");
 
     }
     resource_name =  temp_name[0] +  temp_name[1] + " " + temp_name[2];
-        cout<<resource_name<<" beeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeuh"<<endl;
-
-
+    string file = whole.get_file().c_str();
+    cout<<" rseources "<< file<<endl;
     return file;
 }
 float Sprite_Creator::get_flexibility()
