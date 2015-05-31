@@ -17,6 +17,7 @@ int main()
         int screen_y = 1080;
         int screen_x = 1920;
         RenderWindow app(VideoMode(screen_x, screen_y), "SFML window" );
+        app.setFramerateLimit(60);
         View view1;
         view1.reset(FloatRect(0, 0, screen_x, screen_y));
         view1.setViewport(FloatRect(0, 0, 1.0f, 1.0f));
