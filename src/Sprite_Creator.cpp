@@ -23,6 +23,14 @@ void Sprite_Creator::draw()
 {
     whole.draw(250, 250);
 }
+string Sprite_Creator::get_character_name()
+{
+        return character_name;
+}
+string Sprite_Creator::get_resource_name()
+{
+        return resource_name;
+}
 
 string Sprite_Creator::create_character( int sunlight_get)
 {
@@ -35,6 +43,48 @@ string Sprite_Creator::create_character( int sunlight_get)
     whole.add_sprite(&hair, "ressources/generated/character/character01.png");
     eyes.set_color(color_maker(0 , 1, 1, false, true));
     whole.add_sprite(&eyes, "ressources/generated/character/character01.png");
+
+
+
+    string temp_name[3];
+    int random = rand() % 5;
+    ifstream name_file("ressources/character/names.txt");
+
+    if(name_file)
+    {
+        for(int i = 0; i< random; i++)
+        {
+            temp_name[0] = "";
+            name_file >> temp_name[0];
+        }
+
+    }
+    ifstream name_file2("ressources/character/suffixes.txt");
+    random = rand() % 5;
+    if(name_file2)
+    {
+        for(int i = 0; i< random; i++)
+        {
+            temp_name[1] = "";
+            name_file2 >> temp_name[1];
+        }
+
+    }
+    ifstream name_file3("ressources/character/last_names.txt");
+    random = rand() % 5;
+
+    if(name_file3)
+    {
+        for(int i = 0; i< random; i++)
+        {
+            temp_name[2] = "";
+            name_file3 >> temp_name[2];
+        }
+
+    }
+    character_name =  temp_name[0] +  temp_name[1] + " " + temp_name[2];
+
+
     string file = whole.get_file();
     return file;
 }

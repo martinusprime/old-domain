@@ -20,6 +20,7 @@ Citizen::Citizen(Grid &grid, RenderWindow *app_get, View *view_get)
     m_is_selected = false;
     sprite_creator1.init(app, view1);
     sprite.init(app,sprite_creator1.create_character(5), view1);
+    name.init(app, sprite_creator1.get_character_name(), 25,  1);
 }
 
 Citizen::~Citizen()
@@ -44,7 +45,9 @@ bool Citizen::get_goal()
 
 void Citizen::draw()
 {
-    sprite.draw( ( x - y) * 50, (y +x) * 30);
+    sprite.draw( ( x - y) * 64, (y +x) * 32);
+    name.draw(( x - y)  * 64, ( x + y - 1)  * 32 - 10, 10);
+
     if(has_goal)
     {
         goal_sprite.draw( ( m_goal_x - m_goal_y) * 50, (m_goal_x +m_goal_y) * 30);

@@ -15,6 +15,8 @@ public:
     string create_character( int sunlight_get);
     string create_resources( int resources_id);
     string get_file();
+    string get_character_name();
+    string get_resource_name();
     float get_solidity();
     float get_flexibility();
     Color color_maker(int red_get, int green_get, int blue_get, bool large_randomness, bool dark);
@@ -27,7 +29,7 @@ private:
     My_Sprite resources_sprite[5];
     int sunlight;
     float solidity, flexibility;
-    string resource_name;
+    string resource_name, character_name;
 
 };
 
