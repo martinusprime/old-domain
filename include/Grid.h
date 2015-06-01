@@ -66,8 +66,9 @@ private:
     sf::RenderWindow *m_app;
     Sprite_Creator m_sprite_creator1;
 
-    std::vector<My_Sprite> m_resource_sprites;
-
+    My_Sprite m_resource_sprites;
+    Clock clock1;
+    Time time1;
 };
 
 #endif // GRID_H
