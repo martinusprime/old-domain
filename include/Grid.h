@@ -43,7 +43,7 @@ struct Tile
     Ressources_type_enum ressource_type;
     static My_Sprite tile_sprite[10];
     static My_Sprite influence_sprite;
-    static constexpr Tile_dimension tile_size = {128, 64};
+    static const Tile_dimension tile_size;
 
     void draw(int type , int x_pos, int y_pos);
 };

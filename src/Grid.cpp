@@ -1,6 +1,6 @@
 #include "Grid.h"
 
-constexpr Tile_dimension Tile::tile_size;
+const Tile_dimension Tile::tile_size = Tile_dimension { 128, 64 };
 My_Sprite Tile::influence_sprite;
 My_Sprite Tile::tile_sprite[10];
 

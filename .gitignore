@@ -1,7 +1,14 @@
 realm.depend
 realm.layout
-ressources/generated
+ressources/generated/
 Thumbs.db
 # Object and compiled files:
 *.o
 *.exe
+*.obj
+
+# Visual Studio files:
+*.log
+*.pdb
+*.sdf
+
