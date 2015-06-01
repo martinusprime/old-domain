@@ -1,6 +1,6 @@
 realm.depend
 realm.layout
-ressources/generated
+ressources/generated/
 Thumbs.db
 # Object and compiled files:
 *.o
