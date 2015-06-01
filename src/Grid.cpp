@@ -59,7 +59,7 @@ Tile &Grid::operator()(size_t x, size_t y)
 void Grid::draw()
 {
   time1 = clock1.getElapsedTime();
-        if(time1.asSeconds() > 0.15)
+        if(time1.asSeconds() > 0.05)
         {
          clock1.restart();
             for(size_t i = 0; i < m_grid.size(); i++)
@@ -70,7 +70,7 @@ void Grid::draw()
                     {
                         (*this)(i, j).draw((*this)(i, j).type, (*this)(i, j).x_pos, (*this)(i, j).y_pos );
                     }
-                    if((*this)(i, j).ressource_type == RSC_WOOD )
+                    if((*this)(i, j).ressource_type == RSC_WOOD  && i< 5 && j < 5)
                     {
                         m_resource_sprites.draw( ((*this)(i, j).x_pos - (*this)(i, j).y_pos)* (Tile::tile_size.x / 2), ((*this)(i, j).x_pos + (*this)(i, j).y_pos)* (Tile::tile_size.y / 2));
 

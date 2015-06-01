@@ -125,15 +125,15 @@ Color Sprite_Creator::color_maker(int red_get, int green_get, int blue_get, bool
 
     srand(time(0));
     int random = rand()% random_limit;
-    int red = base_color * red_get + (random - random_limit);
+    int red = (base_color * red_get )+ (random - random_limit);
     cout<< "rand"<< random<<endl;
 
     random = rand()% random_limit;
-    int blue = base_color * blue_get + (random - random_limit);
+    int blue = (base_color * blue_get )+ (random - random_limit);
     cout<< "rand"<< random<<endl;
 
     random = rand()% random_limit;
-    int green = base_color * green_get + (random - random_limit);
+    int green = (base_color * green_get )+ (random - random_limit);
     cout<< "rand"<< random<<endl;
 
     if(red <0)
