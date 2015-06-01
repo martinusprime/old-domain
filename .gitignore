@@ -11,4 +11,8 @@ Thumbs.db
 *.log
 *.pdb
 *.sdf
-
+*.idb
+*.suo
+*.tlog
+*.ilk
+*.filters
