@@ -5,3 +5,10 @@ Thumbs.db
 # Object and compiled files:
 *.o
 *.exe
+*.obj
+
+# Visual Studio files:
+*.log
+*.pdb
+*.sdf
+

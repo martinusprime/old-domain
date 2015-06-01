@@ -56,7 +56,8 @@ void My_Text::init(RenderWindow *app_get, string content, int character_size, bo
     app = app_get;
     if(font1.loadFromFile("ressources/font2.ttf"))
     {
-        current_color = {color_r, color_g, color_b};
+        current_color = {
+			static_cast<uint8_t>(color_r), static_cast<uint8_t>(color_g), static_cast<uint8_t>(color_b)};
         text1.setFont(font1);
         text1.setString(content.c_str());
         text1.setCharacterSize(character_size);
