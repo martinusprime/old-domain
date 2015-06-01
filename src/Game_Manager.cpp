@@ -15,7 +15,7 @@ Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_
     mouse_wheel_x = 0;
     zoom_rate = 10;
     city_number = 0;
-    open_window = false;
+    open_window = true;
     rock = 0;
     wood = 0;
     iron = 0;
@@ -48,7 +48,7 @@ Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_
 
         windows[0].init(app, "Map", 0.5f, 0.5f, 0, 0, &view2, screen_x, screen_y);
         windows[0].add_glissor(100, 100);
-        windows[0].desactivate();
+        //windows[0].desactivate();
     for(int i = 0; i < 2; i++)
     {
         selection_text[i].init(app, "rien", 12, 1);

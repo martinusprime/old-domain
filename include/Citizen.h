@@ -13,6 +13,7 @@
 #include "Menu.h"
 #include "My_Sprite.h"
 #include "Sprite_Creator.h"
+#include "My_Text.h"
 
 class Citizen
 {
@@ -62,7 +63,7 @@ private:
     vector<vector<int> > m_path;
     Tile over_tile;
     //CITIZEN INFO
-    string name;
+    My_Text name;
     int age;
 
 };

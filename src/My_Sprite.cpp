@@ -219,7 +219,7 @@ void My_Sprite::draw(int x_get, int y_get)
             {
                 animation_rect.left = 0;
             }
-        sprite.setTextureRect(animation_rect);
+            sprite.setTextureRect(animation_rect);
         }
 
 
