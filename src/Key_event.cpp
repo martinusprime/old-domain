@@ -23,10 +23,8 @@ Key_event_handler::~Key_event_handler()
 }
 
 
-bool Key_event_handler::manage_key_event(const sf::Event &event, const sf::RenderWindow *app, Action &action, sf::Vector2i &mouse_vec)
+bool Key_event_handler::manage_key_event(const sf::Event &event, Action &action)
 {
-    mouse_vec = sf::Mouse::getPosition(*app);
-
     switch(event.type) {
     case sf::Event::KeyPressed:
         if (key_action.count(event.key.code) == 0) {
@@ -54,3 +52,23 @@ bool Key_event_handler::manage_key_event(const sf::Event &event, const sf::Rende
     //event handled
     return true;
 }
+
+void Key_event_handler::get_mouse_position(const sf::RenderWindow *app, sf::Vector2i &mouse_vec)
+{
+	mouse_vec = sf::Mouse::getPosition(*app);
+}
+		
+bool Key_event_handler::manage_mouse_click(const sf::Event &event, enum sf::Mouse::Button &click)
+{
+	switch (event.type) {
+	case sf::Event::MouseButtonPressed:
+		click = event.mouseButton.button;
+		break;
+	default:
+		return false;
+	}
+
+	//event handled
+	return true;
+}
+
