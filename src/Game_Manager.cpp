@@ -410,7 +410,7 @@ void Game_Manager::mouse_selection()
         selected_citizen = 0;
         m_citizens[0].reset_goal();
     }
-    if(m_citizens[0].is_selected() && x_cursor != m_citizens[0].get_x() && y_cursor != m_citizens[0].get_y())
+    if(m_citizens[0].is_selected() && (x_cursor != m_citizens[0].get_x() || y_cursor != m_citizens[0].get_y()))
     {
         m_citizens[0].set_goal(x_cursor, y_cursor);
         m_citizens[0].deselect();
