@@ -52,18 +52,16 @@ private:
     void draw_selection();
     void draw_resources();
     void tile_description(int tile_x, int tile_y);
-    void mouse_selection();
+	void handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_vec);
     void move_unit(int unit_id);
-    bool handle_key_events();
-    bool is_r_click();
-    bool is_l_click();
+    bool handle_input_events();
     void citizen_update();
+	void highlight_selected_tile();
 
     Key_event_handler key_event;
     RenderWindow *app;
     View view1;
     View view2;
-    Vector2i mouse_vec;
     Vector2u window_vec;
     Vector2f selection_vector;
     Texture tile_texture[10];
