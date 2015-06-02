@@ -192,7 +192,7 @@ void Game_Manager::citizen_update()
         city_number++;
         grid(m_citizens[0].get_x(), m_citizens[0].get_x()).is_city = true;
     }
-    if(citizen_action[2].is_activated() )  //l'action sur la ressources
+    if(citizen_action[2].is_activated() )  //l'action sur la ressource
     {
         city[0].init(app, &view1, m_citizens[0].get_x(), m_citizens[0].get_y(), Tile::tile_size.x, Tile::tile_size.y );
         // windows[1].init(app, "Action", 550, 400, w/2, h/2, &view1);

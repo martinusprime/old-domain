@@ -50,7 +50,7 @@ void Citizen::draw()
 
     if(has_goal)
     {
-        goal_sprite.draw( ( m_goal_x - m_goal_y) * 50, (m_goal_x +m_goal_y) * 30);
+        goal_sprite.draw( ( m_goal_x - m_goal_y) * 64, (m_goal_x +m_goal_y) * 32);
     }
 }
 void Citizen::set_goal(int goal_x , int goal_y)
