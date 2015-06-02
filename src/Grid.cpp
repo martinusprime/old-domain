@@ -38,7 +38,7 @@ void Grid::loadFiles()
     My_Sprite resource_sprite0;
     m_sprite_creator1.init(m_app, m_view1);
     resource_sprite0.init(m_app, "ressources/wood_ressource.png", m_view1);
-    m_resource_sprites.init(m_app, m_sprite_creator1.create_resources(0) , m_view1);
+	m_resource_sprites.init(m_app, m_sprite_creator1.create_resources(0), m_view1, 128, 5, 1);
     for(int i = 0; i < 10; i++)
     {
         stringstream ss;
@@ -58,21 +58,21 @@ Tile &Grid::operator()(size_t x, size_t y)
 
 void Grid::draw()
 {
-            for(size_t i = 0; i < m_grid.size(); i++)
-            {
-                for(size_t j = 0; j<m_grid[0].size(); j++)
-                {
-                    if(!(*this)(i, j).passing_trought)
-                    {
-                       (*this)(i, j).draw((*this)(i, j).type, (*this)(i, j).x_pos, (*this)(i, j).y_pos );
-                    }
-                    if((*this)(i, j).ressource_type == RSC_WOOD  && i< 5 && j < 5)
-                    {
-                       m_resource_sprites.draw( ((*this)(i, j).x_pos - (*this)(i, j).y_pos)* (Tile::tile_size.x / 2), ((*this)(i, j).x_pos + (*this)(i, j).y_pos)* (Tile::tile_size.y / 2));
+	for (size_t i = 0; i < 40; i++ ) // m_grid.size(); i++)
+	{
+		for (size_t j = 0; j < 40; j++)   //m_grid[0].size(); j++)   //in order to make my computer life easier for now
+		{
+			if (!(*this)(i, j).passing_trought)
+			{
+				(*this)(i, j).draw((*this)(i, j).type, (*this)(i, j).x_pos, (*this)(i, j).y_pos);
+			}
+			if ((*this)(i, j).ressource_type == RSC_WOOD  && i < 5 && j < 5)
+			{
+				m_resource_sprites.draw_tile(((*this)(i, j).x_pos - (*this)(i, j).y_pos)* (Tile::tile_size.x / 2), ((*this)(i, j).x_pos + (*this)(i, j).y_pos)* (Tile::tile_size.y / 2), (*this)(i, j).random_pattern);
 
 
-                    }
-                }
-            }
+			}
+		}
+	}
     // Update the window
 }

@@ -46,6 +46,7 @@ void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get
     file = file_get;
     app = app_get;
     texture.loadFromFile(file.c_str());
+	texture.setSmooth(true);
     sprite.setTexture(texture);
 
     FloatRect  a= sprite.getGlobalBounds();
@@ -97,6 +98,7 @@ void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get
     {
         texture.loadFromFile(file.c_str());
     }
+	texture.setSmooth(true);
     sprite.setTexture(texture);
 
     FloatRect  a= sprite.getGlobalBounds();
@@ -111,6 +113,7 @@ void My_Sprite::init(RenderWindow *app_get, string file_get, View *view_get, int
     file = file_get;
     app = app_get;
     texture.loadFromFile(file.c_str());
+	texture.setSmooth(true);
     sprite.setTexture(texture);
 
     animation_width =animation_width_get;
@@ -134,10 +137,10 @@ string My_Sprite::get_file()
     return file;
 }
 
-void My_Sprite::add_sprite(My_Sprite *added_sprite, string save_slot)
+void My_Sprite::add_sprite(My_Sprite *added_sprite, string save_slot, int width)
 {
-    animation_rect.height = 64;
-    animation_rect.width = 128;
+    animation_rect.height = h;
+    animation_rect.width = w;
     animation_rect.top = 0;
     animation_rect.left = 0;
 
@@ -147,10 +150,10 @@ void My_Sprite::add_sprite(My_Sprite *added_sprite, string save_slot)
     background2.loadFromFile(added_sprite->get_file().c_str());
 
     sf::Image image;
-     image.create(128, 64);
+     image.create(width, h);
 
-    image.copy(background, 0, 0,  IntRect(0, 0, 128, 64));
-    image.copy(background2, 0, 0, IntRect(0, 0, 128, 64), true);
+    image.copy(background, 0, 0,  IntRect(0, 0, w, h));
+    image.copy(background2, 0, 0, IntRect(0, 0, w, h), true);
 
     image.saveToFile(save_slot.c_str());
 

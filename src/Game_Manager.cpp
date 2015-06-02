@@ -376,7 +376,7 @@ void Game_Manager::tile_description(int tile_x, int tile_y)
 {
     if(grid(tile_x, tile_y).ressource_type == RSC_WOOD)
     {
-        tile_info.refill("Frêne");
+        tile_info.refill("Frêne"); 
     }
     else
     {

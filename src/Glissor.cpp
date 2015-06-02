@@ -7,10 +7,11 @@ Glissor::Glissor()
 
 Glissor::Glissor(const Glissor &glissor_get)
 {
+
     view1 = glissor_get.view1;
     app = glissor_get.app;
-    bar = glissor_get.bar;
-    cursor_bar = glissor_get.cursor_bar;
+    //bar = glissor_get.bar;
+  //  cursor_bar = glissor_get.cursor_bar;
     x = glissor_get.x;
     y = glissor_get.y;
     value = glissor_get.value;
@@ -20,6 +21,7 @@ Glissor::Glissor(const Glissor &glissor_get)
     a = glissor_get.a;
     mouse_vec = glissor_get.mouse_vec;
     rate = glissor_get.rate;
+	
 }
 Glissor::~Glissor()
 {

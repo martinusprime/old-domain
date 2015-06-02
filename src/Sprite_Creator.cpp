@@ -40,14 +40,14 @@ string Sprite_Creator::create_character( int sunlight_get)
     whole.init(app, "ressources/empty.png", view1);
     whole.add_sprite(&skin, sunlight_get);
     hair.set_color(color_maker(1, 1, 1, true, false));
-    whole.add_sprite(&hair, "ressources/generated/character/character01.png");
+    whole.add_sprite(&hair, "ressources/generated/character/character01.png", 128);
     eyes.set_color(color_maker(0 , 1, 1, false, true));
-    whole.add_sprite(&eyes, "ressources/generated/character/character01.png");
+    whole.add_sprite(&eyes, "ressources/generated/character/character01.png", 128);
 
 
 
     string temp_name[3];
-    int random = rand() % 5;
+    int random = rand() %1 + 5;
     ifstream name_file("ressources/character/names.txt");
 
     if(name_file)
@@ -60,7 +60,7 @@ string Sprite_Creator::create_character( int sunlight_get)
 
     }
     ifstream name_file2("ressources/character/suffixes.txt");
-    random = rand() % 5;
+    random = rand()%1 + 5;
     if(name_file2)
     {
         for(int i = 0; i< random; i++)
@@ -71,7 +71,7 @@ string Sprite_Creator::create_character( int sunlight_get)
 
     }
     ifstream name_file3("ressources/character/last_names.txt");
-    random = rand() % 5;
+    random = rand()% 1+ 5;
 
     if(name_file3)
     {
@@ -91,13 +91,13 @@ string Sprite_Creator::create_character( int sunlight_get)
 
 string Sprite_Creator::create_resources( int resources_id)
 {
-    whole.init(app, "ressources/empty.png", view1);
+    whole.init(app, "ressources/empty_tile.png", view1);
     resources_sprite[1].init(app, "ressources/generated/resources/tree_trunk", view1, 5);
     resources_sprite[1].set_color(color_maker(1, 0, 0, false, true));
     resources_sprite[2].init(app, "ressources/generated/resources/tree_leaves", view1, 5);
     resources_sprite[2].set_color(color_maker(1, 1, 1, true, false));
-    whole.add_sprite(&resources_sprite[1], "ressources/generated/resources/tree0.png");
-    whole.add_sprite(&resources_sprite[2], "ressources/generated/resources/tree0.png");
+    whole.add_sprite(&resources_sprite[1], "ressources/generated/resources/tree0.png", 512);
+	whole.add_sprite(&resources_sprite[2], "ressources/generated/resources/tree0.png", 512);
 
     srand(time(0));
     flexibility =  rand()% 1 + 8;
@@ -105,7 +105,7 @@ string Sprite_Creator::create_resources( int resources_id)
 
 
     string temp_name[3];
-    int random = rand() % 5;
+    int random = rand()%1 + 5;
     ifstream name_file("ressources/resources/names.txt");
 
     if(name_file)
@@ -118,7 +118,7 @@ string Sprite_Creator::create_resources( int resources_id)
 
     }
     ifstream name_file2("ressources/resources/suffixes.txt");
-    random = rand() % 5;
+    random = rand()%1 + 5;
     if(name_file2)
     {
         for(int i = 0; i< random; i++)
@@ -129,7 +129,7 @@ string Sprite_Creator::create_resources( int resources_id)
 
     }
     ifstream name_file3("ressources/resources/adjectives.txt");
-    random = rand() % 5;
+    random = rand()%1 +5;
 
     if(name_file3)
     {
