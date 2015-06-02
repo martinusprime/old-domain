@@ -96,8 +96,8 @@ string Sprite_Creator::create_resources( int resources_id)
     resources_sprite[1].set_color(color_maker(1, 0, 0, false, true));
     resources_sprite[2].init(app, "ressources/generated/resources/tree_leaves", view1, 5);
     resources_sprite[2].set_color(color_maker(1, 1, 1, true, false));
-    whole.add_sprite(&resources_sprite[1], "ressources/generated/resources/tree0.png", 512);
-	whole.add_sprite(&resources_sprite[2], "ressources/generated/resources/tree0.png", 512);
+    whole.add_sprite(&resources_sprite[1], "ressources/generated/resources/tree0.png", 640);
+	whole.add_sprite(&resources_sprite[2], "ressources/generated/resources/tree0.png", 640);
 
     srand(time(0));
     flexibility =  rand()% 1 + 8;

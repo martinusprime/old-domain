@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <vector>
+#include <string>
 
 #include "My_Sprite.h"
 #include "Sprite_Creator.h"
@@ -25,6 +26,17 @@ struct Tile_dimension
 {
     int x;
     int y;
+};
+
+
+struct Resource
+{
+	int type;
+	int flexibility;
+	int solidity;
+	string name;
+	My_Sprite sprite;
+
 };
 
 struct Tile
@@ -61,12 +73,12 @@ public:
 protected:
 private:
 
-    std::vector<std::vector<Tile> > m_grid;
+	std::vector<std::vector<Tile> > m_grid;
+	std::vector<Resource> m_resource;
     sf::View *m_view1;
     sf::RenderWindow *m_app;
     Sprite_Creator m_sprite_creator1;
 
-    My_Sprite m_resource_sprites;
     Clock clock1;
     Time time1;
 };
