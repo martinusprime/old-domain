@@ -30,14 +30,14 @@ Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_
     window_vec = app->getSize();
     cout<<"x_window"<<window_vec.x<<"y_window "<<window_vec.y<<endl;
 
-    view2.reset(FloatRect(0, 0, screen_x, screen_y));
-    view2.setViewport(FloatRect(0, 0, 1.0f, 1.0f));
+    view2.reset(FloatRect(0.0f, 0.0f, static_cast<float>(screen_x), static_cast<float>(screen_y)));
+    view2.setViewport(FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
 
 
     Vector2f vecsize;
     vecsize = view1.getSize();
-    h = vecsize.y;
-    w = vecsize.x;
+    h = static_cast<int>(vecsize.y);
+    w = static_cast<int>(vecsize.x);
 
     if(is_menu_visible)
     {
@@ -120,20 +120,16 @@ void Game_Manager::handle_mouse_at_window_border(int x_mouse, int y_mouse)
     if (mouse_move_time.asSeconds() > 0.05) {
         mouse_move_clock.restart();
         Vector2u windowSize = app->getSize();
-       // std::cout << "x: " << x_mouse << "y: " << y_mouse << "\n";
-        std::cout << "x_cursor: " << x_cursor << "y_cursor: " << y_cursor << "\n";
         const int margin = 10;
         if (x_cursor < -margin || x_cursor > GRID_WIDTH + margin || y_cursor < -margin || y_cursor > GRID_HEIGHT + margin) {
-            //std::cout << "true\n";
             //we are already too far outside the grid, do nothing
             return;
         }
-       // std::cout << "false\n";
         if (x_mouse < 5)
         {
             execute_action(ACT_GO_LEFT);
         }
-        else if (x_mouse > windowSize.x - 5)
+        else if (x_mouse > static_cast<int>(windowSize.x - 5))
         {
             execute_action(ACT_GO_RIGHT);
         }
@@ -141,7 +137,7 @@ void Game_Manager::handle_mouse_at_window_border(int x_mouse, int y_mouse)
         if (y_mouse < 5) {
             execute_action(ACT_GO_UP);
         }
-        else if (y_mouse > windowSize.y - 5)
+        else if (y_mouse > static_cast<int>(windowSize.y - 5))
         {
             execute_action(ACT_GO_DOWN);
         }
@@ -161,8 +157,8 @@ bool Game_Manager::handle_input_events()
 
     //translate to grid coordinates
     selection_vector = app->mapPixelToCoords(mouse_vec, view1);
-    x_cursor = (selection_vector.x / Tile::tile_size.x + selection_vector.y / Tile::tile_size.y - 0.5)* zoom;
-    y_cursor = (selection_vector.y / Tile::tile_size.y - selection_vector.x / Tile::tile_size.x + 0.5)* zoom;
+    x_cursor = static_cast<int>((selection_vector.x / (float)Tile::tile_size.x + selection_vector.y / (float)Tile::tile_size.y - 0.5) * zoom);
+    y_cursor = static_cast<int>((selection_vector.y / (float)Tile::tile_size.y - selection_vector.x / (float)Tile::tile_size.x + 0.5) * zoom);
     
     handle_mouse_at_window_border(mouse_vec.x, mouse_vec.y);
         
@@ -195,12 +191,12 @@ void Game_Manager::update()
         clock_zoom.restart();
         if(zoom_change == ZOOM_ADD && zoom_rate >= -30)
         {
-            zoom =0.90;
+            zoom = 0.90f;
             zoom_rate --;
         }
         if(zoom_change == ZOOM_LESS  && zoom_rate <= 50)
         {
-            zoom =1.1;
+            zoom = 1.1f;
             zoom_rate ++;
         }
         zoom_change = ZOOM_NO_CHANGE;
@@ -219,7 +215,7 @@ void Game_Manager::update()
         }
     }
 
-    view1.setCenter(x_offset , y_offset);
+    view1.setCenter(static_cast<float>(x_offset) , static_cast<float>(y_offset));
     view1.zoom(zoom);
     app->setView(view1);
 
@@ -318,7 +314,7 @@ void Game_Manager::draw_gui()
 
 void Game_Manager::create_map(int map_width, int map_height)
 {
-    srand(time(0));
+    srand(static_cast<unsigned int>(time(0)));
 
     //sur 200
     water_rate = 55;
