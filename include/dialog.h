@@ -14,7 +14,7 @@
 class dialog
 {
 public:
-    dialog(Grid &grid, RenderWindow *app, View *view);
+    dialog(Grid &grid, RenderWindow *app, View *view, int screen_x, int screen_y);
     void draw();
     virtual ~dialog();
 protected:

@@ -3,7 +3,7 @@
 Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_get, int screen_y_get)
 : view1(view1_get)
 , grid(GRID_WIDTH, GRID_HEIGHT, &view1, app_get)
-, m_dialog(grid, app_get, &view1)
+, m_dialog(grid, app_get, &view2, screen_x_get, screen_y_get)
 {
     is_menu_visible = true;
     screen_x = screen_x_get;
