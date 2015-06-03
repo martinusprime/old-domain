@@ -10,8 +10,6 @@ Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_
     x_offset = 0;
     y_offset = 0;
     zoom = 1;
-    map_size_x = 0;
-    map_size_y = 0;
     mouse_wheel_x = 0;
     zoom_rate = 10;
     city_number = 0;
@@ -398,7 +396,7 @@ void Game_Manager::create_map(int map_width, int map_height)
 void Game_Manager::draw_selection()
 {
 
-    if(x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
+    if(x_cursor >= 0 && x_cursor < GRID_WIDTH && y_cursor >= 0 && y_cursor < GRID_HEIGHT)
     {
         //show height
         stringstream ss;
@@ -443,7 +441,7 @@ void Game_Manager::tile_description(int tile_x, int tile_y)
 
 void Game_Manager::highlight_selected_tile()
 {
-	if (x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
+	if (x_cursor >= 0 && x_cursor < GRID_WIDTH && y_cursor >= 0 && y_cursor < GRID_HEIGHT)
 	{
 		//highlight selected tile
 		selection_sprite.draw((x_cursor - y_cursor)* (Tile::tile_size.x / 2), (x_cursor + y_cursor)* (Tile::tile_size.y / 2));
@@ -452,7 +450,7 @@ void Game_Manager::highlight_selected_tile()
 
 void Game_Manager::handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_vec)
 {
-    if(x_cursor < 0 || x_cursor >= map_size_x || y_cursor < 0 || y_cursor >= map_size_y)
+    if (x_cursor < 0 || x_cursor >= GRID_WIDTH || y_cursor < 0 || y_cursor >= GRID_HEIGHT)
     {
         return;
     }

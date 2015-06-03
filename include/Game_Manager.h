@@ -76,8 +76,6 @@ private:
     sf::Time zoom_time;
     bool open_window;
     int x_offset;
-    int map_size_x;
-    int map_size_y;
     int water_rate;
     int sand_rate;
     int deep_sea_rate;
