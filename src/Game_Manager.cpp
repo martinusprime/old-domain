@@ -11,8 +11,6 @@ Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_
     x_offset = 0;
     y_offset = 0;
     zoom = 1;
-    map_size_x = 0;
-    map_size_y = 0;
     mouse_wheel_x = 0;
     zoom_rate = 10;
     city_number = 0;
@@ -58,16 +56,8 @@ Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_
     }
     selection_sprite.init(app, "ressources/selection.png", &view1);
 
-    int x_tiles = 1;
-    int y_tiles = 1;
+    create_map(GRID_WIDTH, GRID_HEIGHT);
 
-    for(int i = 0; i <x_tiles; i++)
-    {
-        for(int j = 0; j<y_tiles; j++)
-        {
-            create_map(i *50,j *  50);
-        }
-    }
 
     m_citizens.push_back(Citizen{grid, app, &view1});
     grid(0, 0).citizen_id = 0;
@@ -90,6 +80,75 @@ Game_Manager::~Game_Manager()
     //dtor
 }
 
+void Game_Manager::execute_action(Action action)
+{
+    switch (action)
+    {
+    case ACT_GO_UP:
+        y_offset -= 50;
+        break;
+    case ACT_GO_RIGHT:
+        x_offset += 50;
+        break;
+    case ACT_GO_DOWN:
+        y_offset += 50;
+        break;
+    case ACT_GO_LEFT:
+        x_offset -= 50;
+        break;
+    case ACT_ZOOM_IN:
+        zoom_change = ZOOM_ADD;
+        break;
+    case ACT_ZOOM_OUT:
+        zoom_change = ZOOM_LESS;
+        break;
+    case ACT_CLOSE_APP:
+        cout << "close app\n";
+        app->close();
+        break;
+    default:
+        break;
+    }
+}
+
+/* x_mouse, y_mouse are in window coordinate (pixels)
+   x_cursor, y_cursor are in grid coordinate */
+void Game_Manager::handle_mouse_at_window_border(int x_mouse, int y_mouse)
+{
+    static sf::Clock mouse_move_clock;
+    sf::Time mouse_move_time = mouse_move_clock.getElapsedTime();
+    if (mouse_move_time.asSeconds() > 0.05) {
+        mouse_move_clock.restart();
+        Vector2u windowSize = app->getSize();
+       // std::cout << "x: " << x_mouse << "y: " << y_mouse << "\n";
+        std::cout << "x_cursor: " << x_cursor << "y_cursor: " << y_cursor << "\n";
+        const int margin = 10;
+        if (x_cursor < -margin || x_cursor > GRID_WIDTH + margin || y_cursor < -margin || y_cursor > GRID_HEIGHT + margin) {
+            //std::cout << "true\n";
+            //we are already too far outside the grid, do nothing
+            return;
+        }
+       // std::cout << "false\n";
+        if (x_mouse < 5)
+        {
+            execute_action(ACT_GO_LEFT);
+        }
+        else if (x_mouse > windowSize.x - 5)
+        {
+            execute_action(ACT_GO_RIGHT);
+        }
+
+        if (y_mouse < 5) {
+            execute_action(ACT_GO_UP);
+        }
+        else if (y_mouse > windowSize.y - 5)
+        {
+            execute_action(ACT_GO_DOWN);
+        }
+
+    }
+}
+
 bool Game_Manager::handle_input_events()
 {
 	Event event;
@@ -99,42 +158,20 @@ bool Game_Manager::handle_input_events()
 	Vector2i mouse_vec;
 
 	key_event.get_mouse_position(app, mouse_vec);
-	selection_vector = app->mapPixelToCoords(mouse_vec, view1);
-	x_cursor = (selection_vector.x / Tile::tile_size.x + selection_vector.y / Tile::tile_size.y - 0.5)* zoom;
-	y_cursor = (selection_vector.y / Tile::tile_size.y - selection_vector.x / Tile::tile_size.x + 0.5)* zoom;
-	
+
+    //translate to grid coordinates
+    selection_vector = app->mapPixelToCoords(mouse_vec, view1);
+    x_cursor = (selection_vector.x / Tile::tile_size.x + selection_vector.y / Tile::tile_size.y - 0.5)* zoom;
+    y_cursor = (selection_vector.y / Tile::tile_size.y - selection_vector.x / Tile::tile_size.x + 0.5)* zoom;
+    
+    handle_mouse_at_window_border(mouse_vec.x, mouse_vec.y);
+        
 	bool ret = false;
 	if (isEvent)
 	{
 		if (key_event.manage_key_event(event, action))
 		{
-			switch (action)
-			{
-			case ACT_GO_UP:
-				y_offset -= 50;
-				break;
-			case ACT_GO_RIGHT:
-				x_offset += 50;
-				break;
-			case ACT_GO_DOWN:
-				y_offset += 50;
-				break;
-			case ACT_GO_LEFT:
-				x_offset -= 50;
-				break;
-			case ACT_ZOOM_IN:
-				zoom_change = ZOOM_ADD;
-				break;
-			case ACT_ZOOM_OUT:
-				zoom_change = ZOOM_LESS;
-				break;
-			case ACT_CLOSE_APP:
-				cout << "close app\n";
-				app->close();
-				break;
-			default:
-				break;
-			}
+            execute_action(action);
 			ret = true;
 		}
 		if (key_event.manage_mouse_click(event, click)) {
@@ -279,25 +316,18 @@ void Game_Manager::draw_gui()
     app->setView(view1);
 }
 
-void Game_Manager::create_map(int x_beg,int y_beg)
+void Game_Manager::create_map(int map_width, int map_height)
 {
     srand(time(0));
-    if(x_beg >= map_size_x)
-    {
-        map_size_x +=x_beg + 50;
-    }
-    if(y_beg >= map_size_y)
-    {
-        map_size_y +=y_beg + 50;
-    }
+
     //sur 200
     water_rate = 55;
     sand_rate = 90;
     deep_sea_rate = 4;
     deep_sea_expansion_rate = 60;
-    for(int i = x_beg; i <map_size_x; i++)
+    for (int i = 0; i <map_width; i++)
     {
-        for(int j = y_beg; j<map_size_y; j++)
+        for (int j = 0; j< map_height; j++)
         {
             grid(i, j).type = 2;
             grid(i, j).x_pos = i;
@@ -308,58 +338,58 @@ void Game_Manager::create_map(int x_beg,int y_beg)
             grid(i, j).is_city = false;
             grid(i, j).ressource_type = RSC_WOOD;
             grid(i, j).owner = PLAYER2;
-            grid(i, j).random_pattern = rand()% + 5;
+            grid(i, j).random_pattern = rand() % +5;
 
         }
     }
-//perlin noise expreimentation
-PerlinNoise perlin4;
-//perlin4.Set(persistence, frequence, amplitude, octave, 20);
-            double noise_value = 0;
+    //perlin noise expreimentation
+    PerlinNoise perlin4;
+    //perlin4.Set(persistence, frequence, amplitude, octave, 20);
+    double noise_value = 0;
 
 
- for(int i = x_beg; i <map_size_x; i++)
+    for (int i = 0; i < map_width; i++)
     {
-        for(int j = y_beg; j<map_size_y; j++)
+        for (int j = 0; j<map_height; j++)
         {
-            noise_value = floor(100 * (perlin4.GetHeight(i, j))) ;
-            if(noise_value <= 0 && noise_value > -15)
+            noise_value = floor(100 * (perlin4.GetHeight(i, j)));
+            if (noise_value <= 0 && noise_value > -15)
             {
                 grid(i, j).type = 0;
 
             }
-            if(noise_value <= -15 && noise_value > -35)
+            if (noise_value <= -15 && noise_value > -35)
             {
                 grid(i, j).type = 1;
 
             }
-            if(noise_value <= -35 && noise_value > -50)
+            if (noise_value <= -35 && noise_value > -50)
             {
                 grid(i, j).type = 2;
 
             }
-            if(noise_value <= -50 && noise_value > -75)
+            if (noise_value <= -50 && noise_value > -75)
             {
                 grid(i, j).type = 3;
 
             }
-            if(noise_value <= -75 && noise_value > -100)
+            if (noise_value <= -75 && noise_value > -100)
             {
                 grid(i, j).type = 4;
 
             }
-            if(noise_value > 0 && noise_value <= 35)
+            if (noise_value > 0 && noise_value <= 35)
             {
                 grid(i, j).type = 7;
 
             }
-            if(noise_value > 35 && noise_value <= 50)
+            if (noise_value > 35 && noise_value <= 50)
             {
                 grid(i, j).type = 8;
 
             }
 
-        //   cout<<noise_value<<endl;
+            //   cout<<noise_value<<endl;
         }
     }
 }
@@ -367,7 +397,7 @@ PerlinNoise perlin4;
 void Game_Manager::draw_selection()
 {
 
-    if(x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
+    if(x_cursor >= 0 && x_cursor < GRID_WIDTH && y_cursor >= 0 && y_cursor < GRID_HEIGHT)
     {
         //show height
         stringstream ss;
@@ -412,7 +442,7 @@ void Game_Manager::tile_description(int tile_x, int tile_y)
 
 void Game_Manager::highlight_selected_tile()
 {
-	if (x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
+	if (x_cursor >= 0 && x_cursor < GRID_WIDTH && y_cursor >= 0 && y_cursor < GRID_HEIGHT)
 	{
 		//highlight selected tile
 		selection_sprite.draw((x_cursor - y_cursor)* (Tile::tile_size.x / 2), (x_cursor + y_cursor)* (Tile::tile_size.y / 2));
@@ -421,7 +451,7 @@ void Game_Manager::highlight_selected_tile()
 
 void Game_Manager::handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_vec)
 {
-    if(x_cursor < 0 || x_cursor >= map_size_x || y_cursor < 0 || y_cursor >= map_size_y)
+    if (x_cursor < 0 || x_cursor >= GRID_WIDTH || y_cursor < 0 || y_cursor >= GRID_HEIGHT)
     {
         return;
     }

@@ -78,7 +78,7 @@ void Citizen::reset_goal()
         }
         m_grid(m_move_path[i][0], m_move_path[i][1]).passing_through = false;
         m_move_path[i][0] = -1;
-        m_move_path[i][1] = -1;       
+        m_move_path[i][1] = -1;
     }
 }
 
