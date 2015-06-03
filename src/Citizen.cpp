@@ -61,7 +61,6 @@ void Citizen::set_goal(int goal_x , int goal_y)
     m_goal_x = goal_x;
     m_goal_y = goal_y;
     has_goal = true;
-    m_is_selected = false;
     find_path_to_goal();
 }
 

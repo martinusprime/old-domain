@@ -420,7 +420,7 @@ void Game_Manager::highlight_selected_tile()
 
 void Game_Manager::handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_vec)
 {
-    if(click != sf::Mouse::Button::Left || x_cursor < 0 || x_cursor >= map_size_x || y_cursor < 0 || y_cursor >= map_size_y)
+    if(x_cursor < 0 || x_cursor >= map_size_x || y_cursor < 0 || y_cursor >= map_size_y)
     {
         return;
     }
@@ -428,15 +428,24 @@ void Game_Manager::handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_ve
     //TODO check all units, not only citizen 0
     if(m_citizens[0].get_sprite().getGlobalBounds().contains(selection_vector) && !m_citizens[0].is_selected())
     {
-        std::cout << "Unit selected" << std::endl;
-        m_citizens[0].select();
-        selected_citizen = 0;
-        m_citizens[0].reset_goal();
+        if (click == sf::Mouse::Button::Left) {
+            std::cout << "Unit selected" << std::endl;
+            m_citizens[0].select();
+            selected_citizen = 0;
+            m_citizens[0].reset_goal();
+        }
+        else if (click == sf::Mouse::Button::Right) {
+            // ??
+        }
     }
     if(m_citizens[0].is_selected() && (x_cursor != m_citizens[0].get_x() || y_cursor != m_citizens[0].get_y()))
     {
-        m_citizens[0].set_goal(x_cursor, y_cursor);
-        m_citizens[0].deselect();
+        if (click == sf::Mouse::Button::Right) {
+            m_citizens[0].set_goal(x_cursor, y_cursor);
+        }
+        else if (click == sf::Mouse::Button::Left) {
+            m_citizens[0].deselect();
+        }
     }
 }
 
