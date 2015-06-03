@@ -46,6 +46,11 @@ void My_window::draw()
     {
         button[i].draw();
     }
+    for (My_Sprite &sprites : sprites )
+    {
+        sprites.draw(100, 100);
+    }
+  
 }
 
 void My_window::add_glissor(int x, int y)
@@ -53,6 +58,13 @@ void My_window::add_glissor(int x, int y)
     Glissor glissor;
     glissor.init(app, x, y,100, 100 + 100 * glissors.size(), view1);
     glissors.push_back(glissor);
+}
+
+void My_window::add_image(int x, int y, string path)
+{
+    My_Sprite sprite1;
+    sprite1.init(app, path, view1);
+    sprites.push_back(sprite1);
 }
 
 int My_window::get_glissor(int glissor_number_get)

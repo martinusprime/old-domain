@@ -21,6 +21,7 @@ public:
     void draw();
     void init(RenderWindow *app_get,string name_get, float width, float height,int x_get, int y_get, View *view1_get,int screen_x_get, int screen_y_get);
     void add_glissor(int x, int y);
+    void add_image(int x, int y, string path);
     void add_button(int x, int y);
     void update();
     void activate();
@@ -36,6 +37,7 @@ private:
     int w, h,screen_y, screen_x, x, y, glissor_number, button_number, window_w, window_h;
     My_Text name;
     vector<Glissor> glissors;
+    vector<My_Sprite> sprites;
     Button button[10];
     Button cross;
     bool activation, moving;

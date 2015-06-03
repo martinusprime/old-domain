@@ -10,6 +10,7 @@
 #include "Key_event.h"
 #include "Grid.h"
 #include "Menu.h"
+#include "dialog.h"
 #include "My_Sprite.h"
 #include "My_window.h"
 #include "Button.h"
@@ -102,6 +103,7 @@ private:
     int wood, iron, sand, glass, rock;
     Button citizen_action[5];
     City city[5];
+    dialog m_dialog;
 };
 
 #endif // GAME_MANAGER_H

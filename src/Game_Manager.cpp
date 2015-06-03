@@ -3,6 +3,7 @@
 Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_get, int screen_y_get)
 : view1(view1_get)
 , grid(GRID_WIDTH, GRID_HEIGHT, &view1, app_get)
+, m_dialog(grid, app_get, &view1)
 {
     is_menu_visible = true;
     screen_x = screen_x_get;
@@ -271,7 +272,7 @@ void Game_Manager::draw_gui()
             windows[i].draw();
         }
     }
-
+    m_dialog.draw();
     draw_selection();
     interface1.draw();
 
