@@ -55,6 +55,10 @@ void Citizen::draw()
 }
 void Citizen::set_goal(int goal_x , int goal_y)
 {
+    if (has_goal) {
+        //also to reset pass_through tiles
+        reset_goal();
+    }
     sprite.add_color(255, 255, 255, 255);
 
     path_place = 0;
@@ -72,9 +76,9 @@ void Citizen::reset_goal()
         {
             break;
         }
-        m_grid(m_move_path[i][0], m_move_path[i][1]).passing_trought = false;
+        m_grid(m_move_path[i][0], m_move_path[i][1]).passing_through = false;
         m_move_path[i][0] = -1;
-        m_move_path[i][1] = -1;
+        m_move_path[i][1] = -1;       
     }
 }
 
@@ -105,7 +109,10 @@ void Citizen::find_path_to_goal()
         }
         else m_move_path[i +1][1] = m_move_path[i][1];
 
-        m_grid(m_move_path[i][0], m_move_path[i][1]).passing_trought = true;
+        if (i != 0)
+        {
+            m_grid(m_move_path[i][0], m_move_path[i][1]).passing_through = true;
+        }
 
         if(m_move_path[i][0] == m_goal_x && m_move_path[i][1] == m_goal_y)
         {
@@ -174,6 +181,7 @@ void Citizen::update()
         path_place ++;
         x = m_path[path_place][0];
         y = m_path[path_place][1];
+        m_grid(x, y).passing_through = false;
         cout << "move to (" << x << ", " << y << ")\n";
     }
 }

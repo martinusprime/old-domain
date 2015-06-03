@@ -67,7 +67,7 @@ void Grid::draw()
 	{
 		for (size_t j = 0; j < 40; j++)   //m_grid[0].size(); j++)   //in order to make my computer life easier for now
 		{
-			if (!(*this)(i, j).passing_trought)
+			if (!(*this)(i, j).passing_through)
 			{
 				(*this)(i, j).draw((*this)(i, j).type, (*this)(i, j).x_pos, (*this)(i, j).y_pos);
 			}

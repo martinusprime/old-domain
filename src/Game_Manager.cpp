@@ -2,7 +2,7 @@
 
 Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_get, int screen_y_get)
 : view1(view1_get)
-, grid(GRID_WIDTH, GRID_HEIGTH, &view1, app_get)
+, grid(GRID_WIDTH, GRID_HEIGHT, &view1, app_get)
 {
     is_menu_visible = true;
     screen_x = screen_x_get;
@@ -303,7 +303,7 @@ void Game_Manager::create_map(int x_beg,int y_beg)
             grid(i, j).y_pos = j;
             grid(i, j).height = 1;
             grid(i, j).zone = 1;
-            grid(i, j).passing_trought = false;
+            grid(i, j).passing_through = false;
             grid(i, j).is_city = false;
             grid(i, j).ressource_type = RSC_WOOD;
             grid(i, j).owner = PLAYER2;
@@ -432,7 +432,6 @@ void Game_Manager::handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_ve
             std::cout << "Unit selected" << std::endl;
             m_citizens[0].select();
             selected_citizen = 0;
-            m_citizens[0].reset_goal();
         }
         else if (click == sf::Mouse::Button::Right) {
             // ??
@@ -452,7 +451,7 @@ void Game_Manager::handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_ve
 int Game_Manager::count_neighbours(unsigned int i, unsigned int j , Caracteristic typeorzoneorheight, int value, bool diagonal)
 {
     int number = 0;
-    if (i == 0 || j == 0 || j + 1 >= GRID_HEIGTH || i + 1 >= GRID_WIDTH) {
+    if (i == 0 || j == 0 || j + 1 >= GRID_HEIGHT || i + 1 >= GRID_WIDTH) {
         return 0; //TODO handle this correctly
     }
 

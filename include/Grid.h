@@ -50,7 +50,7 @@ struct Tile
     bool is_city;
     int citizen_id;
     int zone;
-    bool passing_trought;
+    bool passing_through;
     Owner_enum owner;
     Ressources_type_enum ressource_type;
     static My_Sprite tile_sprite[10];
