@@ -40,12 +40,13 @@ public:
     Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_get, int screen_y_get);
     void draw();
     void quit();
-    void create_map(int x_beg, int y_beg);
+
     void update();
 
     virtual ~Game_Manager();
 protected:
 private:
+    void create_map(int map_width, int map_height);
     void draw_tile(int type, int, int);
     void draw_gui();
     int count_neighbours(unsigned int i, unsigned int j , Caracteristic typeorzoneorheight, int value, bool diagonal);
@@ -57,6 +58,8 @@ private:
     bool handle_input_events();
     void citizen_update();
 	void highlight_selected_tile();
+    void execute_action(Action action);
+    void handle_mouse_at_window_border(int x_mouse, int y_mouse);
 
     Key_event_handler key_event;
     RenderWindow *app;
@@ -85,13 +88,13 @@ private:
     float zoom;
     float zoom_rate;
 
-    static const size_t GRID_WIDTH = 202;
-    static const size_t GRID_HEIGHT = 202;
+    static const int GRID_WIDTH = 40; //202;
+    static const int GRID_HEIGHT = 40; //202;
     Grid grid;
 
     int w, h, city_number, selected_citizen;
-    int screen_y;
-    int screen_x;
+    int screen_y; //height of the game window height in pixels
+    int screen_x; //width of the game window in pixels
     vector<Citizen> m_citizens;
     My_Sprite selection_sprite;
     My_Sprite gui_1, action_sprite;

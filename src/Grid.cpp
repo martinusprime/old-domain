@@ -63,9 +63,9 @@ Tile &Grid::operator()(size_t x, size_t y)
 
 void Grid::draw()
 {
-	for (size_t i = 0; i < 40; i++ ) // m_grid.size(); i++)
+	for (size_t i = 0; i < m_grid.size(); i++)
 	{
-		for (size_t j = 0; j < 40; j++)   //m_grid[0].size(); j++)   //in order to make my computer life easier for now
+		for (size_t j = 0; j < m_grid[0].size(); j++)
 		{
 			if (!(*this)(i, j).passing_through)
 			{
