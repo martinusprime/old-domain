@@ -47,7 +47,7 @@ string Sprite_Creator::create_character( int sunlight_get)
 
 
     string temp_name[3];
-    int random = rand() %1 + 5;
+    int random = rand() %2 + 5;
     ifstream name_file("ressources/character/names.txt");
 
     if(name_file)
@@ -60,7 +60,7 @@ string Sprite_Creator::create_character( int sunlight_get)
 
     }
     ifstream name_file2("ressources/character/suffixes.txt");
-    random = rand()%1 + 5;
+    random = rand()%2 + 5;
     if(name_file2)
     {
         for(int i = 0; i< random; i++)
@@ -71,7 +71,7 @@ string Sprite_Creator::create_character( int sunlight_get)
 
     }
     ifstream name_file3("ressources/character/last_names.txt");
-    random = rand()% 1+ 5;
+    random = rand()% 2+ 5;
 
     if(name_file3)
     {
@@ -105,7 +105,7 @@ string Sprite_Creator::create_resources( int resources_id)
 
 
     string temp_name[3];
-    int random = rand()%1 + 5;
+    int random = rand()%2+ 5;
     ifstream name_file("ressources/resources/names.txt");
 
     if(name_file)
@@ -118,7 +118,7 @@ string Sprite_Creator::create_resources( int resources_id)
 
     }
     ifstream name_file2("ressources/resources/suffixes.txt");
-    random = rand()%1 + 5;
+    random = rand()%2 + 5;
     if(name_file2)
     {
         for(int i = 0; i< random; i++)
@@ -129,7 +129,7 @@ string Sprite_Creator::create_resources( int resources_id)
 
     }
     ifstream name_file3("ressources/resources/adjectives.txt");
-    random = rand()%1 +5;
+    random = rand()%2 +5;
 
     if(name_file3)
     {
@@ -142,7 +142,7 @@ string Sprite_Creator::create_resources( int resources_id)
     }
     resource_name =  temp_name[0] +  temp_name[1] + " " + temp_name[2];
     string file = whole.get_file().c_str();
-    cout<<" rseources "<< file<<endl;
+  //  cout<<" rseources "<< file<<endl;
     return file;
 }
 
@@ -176,15 +176,15 @@ Color Sprite_Creator::color_maker(int red_get, int green_get, int blue_get, bool
     srand(time(0));
     int random = rand()% random_limit;
     int red = (base_color * red_get )+ (random - random_limit);
-    cout<< "rand"<< random<<endl;
+ //   cout<< "rand"<< random<<endl;
 
     random = rand()% random_limit;
     int blue = (base_color * blue_get )+ (random - random_limit);
-    cout<< "rand"<< random<<endl;
+ //   cout<< "rand"<< random<<endl;
 
     random = rand()% random_limit;
     int green = (base_color * green_get )+ (random - random_limit);
-    cout<< "rand"<< random<<endl;
+ //   cout<< "rand"<< random<<endl;
 
     if(red <0)
     {

@@ -2,9 +2,10 @@
 
 PerlinNoise::PerlinNoise()
 {
-  persistence = 10;
-  frequency = 1;
-  amplitude  = 1;
+  persistence = 1;
+  amplitude  = 2;
+  frequency = amplitude * 0.08;
+
   octaves = 2;
   randomseed = 20;
 }

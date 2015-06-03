@@ -368,6 +368,22 @@ void Game_Manager::draw_selection()
         string path1 = "height " + str;
         selection_text[0].refill(path1);
         selection_text[0].draw(0 , window_vec.y - 550 , 24);
+
+		stringstream ss2;
+		ss2 << grid(x_cursor, y_cursor).x_pos;
+		str = ss2.str();
+		path1 = "x: " + str;
+		selection_text[1].refill(path1);
+		selection_text[1].draw(0, window_vec.y - 450, 24);
+
+
+		stringstream ss3;
+		ss3 << grid(x_cursor, y_cursor).y_pos;
+		str = ss3.str();
+		path1 = "y: " + str;
+		selection_text[1].refill(path1);
+		selection_text[1].draw(0, window_vec.y - 350, 24);
+
         tile_description(x_cursor, y_cursor);
     }
 }

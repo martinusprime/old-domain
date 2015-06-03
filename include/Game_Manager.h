@@ -97,7 +97,7 @@ private:
     vector<Citizen> m_citizens;
     My_Sprite selection_sprite;
     My_Sprite gui_1, action_sprite;
-    My_Text selection_text[2], tile_info;
+    My_Text selection_text[5], tile_info;
     My_window windows[8];//1  for citizen window
     Hud interface1;
     Building building[5];

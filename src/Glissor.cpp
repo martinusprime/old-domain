@@ -10,8 +10,8 @@ Glissor::Glissor(const Glissor &glissor_get)
 
     view1 = glissor_get.view1;
     app = glissor_get.app;
-    //bar = glissor_get.bar;
-  //  cursor_bar = glissor_get.cursor_bar;
+    bar = glissor_get.bar;
+    cursor_bar = glissor_get.cursor_bar;
     x = glissor_get.x;
     y = glissor_get.y;
     value = glissor_get.value;
@@ -53,7 +53,6 @@ void Glissor::draw()
 
 int Glissor::get_value()
 {
-    cout<<value<<endl;
    return value;
 
 }

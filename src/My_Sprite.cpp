@@ -76,7 +76,7 @@ void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get
     stringstream ss;
     ss << random;
     file = file_get + ss.str() + ".png";
-    cout<< file<<endl;
+    //cout<< file<<endl;
     ifstream file_check(file.c_str());
     while(file_check.is_open() == false && rand_limit != 1 )
     {
@@ -87,7 +87,7 @@ void My_Sprite::init(RenderWindow *app_get, std::string file_get, View *view_get
         ss << random;
         file = file_get +ss.str() + ".png";
         file_check.open(file.c_str());
-        cout<< "file finally chosen "<<file<<endl;
+        //cout<< "file finally chosen "<<file<<endl;
 
     }
     if(file_check.is_open() == false && rand_limit == 1 )
