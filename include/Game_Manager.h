@@ -86,7 +86,7 @@ private:
     float zoom_rate;
 
     static const size_t GRID_WIDTH = 202;
-    static const size_t GRID_HEIGTH = 202;
+    static const size_t GRID_HEIGHT = 202;
     Grid grid;
 
     int w, h, city_number, selected_citizen;
