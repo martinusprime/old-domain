@@ -89,49 +89,67 @@ Game_Manager::~Game_Manager()
     //dtor
 }
 
-bool Game_Manager::handle_key_events()
+bool Game_Manager::handle_input_events()
 {
-    Event event;
-    bool isEvent = app->pollEvent(event);
-    Action action;
-    if (isEvent && key_event.manage_key_event(event, app, action, mouse_vec))
-    {
-        switch (action)
-        {
-        case ACT_GO_UP:
-            y_offset-= 50;
-            break;
-        case ACT_GO_RIGHT:
-            x_offset+= 50;
-            break;
-        case ACT_GO_DOWN:
-            y_offset+= 50;
-            break;
-        case ACT_GO_LEFT:
-            x_offset-= 50;
-            break;
-        case ACT_ZOOM_IN:
-            zoom_change = ZOOM_ADD;
-            break;
-        case ACT_ZOOM_OUT:
-            zoom_change = ZOOM_LESS;
-            break;
-        case ACT_CLOSE_APP:
-            cout << "close app\n";
-            app->close();
-            break;
-        default:
-            break;
-        }
-        return true;
-    }
-    return false;
+	Event event;
+	bool isEvent = app->pollEvent(event);
+	Action action;
+	sf::Mouse::Button click = {};
+	Vector2i mouse_vec;
+
+	key_event.get_mouse_position(app, mouse_vec);
+	selection_vector = app->mapPixelToCoords(mouse_vec, view1);
+	x_cursor = (selection_vector.x / Tile::tile_size.x + selection_vector.y / Tile::tile_size.y - 0.5)* zoom;
+	y_cursor = (selection_vector.y / Tile::tile_size.y - selection_vector.x / Tile::tile_size.x + 0.5)* zoom;
+	
+	bool ret = false;
+	if (isEvent)
+	{
+		if (key_event.manage_key_event(event, action))
+		{
+			switch (action)
+			{
+			case ACT_GO_UP:
+				y_offset -= 50;
+				break;
+			case ACT_GO_RIGHT:
+				x_offset += 50;
+				break;
+			case ACT_GO_DOWN:
+				y_offset += 50;
+				break;
+			case ACT_GO_LEFT:
+				x_offset -= 50;
+				break;
+			case ACT_ZOOM_IN:
+				zoom_change = ZOOM_ADD;
+				break;
+			case ACT_ZOOM_OUT:
+				zoom_change = ZOOM_LESS;
+				break;
+			case ACT_CLOSE_APP:
+				cout << "close app\n";
+				app->close();
+				break;
+			default:
+				break;
+			}
+			ret = true;
+		}
+		if (key_event.manage_mouse_click(event, click)) {
+			if (!open_window) {
+				handle_mouse_click(click, mouse_vec);
+			}
+			ret = true;
+		}
+	}
+	return ret;
 }
 
 void Game_Manager::update()
 {
 
-    bool isEvent = handle_key_events();
+    bool isEvent = handle_input_events();
 
     zoom_time = clock_zoom.getElapsedTime();
     if(zoom_time.asSeconds() >  0.05  && zoom_change != ZOOM_NO_CHANGE)
@@ -179,7 +197,6 @@ void Game_Manager::update()
 
 void Game_Manager::citizen_update()
 {
-
     m_citizens[0].update();
     if(m_citizens[0].is_selected() )
     {
@@ -203,12 +220,10 @@ void Game_Manager::citizen_update()
     {
         m_citizens[0].on_city();
     }
-
 }
 
 void Game_Manager::draw()
 {
-
     app->clear();
     if(! is_menu_visible)
     {
@@ -230,13 +245,8 @@ void Game_Manager::draw()
 
 void Game_Manager::draw_gui()
 {
-    //highlight the tile
-    if(!open_window)
-    {
-        mouse_selection();
-    }
-
-    app->setView(view2);
+	highlight_selected_tile();
+	app->setView(view2);
     if(is_menu_visible)
     {
         menu1.draw();
@@ -262,13 +272,10 @@ void Game_Manager::draw_gui()
         }
     }
 
-
-
     draw_selection();
     interface1.draw();
 
     app->setView(view1);
-
 }
 
 void Game_Manager::create_map(int x_beg,int y_beg)
@@ -402,18 +409,18 @@ void Game_Manager::tile_description(int tile_x, int tile_y)
     tile_info.draw(0 , window_vec.y - 700 , 24);
 }
 
-void Game_Manager::mouse_selection()
+void Game_Manager::highlight_selected_tile()
 {
-    selection_vector = app->mapPixelToCoords(mouse_vec, view1);
-    if(x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
-    {
-        selection_sprite.draw( (x_cursor - y_cursor)* (Tile::tile_size.x / 2) ,(x_cursor + y_cursor)* (Tile::tile_size.y / 2) );
-    }
-    x_cursor = (selection_vector.x / Tile::tile_size.x + selection_vector.y/ Tile::tile_size.y - 0.5)* zoom;
-    y_cursor = (selection_vector.y/ Tile::tile_size.y - selection_vector.x / Tile::tile_size.x + 0.5)* zoom;
+	if (x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
+	{
+		//highlight selected tile
+		selection_sprite.draw((x_cursor - y_cursor)* (Tile::tile_size.x / 2), (x_cursor + y_cursor)* (Tile::tile_size.y / 2));
+	}
+}
 
-
-    if(!is_l_click() || x_cursor < 0 || x_cursor >= map_size_x || y_cursor < 0 || y_cursor >= map_size_y)
+void Game_Manager::handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_vec)
+{
+    if(click != sf::Mouse::Button::Left || x_cursor < 0 || x_cursor >= map_size_x || y_cursor < 0 || y_cursor >= map_size_y)
     {
         return;
     }
@@ -510,12 +517,3 @@ int Game_Manager::count_neighbours(unsigned int i, unsigned int j , Caracteristi
     return number;
 }
 
-bool Game_Manager::is_l_click()
-{
-    if(Mouse::isButtonPressed(Mouse::Left))
-    {
-        return true;
-    }
-    else return false;
-
-}
