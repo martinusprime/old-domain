@@ -45,7 +45,7 @@ bool Citizen::get_goal()
 
 void Citizen::draw()
 {
-    sprite.draw( ( x - y) * 64, (y +x) * 32);
+    sprite.draw( ( x - y) * 64 + 50, (y +x) * 32 );
     name.draw(( x - y)  * 64, ( x + y - 1)  * 32 - 10, 10);
 
     if(has_goal)
