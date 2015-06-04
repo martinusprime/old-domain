@@ -17,8 +17,9 @@ Citizen::Citizen(Grid &grid, RenderWindow *app, View *view, View *view2, Game_Ma
     m_view1 = view;
     m_app = app;
 
-    x = 0;
-    y = 0;
+    static int i = 0; //TODO in reality two units should never be on the same tile
+    x = i++;
+    y = i++;
     path_place = 0;
     path_number = 0;
     m_is_selected = false;
