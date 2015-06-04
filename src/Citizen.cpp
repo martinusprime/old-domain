@@ -141,7 +141,6 @@ void Citizen::select()
 void Citizen::deselect()
 {
     m_is_selected = false;
-    sprite.add_color(255, 255, 255, 255);
 
 }
 

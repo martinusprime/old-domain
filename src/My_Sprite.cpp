@@ -116,14 +116,14 @@ My_Sprite::My_Sprite(RenderWindow *app, string file, View *view, int animation_w
 
 void My_Sprite::set_text_rect(int x, int y, int w, int h)
 {
-    m_w =w;
+    m_w = w;
     m_h = h;
     m_animation_rect.height = m_h;
     m_animation_rect.width = m_w;
     m_animation_rect.top = y;
     m_animation_rect.left = x;
     m_sprite.setTextureRect(m_animation_rect);
-
+}
 sf::Sprite My_Sprite::get_sprite()
 {
     return m_sprite;

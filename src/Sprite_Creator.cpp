@@ -32,9 +32,9 @@ string Sprite_Creator::create_character( int sunlight_get)
     hair.set_color(color_maker(1, 1, 1, true, false));
     whole.add_sprite(hair, "ressources/generated/character/character01.png", 128);
     eyes.set_color(color_maker(0 , 1, 1, false, true));
-    whole.add_sprite(&eyes, "ressources/generated/character/character01.png", 128);
+    whole.add_sprite(eyes, "ressources/generated/character/character01.png", 128);
 
-    srand(time(0));
+    srand(static_cast<unsigned int>(time(0)));
 
     string temp_name[3];
     int random = rand()% + 4;
@@ -155,8 +155,8 @@ Color Sprite_Creator::color_maker(int red_get, int green_get, int blue_get, bool
         random_limit = 25;
     }
 
-    srand(time(0));
-    int random = rand()% random_limit;
+    srand(static_cast<unsigned int>(time(0)));
+    int random = rand() % random_limit;
     int red = (base_color * red_get )+ (random - random_limit);
  //   cout<< "rand"<< random<<endl;
 
