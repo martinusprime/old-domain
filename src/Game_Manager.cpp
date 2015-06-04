@@ -325,9 +325,9 @@ void Game_Manager::create_map(int map_width, int map_height)
     {
         for (int j = 0; j< map_height; j++)
         {
-            grid(i, j).type = 2;
-            grid(i, j).x_pos = i;
-            grid(i, j).y_pos = j;
+            grid(i, j).m_type = 2;
+            grid(i, j).m_x_pos = i;
+            grid(i, j).m_y_pos = j;
             grid(i, j).height = 1;
             grid(i, j).zone = 1;
             grid(i, j).passing_through = false;
@@ -338,7 +338,7 @@ void Game_Manager::create_map(int map_width, int map_height)
 
         }
     }
-    //perlin noise expreimentation
+    //perlin noise experimentation
     PerlinNoise perlin4;
     //perlin4.Set(persistence, frequence, amplitude, octave, 20);
     double noise_value = 0;
@@ -351,37 +351,37 @@ void Game_Manager::create_map(int map_width, int map_height)
             noise_value = floor(100 * (perlin4.GetHeight(i, j)));
             if (noise_value <= 0 && noise_value > -15)
             {
-                grid(i, j).type = 0;
+                grid(i, j).m_type = 0;
 
             }
             if (noise_value <= -15 && noise_value > -35)
             {
-                grid(i, j).type = 1;
+                grid(i, j).m_type = 1;
 
             }
             if (noise_value <= -35 && noise_value > -50)
             {
-                grid(i, j).type = 2;
+                grid(i, j).m_type = 2;
 
             }
             if (noise_value <= -50 && noise_value > -75)
             {
-                grid(i, j).type = 3;
+                grid(i, j).m_type = 3;
 
             }
             if (noise_value <= -75 && noise_value > -100)
             {
-                grid(i, j).type = 4;
+                grid(i, j).m_type = 4;
 
             }
             if (noise_value > 0 && noise_value <= 35)
             {
-                grid(i, j).type = 7;
+                grid(i, j).m_type = 7;
 
             }
             if (noise_value > 35 && noise_value <= 50)
             {
-                grid(i, j).type = 8;
+                grid(i, j).m_type = 8;
 
             }
 
@@ -404,7 +404,7 @@ void Game_Manager::draw_selection()
         selection_text[0].draw(0 , window_vec.y - 550 , 24);
 
 		stringstream ss2;
-		ss2 << grid(x_cursor, y_cursor).x_pos;
+		ss2 << grid(x_cursor, y_cursor).m_x_pos;
 		str = ss2.str();
 		path1 = "x: " + str;
 		selection_text[1].refill(path1);
@@ -412,7 +412,7 @@ void Game_Manager::draw_selection()
 
 
 		stringstream ss3;
-		ss3 << grid(x_cursor, y_cursor).y_pos;
+		ss3 << grid(x_cursor, y_cursor).m_y_pos;
 		str = ss3.str();
 		path1 = "y: " + str;
 		selection_text[1].refill(path1);
@@ -484,23 +484,23 @@ int Game_Manager::count_neighbours(unsigned int i, unsigned int j , Caracteristi
 
     if(typeorzoneorheight == CRC_TYPE)
     {
-        if(grid(i - 1, j).type == value)
+        if(grid(i - 1, j).m_type == value)
             number++;
-        if(grid(i, j + 1).type == value)
+        if(grid(i, j + 1).m_type == value)
             number++;
-        if(grid(i, j - 1).type == value)
+        if(grid(i, j - 1).m_type == value)
             number++;
-        if(grid(i + 1, j).type == value)
+        if(grid(i + 1, j).m_type == value)
             number++;
         if (diagonal)  //diagonal + sides
         {
-            if(grid(i - 1, j + 1).type == value)
+            if(grid(i - 1, j + 1).m_type == value)
                 number++;
-            if(grid(i - 1, j - 1).type == value)
+            if(grid(i - 1, j - 1).m_type == value)
                 number++;
-            if(grid(i + 1, j + 1).type == value)
+            if(grid(i + 1, j + 1).m_type == value)
                 number++;
-            if(grid(i + 1, j - 1).type == value)
+            if(grid(i + 1, j - 1).m_type == value)
                 number++;
         }
     }

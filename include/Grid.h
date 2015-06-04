@@ -39,13 +39,16 @@ struct Resource
 
 };
 
-struct Tile
+class Tile
 {
-    int type;
+public:
+    void draw();
+
+    int m_type;
     int random_pattern;
     int influence_point;
-    int x_pos;
-    int y_pos;
+    int m_x_pos;
+    int m_y_pos;
     int height;
     bool is_city;
     int citizen_id;
@@ -56,21 +59,18 @@ struct Tile
     static My_Sprite tile_sprite[10];
     static My_Sprite influence_sprite;
     static const Tile_dimension tile_size;
-
-    void draw(int type , int x_pos, int y_pos);
 };
 
 class Grid
 {
 public:
     Grid(unsigned int width, unsigned int heigth, sf::View *view1, sf::RenderWindow *app);
-    virtual ~Grid();
-    Grid(const Grid& other);
+    virtual ~Grid() = default;
     void loadFiles();
     //get tile at position
     struct Tile &operator()(size_t x, size_t y);
     void draw();
-protected:
+
 private:
 
 	std::vector<std::vector<Tile> > m_grid;
