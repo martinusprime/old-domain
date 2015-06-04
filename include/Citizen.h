@@ -46,7 +46,6 @@ public:
 
 private:
     void find_path();
-    Game_Manager &m_game_manager;
     Grid &m_grid;
     View *m_view1;
     RenderWindow *m_app;
@@ -68,5 +67,6 @@ private:
     //CITIZEN INFO
     My_Text m_name;
     int m_age;
+    Game_Manager &m_game_manager;
 };
 

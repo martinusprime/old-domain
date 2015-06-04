@@ -4,11 +4,11 @@
 
 Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int screen_y)
 : m_view1(view1)
-, m_grid(GRID_WIDTH, GRID_HEIGHT, &view1, app)
-, m_dialog(m_grid, app, &m_view2, screen_x, screen_y)
 , menu1(app, &m_view2)
+, m_grid(GRID_WIDTH, GRID_HEIGHT, &view1, app)
 , selection_sprite(app, "ressources/selection.png", &view1)
 , interface1(app, &view1, m_w, m_h)
+, m_dialog(m_grid, app, &m_view2, screen_x, screen_y)
 {
     is_menu_visible = true;
     m_screen_x = screen_x;
@@ -31,7 +31,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
 
     m_view2.reset(FloatRect(0.0f, 0.0f, static_cast<float>(m_screen_x), static_cast<float>(m_screen_y)));
     m_view2.setViewport(FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
-    
+
     Vector2f vecsize = view1.getSize();
     m_h = static_cast<int>(vecsize.y);
     m_w = static_cast<int>(vecsize.x);
@@ -44,9 +44,9 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
         selection_text[i].init(app, "rien", 12, 1);
         selection_text[i].change_font("ressources/font2.ttf");
     }
-    
+
     create_map(GRID_WIDTH, GRID_HEIGHT);
-    
+
     m_units.push_back(shared_ptr<Unit>(new Citizen(m_grid, app, &view1, &m_view2, *this)));
     m_grid(0, 0).citizen_id = 0;
 
@@ -136,9 +136,9 @@ bool Game_Manager::handle_input_events()
     m_selection_vector = m_app->mapPixelToCoords(mouse_vec, m_view1);
     m_x_cursor = static_cast<int>((m_selection_vector.x / (float)Tile::tile_size.x + m_selection_vector.y / (float)Tile::tile_size.y - 0.5) * zoom);
     m_y_cursor = static_cast<int>((m_selection_vector.y / (float)Tile::tile_size.y - m_selection_vector.x / (float)Tile::tile_size.x + 0.5) * zoom);
-    
+
     handle_mouse_at_window_border(mouse_vec.x, mouse_vec.y);
-        
+
 	bool ret = false;
 	if (isEvent)
 	{
@@ -333,7 +333,7 @@ void Game_Manager::create_map(int map_width, int map_height)
 
                         }
                 }
-                   
+
             }
         }
     //perlin noise experimentation
@@ -424,7 +424,7 @@ void Game_Manager::tile_description(int tile_x, int tile_y)
 {
     if(m_grid(tile_x, tile_y).ressource_type == RSC_WOOD)
     {
-        tile_info.refill("Frêne"); 
+        tile_info.refill("Frêne");
     }
     else
     {
