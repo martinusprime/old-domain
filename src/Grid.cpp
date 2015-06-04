@@ -19,7 +19,6 @@ Grid::Grid(unsigned int width, unsigned int heigth, sf::View *view1, sf::RenderW
     : m_grid(width, std::vector<Tile>(heigth))
     , m_view1(view1)
     , m_app(app)
-	, m_resource(2)
     , m_sprite_creator1(m_app, m_view1)
 
 {
@@ -32,13 +31,13 @@ void Grid::loadFiles()
     My_Sprite resource_sprite0(m_app, "ressources/wood_ressource.png", m_view1);
     
     Resource resource0;
-    m_resource[0].sprite[0] = My_Sprite{ m_app, m_sprite_creator1.create_resources(0), m_view1, 128, 5, 1 };
-    m_resource[0].name = m_sprite_creator1.get_resource_name();
-    m_resource[0].solidity = m_sprite_creator1.get_solidity();
-    m_resource[0].flexibility = m_sprite_creator1.get_flexibility();
+    resource0.sprite[0] = My_Sprite{ m_app, m_sprite_creator1.create_resources(0), m_view1, 128, 5, 1 };
+    resource0.name = m_sprite_creator1.get_resource_name();
+    resource0.solidity = m_sprite_creator1.get_solidity();
+    resource0.flexibility = m_sprite_creator1.get_flexibility();
     m_resource.push_back(resource0);
 
-    //
+    Resource resource1;
     for (int i = 0; i <= 4; i++)
     {
         for (int j = 0; j <= 4; j++)
@@ -47,7 +46,7 @@ void Grid::loadFiles()
             m_resource[1].sprite[i+5 * j].set_text_rect(i * 128, j * 64, 128, 64);
         }
     }
-    m_resource.push_back(resource0);
+    m_resource.push_back(resource1);
 
 
     for(int i = 0; i < 10; i++)
