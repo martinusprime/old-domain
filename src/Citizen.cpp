@@ -161,6 +161,7 @@ void Citizen::select()
 void Citizen::deselect()
 {
     m_is_selected = false;
+
 }
 
 void Citizen::on_city()

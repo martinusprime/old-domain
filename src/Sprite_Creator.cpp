@@ -33,13 +33,16 @@ string Sprite_Creator::create_character( int sunlight_get)
     whole.add_sprite(hair, "ressources/generated/character/character01.png", 128);
     eyes.set_color(color_maker(0 , 1, 1, false, true));
     whole.add_sprite(eyes, "ressources/generated/character/character01.png", 128);
-    
-    string temp_name[3];
 
-    int random = 1 + rand() % 5;
+    srand(static_cast<unsigned int>(time(0)));
+
+    string temp_name[3];
+    int random = rand()% + 4;
     ifstream name_file("ressources/character/names.txt");
-    if (name_file) {
-        for (int i = 0; i < random; i++)
+
+    if(name_file)
+    {
+        for(int i = 0; i<= random; i++)
         {
             temp_name[0] = "";
             name_file >> temp_name[0];
@@ -47,6 +50,7 @@ string Sprite_Creator::create_character( int sunlight_get)
     }
 
     ifstream name_file2("ressources/character/suffixes.txt");
+
     if (name_file2) {
         random = 1 + rand() % 5;
         for (int i = 0; i < random; i++)
@@ -151,8 +155,8 @@ Color Sprite_Creator::color_maker(int red_get, int green_get, int blue_get, bool
         random_limit = 25;
     }
 
-    srand(time(0));
-    int random = rand()% random_limit;
+    srand(static_cast<unsigned int>(time(0)));
+    int random = rand() % random_limit;
     int red = (base_color * red_get )+ (random - random_limit);
  //   cout<< "rand"<< random<<endl;
 

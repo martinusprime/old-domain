@@ -25,6 +25,7 @@ public:
     void draw(int x, int y);
     void draw_tile(int x, int y, int random);
     void scale(float x_rate, float y_rate);
+    void set_text_rect(int x, int y, int w, int h);
     int get_w();
     int get_h();
 	void add_sprite(My_Sprite added_sprite, string save_slot, int width);

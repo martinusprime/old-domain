@@ -18,7 +18,8 @@ enum Ressources_type_enum
 {
     RSC_NO,
     RSC_WOOD,
-    RSC_IRON
+    RSC_IRON,
+    RSC_STONE
 };
 
 struct Tile_dimension
@@ -34,7 +35,8 @@ struct Resource
 	int flexibility;
 	int solidity;
 	string name;
-	My_Sprite sprite;
+	My_Sprite sprite[25];
+
 };
 
 class Tile
@@ -43,6 +45,7 @@ public:
     void draw();
     int m_type;
     int random_pattern;
+    int resource_location;
     int influence_point;
     int m_x_pos;
     int m_y_pos;
