@@ -1,6 +1,5 @@
-#ifndef GLISSOR_H
-#define GLISSOR_H
 #pragma once
+
 #include <SFML/Graphics.hpp>
 #include <sstream>
 #include <iostream>
@@ -15,24 +14,22 @@
 class Glissor
 {
 public:
-    Glissor();
+    Glissor(RenderWindow *app, int x, int y, int window_x, int window_y, View *view1);
     /* copy-constructor */
     Glissor(const Glissor &glissor_get);
-    virtual ~Glissor();
+    virtual ~Glissor() = default;
     void draw();
-    void update(int x_get, int y_get);
+    void update(int x, int y);
     int get_value();
-    void init(RenderWindow *app_get, int x_get, int y_get, int , int, View *view1_get);
-protected:
+
 private:
-    View *view1;
-    RenderWindow *app;
-    My_Sprite bar, cursor_bar;
-    int x, y, value, window_x, window_y;
-    bool mouse_on;
-    Vector2f a;
-    Vector2i mouse_vec ;
-    My_Text rate;
+    View *m_view1;
+    RenderWindow *m_app;
+    My_Sprite m_bar, m_cursor_bar;
+    int m_x, m_y, m_value, m_window_x, m_window_y;
+    bool m_mouse_on;
+    Vector2f m_a;
+    Vector2i m_mouse_vec ;
+    My_Text m_rate;
 };
 
-#endif // GLISSOR_H

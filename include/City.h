@@ -16,19 +16,19 @@
 class City
 {
 public:
-    City();
-    virtual ~City();
-    void init(RenderWindow *app_get, View *view_get, int x_get, int y_get ,  int tile_size_x_get, int tile_size_y_get);
+    City(RenderWindow *app, View *view, int x, int y, int tile_size_x, int tile_size_y);
+    virtual ~City() = default;
     void draw();
     void selected();
     int get_x();
     int get_y();
 private:
-    View *view1;
-    RenderWindow *app;
-    My_Sprite sprite;
-    int x, y, type, tile_size_x, tile_size_y;
-    My_Text name;
+    View *m_view1;
+    RenderWindow *m_app;
+    My_Sprite m_sprite;
+    int m_x, m_y;
+    int m_type, m_tile_size_x, m_tile_size_y;
+    My_Text m_name;
 };
 
 #endif // CITY_H

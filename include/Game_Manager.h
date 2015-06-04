@@ -38,14 +38,12 @@ enum Zoom_change { ZOOM_NO_CHANGE, ZOOM_ADD, ZOOM_LESS };
 class Game_Manager
 {
 public:
-    Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_get, int screen_y_get);
+    Game_Manager(RenderWindow *app, View &view1, int screen_x, int screen_y);
     void draw();
     void quit();
-
     void update();
+    virtual ~Game_Manager() = default;
 
-    virtual ~Game_Manager();
-protected:
 private:
     void create_map(int map_width, int map_height);
     void draw_tile(int type, int, int);
@@ -63,8 +61,8 @@ private:
     void handle_mouse_at_window_border(int x_mouse, int y_mouse);
 
     Key_event_handler key_event;
-    RenderWindow *app;
-    View view1;
+    RenderWindow *m_app;
+    View m_view1;
     View view2;
     Vector2u window_vec;
     Vector2f selection_vector;
@@ -91,19 +89,19 @@ private:
     static const int GRID_HEIGHT = 40; //202;
     Grid grid;
 
-    int w, h, city_number, selected_citizen;
-    int screen_y; //height of the game window height in pixels
-    int screen_x; //width of the game window in pixels
+    int w, h, selected_citizen;
+    int m_screen_y; //height of the game window height in pixels
+    int m_screen_x; //width of the game window in pixels
     vector<Citizen> m_citizens;
     My_Sprite selection_sprite;
     My_Sprite gui_1, action_sprite;
     My_Text selection_text[5], tile_info;
-    My_window windows[8];//1  for citizen window
+    vector<My_window> windows;//1  for citizen window
     Hud interface1;
-    Building building[5];
+    vector<Building> m_buildings;
     int wood, iron, sand, glass, rock;
-    Button citizen_action[5];
-    City city[5];
+    vector<Button> m_citizen_actions;
+    vector<City> m_cities;
     dialog m_dialog;
 };
 

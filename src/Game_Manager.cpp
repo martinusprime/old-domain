@@ -1,19 +1,21 @@
 #include "Game_Manager.h"
 
-Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_get, int screen_y_get)
-: view1(view1_get)
-, grid(GRID_WIDTH, GRID_HEIGHT, &view1, app_get)
-, m_dialog(grid, app_get, &view2, screen_x_get, screen_y_get)
+Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int screen_y)
+: m_view1(view1)
+, grid(GRID_WIDTH, GRID_HEIGHT, &view1, app)
+, m_dialog(grid, app, &view2, screen_x, screen_y)
+, menu1(app, &view2)
+, selection_sprite(app, "ressources/selection.png", &view1)
+, interface1(app, &view1, w, h)
 {
     is_menu_visible = true;
-    screen_x = screen_x_get;
-    screen_y = screen_y_get;
+    m_screen_x = screen_x;
+    m_screen_y = screen_y;
     x_offset = 0;
     y_offset = 0;
     zoom = 1;
     mouse_wheel_x = 0;
     zoom_rate = 10;
-    city_number = 0;
     open_window = true;
     rock = 0;
     wood = 0;
@@ -22,18 +24,15 @@ Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_
     selected_citizen = 0;
 
     iteration = 0;
-    app = app_get;
-    app->setView(view1);
+    m_app = app;
+    m_app->setView(view1);
 
-
-
-    window_vec = app->getSize();
+    window_vec = m_app->getSize();
     cout<<"x_window"<<window_vec.x<<"y_window "<<window_vec.y<<endl;
 
-    view2.reset(FloatRect(0.0f, 0.0f, static_cast<float>(screen_x), static_cast<float>(screen_y)));
+    view2.reset(FloatRect(0.0f, 0.0f, static_cast<float>(m_screen_x), static_cast<float>(m_screen_y)));
     view2.setViewport(FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
-
-
+    
     Vector2f vecsize;
     vecsize = view1.getSize();
     h = static_cast<int>(vecsize.y);
@@ -41,43 +40,31 @@ Game_Manager::Game_Manager(RenderWindow *app_get, View &view1_get, int screen_x_
 
     if(is_menu_visible)
     {
-        menu1.init(app, & view2);
+        
     }
 
-
-        windows[0].init(app, "Map", 0.5f, 0.5f, 0, 0, &view2, screen_x, screen_y);
-        windows[0].add_glissor(100, 100);
-        //windows[0].desactivate();
+    windows.push_back(My_window{ m_app, "Map", 0.5f, 0.5f, 0, 0, &view2, m_screen_x, m_screen_y });
+    windows[0].add_glissor(100, 100);
+    //windows[0].desactivate();
     for(int i = 0; i < 2; i++)
     {
         selection_text[i].init(app, "rien", 12, 1);
         selection_text[i].change_font("ressources/font2.ttf");
-
     }
-    selection_sprite.init(app, "ressources/selection.png", &view1);
-
+    
     create_map(GRID_WIDTH, GRID_HEIGHT);
-
-
+    
     m_citizens.push_back(Citizen{grid, app, &view1});
     grid(0, 0).citizen_id = 0;
 
-    building[0].init(app, &view1, 0);
+    m_buildings.push_back(Building{ app, &view1, 0 });
 
-    citizen_action[0].init(app, "Fonder une ville", 0, 0, 0, 0, &view2);
-    citizen_action[1].init(app, "Rentrer dans la ville", 0, 0, 0, 0, &view2);
-    citizen_action[2].init(app, "Observer la ressource", 0, 0, 0, 0, &view2);
+    m_citizen_actions.push_back( Button{ app, "Fonder une ville", 0, 0, 0, 0, &view2 });
+    m_citizen_actions.push_back(Button{ app, "Rentrer dans la ville", 0, 0, 0, 0, &view2 });
+    m_citizen_actions.push_back(Button{ app, "Observer la ressource", 0, 0, 0, 0, &view2 });
     //now that view1 has been reseted we can load tile files
     grid.loadFiles();
     tile_info.init(app, "lieu vierge", 10, 1);
-
-    interface1.init(app, &view1, w, h);
-
-}
-
-Game_Manager::~Game_Manager()
-{
-    //dtor
 }
 
 void Game_Manager::execute_action(Action action)
@@ -104,7 +91,7 @@ void Game_Manager::execute_action(Action action)
         break;
     case ACT_CLOSE_APP:
         cout << "close app\n";
-        app->close();
+        m_app->close();
         break;
     default:
         break;
@@ -119,7 +106,7 @@ void Game_Manager::handle_mouse_at_window_border(int x_mouse, int y_mouse)
     sf::Time mouse_move_time = mouse_move_clock.getElapsedTime();
     if (mouse_move_time.asSeconds() > 0.05) {
         mouse_move_clock.restart();
-        Vector2u windowSize = app->getSize();
+        Vector2u windowSize = m_app->getSize();
         const int margin = 10;
         if (x_cursor < -margin || x_cursor > GRID_WIDTH + margin || y_cursor < -margin || y_cursor > GRID_HEIGHT + margin) {
             //we are already too far outside the grid, do nothing
@@ -148,15 +135,15 @@ void Game_Manager::handle_mouse_at_window_border(int x_mouse, int y_mouse)
 bool Game_Manager::handle_input_events()
 {
 	Event event;
-	bool isEvent = app->pollEvent(event);
+	bool isEvent = m_app->pollEvent(event);
 	Action action;
 	sf::Mouse::Button click = {};
 	Vector2i mouse_vec;
 
-	key_event.get_mouse_position(app, mouse_vec);
+	key_event.get_mouse_position(m_app, mouse_vec);
 
     //translate to grid coordinates
-    selection_vector = app->mapPixelToCoords(mouse_vec, view1);
+    selection_vector = m_app->mapPixelToCoords(mouse_vec, m_view1);
     x_cursor = static_cast<int>((selection_vector.x / (float)Tile::tile_size.x + selection_vector.y / (float)Tile::tile_size.y - 0.5) * zoom);
     y_cursor = static_cast<int>((selection_vector.y / (float)Tile::tile_size.y - selection_vector.x / (float)Tile::tile_size.x + 0.5) * zoom);
     
@@ -215,15 +202,15 @@ void Game_Manager::update()
         }
     }
 
-    view1.setCenter(static_cast<float>(x_offset) , static_cast<float>(y_offset));
-    view1.zoom(zoom);
-    app->setView(view1);
+    m_view1.setCenter(static_cast<float>(x_offset) , static_cast<float>(y_offset));
+    m_view1.zoom(zoom);
+    m_app->setView(m_view1);
 
-    for(int i = 0; i<6; i++)
+    for(My_window &window : windows)
     {
-        if(windows[i].is_activated())
+        if(window.is_activated())
         {
-            windows[i].update();
+            window.update();
         }
     }
     citizen_update();
@@ -234,18 +221,17 @@ void Game_Manager::citizen_update()
     m_citizens[0].update();
     if(m_citizens[0].is_selected() )
     {
-        citizen_action[0].update(0, h - 50);
+        m_citizen_actions[0].update(0, h - 50);
     }
 
-    if(citizen_action[0].is_activated() && city_number == 0)
+    if(m_citizen_actions[0].is_activated() && m_cities.empty())
     {
-        city[0].init(app, &view1, m_citizens[0].get_x(), m_citizens[0].get_y(), Tile::tile_size.x, Tile::tile_size.y );
-        city_number++;
+        m_cities.push_back(City{ m_app, &m_view1, m_citizens[0].get_x(), m_citizens[0].get_y(), Tile::tile_size.x, Tile::tile_size.y });
         grid(m_citizens[0].get_x(), m_citizens[0].get_x()).is_city = true;
     }
-    if(citizen_action[2].is_activated() )  //l'action sur la ressource
+    if(m_citizen_actions[2].is_activated() )  //l'action sur la ressource
     {
-        city[0].init(app, &view1, m_citizens[0].get_x(), m_citizens[0].get_y(), Tile::tile_size.x, Tile::tile_size.y );
+        m_cities.push_back(City{ m_app, &m_view1, m_citizens[0].get_x(), m_citizens[0].get_y(), Tile::tile_size.x, Tile::tile_size.y });
         // windows[1].init(app, "Action", 550, 400, w/2, h/2, &view1);
 
         grid(m_citizens[0].get_x(), m_citizens[0].get_x()).is_city = true;
@@ -258,29 +244,29 @@ void Game_Manager::citizen_update()
 
 void Game_Manager::draw()
 {
-    app->clear();
+    m_app->clear();
     if(! is_menu_visible)
     {
         grid.draw();
         //drwing of the test created sprite
         //sprite_created_1_test.draw();
 
-        for(int i = 0; i < city_number; i++)
+        for(City &city : m_cities)
         {
-            city[i].draw();
+            city.draw();
         }
         m_citizens[0].draw();
 
     }
     // Update the window
     draw_gui();
-    app->display();
+    m_app->display();
 }
 
 void Game_Manager::draw_gui()
 {
 	highlight_selected_tile();
-	app->setView(view2);
+	m_app->setView(view2);
     if(is_menu_visible)
     {
         menu1.draw();
@@ -289,27 +275,26 @@ void Game_Manager::draw_gui()
     open_window = false;
     if(m_citizens[0].is_selected())
     {
-        citizen_action[0].draw();
+        m_citizen_actions[0].draw();
         if(m_citizens[0].is_on_city())
         {
-            citizen_action[1].draw();
+            m_citizen_actions[1].draw();
         }
-        else citizen_action[2].draw();
+        else m_citizen_actions[2].draw();
     }
-    for(int i = 0; i<6; i++)
+    for(My_window &window : windows)
     {
-
-        if(windows[i].is_activated())
+        if(window.is_activated())
         {
             open_window = true;
-            windows[i].draw();
+            window.draw();
         }
     }
     m_dialog.draw();
     draw_selection();
     interface1.draw();
 
-    app->setView(view1);
+    m_app->setView(m_view1);
 }
 
 void Game_Manager::create_map(int map_width, int map_height)

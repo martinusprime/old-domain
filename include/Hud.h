@@ -1,6 +1,5 @@
-#ifndef HUD_H
-#define HUD_H
 #pragma once
+
 #include <SFML/Graphics.hpp>
 #include <sstream>
 #include <iostream>
@@ -15,23 +14,21 @@
 class Hud
 {
 public:
-    Hud();
-    void init(RenderWindow *app_get, View *view_get, int screen_width_get, int screen_height_get);
+    Hud(RenderWindow *app, View *view, int screen_width, int screen_height);
     void draw();
     void draw_ressources();
-    virtual ~Hud();
-protected:
+    virtual ~Hud() = default;
+
 private:
-    View *view1;
-    RenderWindow *app;
+    View *m_view1;
+    RenderWindow *m_app;
     Event event;
-    int screen_width, screen_height, wood_number, current_season, current_year, year_lenght;
-    My_Sprite wood_sprite, iron_sprite, sand_sprite, glass_sprite, rock_sprite, season_sprite[4];
+    int m_screen_width, m_screen_height;
+    int wood_number, current_season, current_year, year_lenght;
+    My_Sprite wood_sprite, iron_sprite, sand_sprite, glass_sprite, rock_sprite;
+    vector<My_Sprite> season_sprites;
     My_Text wood_text, year_text;
     Clock season_clock, year_clock;
     Time season_time, year_time;
-
-
 };
 
-#endif // HUD_H
