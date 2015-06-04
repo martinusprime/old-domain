@@ -3,10 +3,10 @@
 const size_t Citizen::path_size;
 
 Citizen::Citizen(Grid &grid, RenderWindow *app, View *view, View *view2, Game_Manager &game_manager)
-: m_grid(grid)
-, m_sprite_creator1(app, m_view1)
-, m_goal_sprite(app, "ressources/goal.png", m_view1)
-, m_sprite(app, m_sprite_creator1.create_character(5), m_view1)
+    : m_grid(grid)
+    , m_sprite_creator1(app, m_view1)
+    , m_goal_sprite(app, "ressources/goal.png", m_view1)
+    , m_sprite(app, m_sprite_creator1.create_character(5, true), m_view1)
 , m_move_path(path_size, std::vector<int>(2))
 , m_path(path_size, std::vector<int>(2))
 , m_game_manager(game_manager)
