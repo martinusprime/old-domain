@@ -42,8 +42,8 @@ void Grid::loadFiles()
     {
         for (int j = 0; j <= 4; j++)
         {
-            m_resource[1].sprite[i + 5 * j] =My_Sprite{ m_app, "ressources/resources/stone.png", m_view1, 128, 5, 1 };
-            m_resource[1].sprite[i+5 * j].set_text_rect(i * 128, j * 64, 128, 64);
+            resource1.sprite[i + 5 * j] =My_Sprite{ m_app, "ressources/resources/stone.png", m_view1, 128, 5, 1 };
+            resource1.sprite[i+5 * j].set_text_rect(i * 128, j * 64, 128, 64);
         }
     }
     m_resource.push_back(resource1);
