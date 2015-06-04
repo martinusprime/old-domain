@@ -297,39 +297,39 @@ void Game_Manager::create_map(int map_width, int map_height)
             {
                 for (int j = 0; j< 10; j++)
                 {
-                    if (grid(i, j).ressource_type == RSC_STONE)
+                    if (m_grid(i, j).ressource_type == RSC_STONE)
                     {
-                        if (grid(i + 1, j).ressource_type == RSC_STONE
-                            && grid(i + 1, j + 1).ressource_type == RSC_STONE
-                            && grid(i, j + 1).ressource_type == RSC_STONE
-                            && grid(i - 1, j).ressource_type != RSC_STONE
-                            && grid(i - 1, j - 1).ressource_type != RSC_STONE
-                            && grid(i, j - 1).ressource_type != RSC_STONE)
+                        if (m_grid(i + 1, j).ressource_type == RSC_STONE
+                            && m_grid(i + 1, j + 1).ressource_type == RSC_STONE
+                            && m_grid(i, j + 1).ressource_type == RSC_STONE
+                            && m_grid(i - 1, j).ressource_type != RSC_STONE
+                            && m_grid(i - 1, j - 1).ressource_type != RSC_STONE
+                            && m_grid(i, j - 1).ressource_type != RSC_STONE)
                         {
 
-                            grid(i, j).resource_location = 0;
+                            m_grid(i, j).resource_location = 0;
 
                         }
-                        if (grid(i + 1, j).ressource_type != RSC_STONE
-                            && grid(i + 1, j + 1).ressource_type != RSC_STONE
-                            && grid(i, j + 1).ressource_type != RSC_STONE
-                            && grid(i - 1, j).ressource_type == RSC_STONE
-                            && grid(i - 1, j - 1).ressource_type == RSC_STONE
-                            && grid(i, j - 1).ressource_type == RSC_STONE)
+                        if (m_grid(i + 1, j).ressource_type != RSC_STONE
+                            && m_grid(i + 1, j + 1).ressource_type != RSC_STONE
+                            && m_grid(i, j + 1).ressource_type != RSC_STONE
+                            && m_grid(i - 1, j).ressource_type == RSC_STONE
+                            && m_grid(i - 1, j - 1).ressource_type == RSC_STONE
+                            && m_grid(i, j - 1).ressource_type == RSC_STONE)
                         {
 
-                            grid(i, j).resource_location = 19;
+                            m_grid(i, j).resource_location = 19;
 
                         }
-                        if (grid(i + 1, j).ressource_type == RSC_STONE
-                            && grid(i + 1, j + 1).ressource_type == RSC_STONE
-                            && grid(i, j + 1).ressource_type == RSC_STONE
-                            && grid(i - 1, j).ressource_type == RSC_STONE
-                            && grid(i - 1, j - 1).ressource_type != RSC_STONE
-                            && grid(i, j - 1).ressource_type != RSC_STONE)
+                        if (m_grid(i + 1, j).ressource_type == RSC_STONE
+                            && m_grid(i + 1, j + 1).ressource_type == RSC_STONE
+                            && m_grid(i, j + 1).ressource_type == RSC_STONE
+                            && m_grid(i - 1, j).ressource_type == RSC_STONE
+                            && m_grid(i - 1, j - 1).ressource_type != RSC_STONE
+                            && m_grid(i, j - 1).ressource_type != RSC_STONE)
                         {
 
-                            grid(i, j).resource_location = 1;
+                            m_grid(i, j).resource_location = 1;
 
                         }
                 }
