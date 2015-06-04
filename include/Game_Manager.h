@@ -4,23 +4,24 @@
 #include <sstream>
 #include <iostream>
 #include <cstdlib>
+#include <memory>
 #include <string>
 #include <cmath>
 
+#include "Building.h"
+#include "Button.h"
+#include "City.h"
+#include "dialog.h"
 #include "Key_event.h"
 #include "Grid.h"
+#include "Hud.h"
 #include "Menu.h"
-#include "dialog.h"
 #include "My_Sprite.h"
 #include "My_window.h"
-#include "Button.h"
-#include "Citizen.h"
-#include "Building.h"
-#include "City.h"
-#include "Sprite_Creator.h"
-#include "Hud.h"
-
 #include "PerlinNoise.h"
+#include "Sprite_Creator.h"
+#include "Unit.h"
+
 
 using namespace sf;
 
@@ -42,6 +43,8 @@ public:
     void draw();
     void quit();
     void update();
+    void show_action_button(Button &button);
+    void create_city(int x, int y);
     virtual ~Game_Manager() = default;
 
 private:
@@ -55,7 +58,7 @@ private:
 	void handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_vec);
     void move_unit(int unit_id);
     bool handle_input_events();
-    void citizen_update();
+    void update_units();
 	void highlight_selected_tile();
     void execute_action(Action action);
     void handle_mouse_at_window_border(int x_mouse, int y_mouse);
@@ -63,13 +66,14 @@ private:
     Key_event_handler key_event;
     RenderWindow *m_app;
     View m_view1;
-    View view2;
+    View m_view2;
     Vector2u window_vec;
-    Vector2f selection_vector;
+    //mouse related stuff:
+    Vector2f m_selection_vector;
+    int m_x_cursor, m_y_cursor;
+
     Texture tile_texture[10];
     bool is_menu_visible;
-    int x_cursor,y_cursor;
-    int iteration;
     Menu menu1;
     Clock clock_zoom;
     sf::Time zoom_time;
@@ -80,19 +84,19 @@ private:
     int deep_sea_rate;
     int deep_sea_expansion_rate;
     int y_offset;
-    int mouse_wheel_x;
+
     Zoom_change zoom_change;
     float zoom;
     float zoom_rate;
 
     static const int GRID_WIDTH = 40; //202;
     static const int GRID_HEIGHT = 40; //202;
-    Grid grid;
+    Grid m_grid;
 
-    int w, h, selected_citizen;
+    int m_w, m_h;
     int m_screen_y; //height of the game window height in pixels
     int m_screen_x; //width of the game window in pixels
-    vector<Citizen> m_citizens;
+
     My_Sprite selection_sprite;
     My_Sprite gui_1, action_sprite;
     My_Text selection_text[5], tile_info;
@@ -100,9 +104,9 @@ private:
     Hud interface1;
     vector<Building> m_buildings;
     int wood, iron, sand, glass, rock;
-    vector<Button> m_citizen_actions;
-    vector<City> m_cities;
-    dialog m_dialog;
+    dialog m_dialog;    
+    std::vector<std::shared_ptr<Unit> > m_units;
+    std::vector<City> m_cities;
 };
 
 #endif // GAME_MANAGER_H

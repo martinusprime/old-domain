@@ -16,3 +16,7 @@ Thumbs.db
 *.tlog
 *.ilk
 *.filters
+*.opensdf
+
+#git files
+.gitattributes

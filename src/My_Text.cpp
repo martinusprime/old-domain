@@ -8,24 +8,19 @@ My_Text::My_Text()
     //ctor
 }
 
-My_Text::My_Text(const My_Text &text_get)
+My_Text::My_Text(const My_Text &other)
 {
-    app = text_get.app;
-    event = text_get.event;
-    texture = text_get.texture;
-    sprite = text_get.sprite;
-    text1 = text_get.text1;
-    current_color = text_get.current_color;
+    m_app = other.m_app;
+    event = other.event;
+    texture = other.texture;
+    sprite = other.sprite;
+    text1 = other.text1;
+    current_color = other.current_color;
 }
 
-My_Text::~My_Text()
+void My_Text::init(RenderWindow *app, std::string content, int character_size, bool color)
 {
-    //dtor
-}
-
-void My_Text::init(RenderWindow *app_get, string content, int character_size, bool color)
-{
-    app = app_get;
+    m_app = app;
     if(!texture.loadFromFile("ressources/menu_background.png"))
     {
 
@@ -52,9 +47,10 @@ void My_Text::init(RenderWindow *app_get, string content, int character_size, bo
 
     }
 }
-void My_Text::init(RenderWindow *app_get, string content, int character_size, bool color, int color_r,  int color_g, int color_b)
+
+void My_Text::init(RenderWindow *app, std::string content, int character_size, bool color, int color_r,  int color_g, int color_b)
 {
-    app = app_get;
+    m_app = app;
     if(font1.loadFromFile("ressources/font2.ttf"))
     {
         current_color = {
@@ -75,14 +71,15 @@ void My_Text::draw(int x, int y, int character_size)
     text1.setPosition(x, y);
     text1.setCharacterSize(character_size);
 
-    app->draw(text1);
+    m_app->draw(text1);
 }
-void My_Text::refill(string content)
+
+void My_Text::refill(std::string content)
 {
     text1.setString(content.c_str());
 }
 
-void My_Text::change_font(string font_file)
+void My_Text::change_font(std::string font_file)
 {
     font1.loadFromFile(font_file);
     text1.setFont(font1);

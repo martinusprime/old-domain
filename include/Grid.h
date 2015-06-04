@@ -41,7 +41,6 @@ class Tile
 {
 public:
     void draw();
-
     int m_type;
     int random_pattern;
     int influence_point;
@@ -70,13 +69,11 @@ public:
     void draw();
 
 private:
-
-	std::vector<std::vector<Tile> > m_grid;
+    std::vector<std::vector<Tile> > m_grid;
 	std::vector<Resource> m_resource;
     sf::View *m_view1;
     sf::RenderWindow *m_app;
     Sprite_Creator m_sprite_creator1;
-
     Clock clock1;
     Time time1;
 };
