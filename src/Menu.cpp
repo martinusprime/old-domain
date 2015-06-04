@@ -1,19 +1,11 @@
 #include "Menu.h"
 
-Menu::Menu()
+Menu::Menu(RenderWindow *app, View *view1)
+: sprite(app, "ressources/menu_background.png", view1)
 {
-    //ctor
-}
+    m_app = app;
+    m_view1 = view1;
 
-Menu::~Menu()
-{
-    //dtor
-}
-void Menu::init(RenderWindow *app_get, View *view1_get)
-{
-    app = app_get;
-    view1 = view1_get;
-    sprite.init(app, "ressources/menu_background.png", view1);
     text1.init(app, "Ton puissant Royaume", 24, 0);
 }
 

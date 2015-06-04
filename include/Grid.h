@@ -1,5 +1,4 @@
-#ifndef GRID_H
-#define GRID_H
+#pragma once
 
 #include <stdlib.h>
 #include <vector>
@@ -36,7 +35,6 @@ struct Resource
 	int solidity;
 	string name;
 	My_Sprite sprite;
-
 };
 
 class Tile
@@ -56,8 +54,8 @@ public:
     bool passing_through;
     Owner_enum owner;
     Ressources_type_enum ressource_type;
-    static My_Sprite tile_sprite[10];
-    static My_Sprite influence_sprite;
+    static vector<My_Sprite> tile_sprites;
+    static vector<My_Sprite> influence_sprites;
     static const Tile_dimension tile_size;
 };
 
@@ -68,7 +66,7 @@ public:
     virtual ~Grid() = default;
     void loadFiles();
     //get tile at position
-    struct Tile &operator()(size_t x, size_t y);
+    Tile &operator()(size_t x, size_t y);
     void draw();
 
 private:
@@ -83,4 +81,3 @@ private:
     Time time1;
 };
 
-#endif // GRID_H

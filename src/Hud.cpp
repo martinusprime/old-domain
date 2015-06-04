@@ -1,49 +1,37 @@
 #include "Hud.h"
 
-Hud::Hud()
+Hud::Hud(RenderWindow *app, View *view, int screen_width, int screen_height)
+    : m_view1(view) 
+    , rock_sprite(app, "ressources/rock.png", m_view1)
+    , iron_sprite(app, "ressources/iron.png", m_view1)
+    , wood_sprite(app, "ressources/wood.png", m_view1) 
 {
     wood_number = 0;
     current_season = 0;
     current_year = -4000;
     year_lenght = 16;
-}
 
-Hud::~Hud()
-{
-    //dtor
-}
-void Hud::init(RenderWindow *app_get, View *view_get, int screen_width_get, int screen_height_get)
-{
-    view1 = view_get;
-    app = app_get;
-    screen_width = screen_width_get;
-//initiation of resources_icones
-    rock_sprite.init(app, "ressources/rock.png", view1);
-    iron_sprite.init(app, "ressources/iron.png", view1);
-    wood_sprite.init(app, "ressources/wood.png", view1);
+    m_app = app;
+    m_screen_width = screen_width;
 
-//seasons icons
-    season_sprite[0].init(app, "ressources/summer.png", view1);
-    season_sprite[1].init(app, "ressources/autumn.png", view1);
-    season_sprite[2].init(app, "ressources/winter.png", view1);
-    season_sprite[3].init(app, "ressources/spring.png", view1);
+   //seasons icons
+    season_sprites.push_back(My_Sprite{ app, "ressources/summer.png", m_view1 });
+    season_sprites.push_back(My_Sprite{ app, "ressources/autumn.png", m_view1 });
+    season_sprites.push_back(My_Sprite{ app, "ressources/winter.png", m_view1 });
+    season_sprites.push_back(My_Sprite{ app, "ressources/spring.png", m_view1 });
 
     season_clock.restart();
     year_clock.restart();
     //make woodnumber int to string
-    stringstream ss;
-    ss << wood_number;
-    string str = ss.str();
-    wood_text.init(app, str.c_str(), 12, 1 );
+    wood_text.init(app, std::to_string(wood_number), 12, 1 );
 
     year_text.init(app, "-4000" , 12, 1 );
 }
 
 void Hud::draw_ressources()
 {
-    wood_sprite.draw( (screen_width / 2 )- 40,0 );
-    wood_text.draw(screen_width / 2,0, 22 );
-
+    wood_sprite.draw( (m_screen_width / 2 )- 40,0 );
+    wood_text.draw(m_screen_width / 2,0, 22 );
 }
 
 void Hud::draw()
@@ -61,13 +49,10 @@ void Hud::draw()
         }
         season_clock.restart();
     }
-    season_sprite[current_season].draw( screen_width - 40, 0 );
+    season_sprites[current_season].draw( m_screen_width - 40, 0);
 
     //displaying the year
-    stringstream ss;
-    ss << current_year;
-    string str = ss.str();
-    year_text.refill(str);
+    year_text.refill(std::to_string(current_year));
 
     year_time = year_clock.getElapsedTime();
 
@@ -81,6 +66,5 @@ void Hud::draw()
         year_clock.restart();
     }
 
-    year_text.draw( screen_width - 110, 0 , 22);
-
+    year_text.draw( m_screen_width - 110, 0 , 22);
 }

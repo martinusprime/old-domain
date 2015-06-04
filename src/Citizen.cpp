@@ -2,30 +2,27 @@
 
 const size_t Citizen::path_size;
 
-Citizen::Citizen(Grid &grid, RenderWindow *app_get, View *view_get)
+Citizen::Citizen(Grid &grid, RenderWindow *app, View *view)
 : m_grid(grid)
+, m_sprite_creator1(app, m_view1)
+, m_goal_sprite(app, "ressources/goal.png", m_view1)
+, m_sprite(app, m_sprite_creator1.create_character(5), m_view1)
 , m_move_path(path_size, std::vector<int>(2))
 , m_path(path_size, std::vector<int>(2))
 {
     over_city = false;
     has_goal = false;
     move_clock.restart();
-    view1 = view_get;
-    app = app_get;
-    goal_sprite.init(app, "ressources/goal.png", view1);
+    m_view1 = view;
+    m_app = app;
+
     x = 0;
     y = 0;
     path_place = 0;
     path_number = 0;
     m_is_selected = false;
-    sprite_creator1.init(app, view1);
-    sprite.init(app,sprite_creator1.create_character(5), view1);
-    name.init(app, sprite_creator1.get_character_name(), 25,  1);
-}
 
-Citizen::~Citizen()
-{
-    //dtor
+    m_name.init(app, m_sprite_creator1.get_character_name(), 25,  1);
 }
 
 int Citizen::get_x()
@@ -45,12 +42,12 @@ bool Citizen::get_goal()
 
 void Citizen::draw()
 {
-    sprite.draw( ( x - y) * 64 + 50, (y +x) * 32 );
-    name.draw(( x - y)  * 64, ( x + y - 1)  * 32 - 10, 10);
+    m_sprite.draw( ( x - y) * 64 + 50, (y +x) * 32 );
+    m_name.draw(( x - y)  * 64, ( x + y - 1)  * 32 - 10, 10);
 
     if(has_goal)
     {
-        goal_sprite.draw( ( m_goal_x - m_goal_y) * 64, (m_goal_x +m_goal_y) * 32);
+        m_goal_sprite.draw( ( m_goal_x - m_goal_y) * 64, (m_goal_x +m_goal_y) * 32);
     }
 }
 void Citizen::set_goal(int goal_x , int goal_y)
@@ -59,7 +56,7 @@ void Citizen::set_goal(int goal_x , int goal_y)
         //also to reset pass_through tiles
         reset_goal();
     }
-    sprite.add_color(255, 255, 255, 255);
+    m_sprite.add_color(255, 255, 255, 255);
 
     path_place = 0;
     m_goal_x = goal_x;
@@ -138,7 +135,7 @@ void Citizen::set_path(int x_path, int y_path, int path_id)
 void Citizen::select()
 {
     m_is_selected = true;
-    sprite.add_color(90, 120, 40, 255);
+    m_sprite.add_color(90, 120, 40, 255);
 }
 
 void Citizen::deselect()
@@ -158,7 +155,7 @@ bool Citizen::is_on_city()
 
 Sprite Citizen::get_sprite()
 {
-    return sprite.get_sprite();
+    return m_sprite.get_sprite();
 }
 
 bool Citizen::is_selected()

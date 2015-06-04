@@ -1,5 +1,5 @@
-#ifndef MY_SPRITE_H
-#define MY_SPRITE_H
+#pragma once
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <sstream>
@@ -15,18 +15,20 @@ class My_Sprite
 {
 public:
     My_Sprite();
+    My_Sprite(RenderWindow *app, string file, View *view);
+    My_Sprite(RenderWindow *app, string file, View *view, int file_number);
+    My_Sprite(RenderWindow *app, string file, View *view, int animation_width, int animation_length, float total_animation_time);
+    
     /* copy constructor */
     My_Sprite(const My_Sprite &other);
+
     void draw(int x, int y);
     void draw_tile(int x, int y, int random);
-    void init(RenderWindow *app, string file, View *view);
-    void init(RenderWindow *app, string file, View *view, int file_number);
-    void init(RenderWindow *app, string file, View *view, int animation_width, int animation_length, float total_animation_time);
     void scale(float x_rate, float y_rate);
     int get_w();
     int get_h();
-	void add_sprite(My_Sprite *added_sprite, string save_slot, int width);
-    void add_sprite( My_Sprite *added_sprite, int sunlight);
+	void add_sprite(My_Sprite added_sprite, string save_slot, int width);
+    void add_sprite( My_Sprite added_sprite, int sunlight);
     sf::Sprite get_sprite();
     void set_color(int r, int g, int b, int alpha);
     void set_color(Color color_get);
@@ -50,4 +52,3 @@ private:
     IntRect m_animation_rect;
 };
 
-#endif // MY_SPRITE_H

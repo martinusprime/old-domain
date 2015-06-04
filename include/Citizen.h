@@ -1,5 +1,3 @@
-#ifndef CITIZEN_H
-#define CITIZEN_H
 #pragma once
 
 #include <SFML/Graphics.hpp>
@@ -18,8 +16,8 @@
 class Citizen
 {
 public:
-    Citizen(Grid &grid, RenderWindow *app_get, View *view_get);
-    virtual ~Citizen();
+    Citizen(Grid &grid, RenderWindow *app, View *view);
+    virtual ~Citizen() = default;
 
     void select();
     void deselect();
@@ -45,17 +43,17 @@ private:
     void find_path();
 
     Grid &m_grid;
-    View *view1;
-    RenderWindow *app;
+    View *m_view1;
+    RenderWindow *m_app;
     Event event;
     bool has_goal;
     bool m_is_selected;
     bool over_city;
     Clock move_clock;
     Time elapsed_move;
-    My_Sprite sprite;
-    My_Sprite goal_sprite;
-    Sprite_Creator sprite_creator1;
+    Sprite_Creator m_sprite_creator1;
+    My_Sprite m_goal_sprite;
+    My_Sprite m_sprite;
     /* path through which the citizen move, -1 for no path */
     vector<vector<int> > m_move_path;
     int x, y, m_goal_x, m_goal_y, path_place, path_number;
@@ -63,9 +61,8 @@ private:
     vector<vector<int> > m_path;
     Tile over_tile;
     //CITIZEN INFO
-    My_Text name;
-    int age;
+    My_Text m_name;
+    int m_age;
 
 };
 
-#endif // CITIZEN_H

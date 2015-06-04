@@ -22,7 +22,7 @@ My_Sprite::My_Sprite(const My_Sprite &other)
     /* sf::Sprite can not simply be copied, see "white square problem":
     http://www.sfml-dev.org/tutorials/2.1/graphics-sprite.php#the-white-square-problem */
     m_sprite = other.m_sprite;
-    m_texture.loadFromFile(m_file.c_str());
+    m_texture.loadFromFile(m_file);
     m_sprite.setTexture(m_texture);
 
     m_animation_width = other.m_animation_width;
@@ -33,14 +33,14 @@ My_Sprite::My_Sprite(const My_Sprite &other)
     m_animation_rect = other.m_animation_rect;
 }
 
-void My_Sprite::init(RenderWindow *app, std::string file, View *view)
+My_Sprite::My_Sprite(RenderWindow *app, std::string file, View *view)
 {
     m_total_animation_time =0;
 
     m_view1 = view;
     m_file = file;
     m_app = app;
-    m_texture.loadFromFile(m_file.c_str());
+    m_texture.loadFromFile(m_file);
 	m_texture.setSmooth(true);
     m_sprite.setTexture(m_texture);
 
@@ -49,12 +49,7 @@ void My_Sprite::init(RenderWindow *app, std::string file, View *view)
     m_h = a.height;
 }
 
-sf::Sprite My_Sprite::get_sprite()
-{
-    return m_sprite;
-}
-
-void My_Sprite::init(RenderWindow *app, std::string file, View *view, int file_number)
+My_Sprite::My_Sprite(RenderWindow *app, std::string file, View *view, int file_number)
 {
     m_total_animation_time =0;
 
@@ -96,7 +91,7 @@ void My_Sprite::init(RenderWindow *app, std::string file, View *view, int file_n
 
 }
 
-void My_Sprite::init(RenderWindow *app, string file, View *view, int animation_width, int animation_length, float total_animation_time)
+My_Sprite::My_Sprite(RenderWindow *app, string file, View *view, int animation_width, int animation_length, float total_animation_time)
 {
     m_view1 = view;
     m_file = file;
@@ -119,13 +114,17 @@ void My_Sprite::init(RenderWindow *app, string file, View *view, int animation_w
     m_clock1.restart();
 }
 
+sf::Sprite My_Sprite::get_sprite()
+{
+    return m_sprite;
+}
 
 string My_Sprite::get_file()
 {
     return m_file;
 }
 
-void My_Sprite::add_sprite(My_Sprite *added_sprite, string save_slot, int width)
+void My_Sprite::add_sprite(My_Sprite added_sprite, string save_slot, int width)
 {
     m_animation_rect.height = m_h;
     m_animation_rect.width = m_w;
@@ -135,7 +134,7 @@ void My_Sprite::add_sprite(My_Sprite *added_sprite, string save_slot, int width)
     Image background;
     background.loadFromFile(m_file);
     Image background2;
-    background2.loadFromFile(added_sprite->get_file());
+    background2.loadFromFile(added_sprite.get_file());
 
     sf::Image image;
     image.create(width, m_h);
@@ -151,7 +150,7 @@ void My_Sprite::add_sprite(My_Sprite *added_sprite, string save_slot, int width)
     m_sprite.setTexture(m_texture);
 }
 
-void My_Sprite::add_sprite(My_Sprite *added_sprite, int sunlight_get)
+void My_Sprite::add_sprite(My_Sprite added_sprite, int sunlight_get)
 {
     m_animation_rect.height = 64;
     m_animation_rect.width = 128;
@@ -164,7 +163,7 @@ void My_Sprite::add_sprite(My_Sprite *added_sprite, int sunlight_get)
     Image background;
     background.loadFromFile(m_file);
     Image background2;
-    background2.loadFromFile(added_sprite->get_file());
+    background2.loadFromFile(added_sprite.get_file());
 
     sf::Image image;
     image.create(128, 64);
