@@ -119,6 +119,17 @@ void My_Sprite::init(RenderWindow *app, string file, View *view, int animation_w
     m_clock1.restart();
 }
 
+void My_Sprite::set_text_rect(int x, int y, int w, int h)
+{
+    m_w =w;
+    m_h = h;
+    m_animation_rect.height = m_h;
+    m_animation_rect.width = m_w;
+    m_animation_rect.top = y;
+    m_animation_rect.left = x;
+    m_sprite.setTextureRect(m_animation_rect);
+
+}
 
 string My_Sprite::get_file()
 {

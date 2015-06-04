@@ -125,19 +125,19 @@ void Game_Manager::handle_mouse_at_window_border(int x_mouse, int y_mouse)
             //we are already too far outside the grid, do nothing
             return;
         }
-        if (x_mouse < 5)
+        if (x_mouse < 15)
         {
             execute_action(ACT_GO_LEFT);
         }
-        else if (x_mouse > static_cast<int>(windowSize.x - 5))
+        else if (x_mouse > static_cast<int>(windowSize.x - 15))
         {
             execute_action(ACT_GO_RIGHT);
         }
 
-        if (y_mouse < 5) {
+        if (y_mouse < 15) {
             execute_action(ACT_GO_UP);
         }
-        else if (y_mouse > static_cast<int>(windowSize.y - 5))
+        else if (y_mouse > static_cast<int>(windowSize.y - 35))
         {
             execute_action(ACT_GO_DOWN);
         }
@@ -335,9 +335,58 @@ void Game_Manager::create_map(int map_width, int map_height)
             grid(i, j).ressource_type = RSC_WOOD;
             grid(i, j).owner = PLAYER2;
             grid(i, j).random_pattern = rand() % +5;
+            //test for stone
+            if (i < 5 && j < 5 && i> 0 && j > 0)
+            {
+                grid(i, j).ressource_type = RSC_STONE;
+                grid(i, j).resource_location = 11;
 
+            }
         }
     }
+            for (int i =0; i <10; i++)
+            {
+                for (int j = 0; j< 10; j++)
+                {
+                    if (grid(i, j).ressource_type == RSC_STONE)
+                    {
+                        if (grid(i + 1, j).ressource_type == RSC_STONE
+                            && grid(i + 1, j + 1).ressource_type == RSC_STONE
+                            && grid(i, j + 1).ressource_type == RSC_STONE
+                            && grid(i - 1, j).ressource_type != RSC_STONE
+                            && grid(i - 1, j - 1).ressource_type != RSC_STONE
+                            && grid(i, j - 1).ressource_type != RSC_STONE)
+                        {
+
+                            grid(i, j).resource_location = 0;
+
+                        }
+                        if (grid(i + 1, j).ressource_type != RSC_STONE
+                            && grid(i + 1, j + 1).ressource_type != RSC_STONE
+                            && grid(i, j + 1).ressource_type != RSC_STONE
+                            && grid(i - 1, j).ressource_type == RSC_STONE
+                            && grid(i - 1, j - 1).ressource_type == RSC_STONE
+                            && grid(i, j - 1).ressource_type == RSC_STONE)
+                        {
+
+                            grid(i, j).resource_location = 19;
+
+                        }
+                        if (grid(i + 1, j).ressource_type == RSC_STONE
+                            && grid(i + 1, j + 1).ressource_type == RSC_STONE
+                            && grid(i, j + 1).ressource_type == RSC_STONE
+                            && grid(i - 1, j).ressource_type == RSC_STONE
+                            && grid(i - 1, j - 1).ressource_type != RSC_STONE
+                            && grid(i, j - 1).ressource_type != RSC_STONE)
+                        {
+
+                            grid(i, j).resource_location = 1;
+
+                        }
+                }
+                   
+            }
+        }
     //perlin noise experimentation
     PerlinNoise perlin4;
     //perlin4.Set(persistence, frequence, amplitude, octave, 20);

@@ -44,15 +44,15 @@ string Sprite_Creator::create_character( int sunlight_get)
     eyes.set_color(color_maker(0 , 1, 1, false, true));
     whole.add_sprite(&eyes, "ressources/generated/character/character01.png", 128);
 
-
+    srand(time(0));
 
     string temp_name[3];
-    int random = rand() %2 + 5;
+    int random = rand()% + 4;
     ifstream name_file("ressources/character/names.txt");
 
     if(name_file)
     {
-        for(int i = 0; i< random; i++)
+        for(int i = 0; i<= random; i++)
         {
             temp_name[0] = "";
             name_file >> temp_name[0];
@@ -60,10 +60,10 @@ string Sprite_Creator::create_character( int sunlight_get)
 
     }
     ifstream name_file2("ressources/character/suffixes.txt");
-    random = rand()%2 + 5;
+    random = rand()% +4;
     if(name_file2)
     {
-        for(int i = 0; i< random; i++)
+        for(int i = 0; i<= random; i++)
         {
             temp_name[1] = "";
             name_file2 >> temp_name[1];
@@ -71,11 +71,11 @@ string Sprite_Creator::create_character( int sunlight_get)
 
     }
     ifstream name_file3("ressources/character/last_names.txt");
-    random = rand()% 2+ 5;
+    random = rand()% + 4;
 
     if(name_file3)
     {
-        for(int i = 0; i< random; i++)
+        for(int i = 0; i<= random; i++)
         {
             temp_name[2] = "";
             name_file3 >> temp_name[2];
