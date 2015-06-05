@@ -22,32 +22,64 @@ string Sprite_Creator::get_resource_name()
         return resource_name;
 }
 
-string Sprite_Creator::create_character( int sunlight_get)
+string Sprite_Creator::create_character( int sunlight_get, bool woman)
 {
+    My_Sprite whole(m_app, "ressources/empty.png", m_view1);;
+    if (woman)
+    {
+        My_Sprite skin(m_app, "ressources/generated/character/base_skinf.png", m_view1);
+        My_Sprite eyes(m_app, "ressources/generated/character/eyes", m_view1, 10);
+        My_Sprite hair(m_app, "ressources/generated/character/hairf", m_view1, 10);
+        whole.add_sprite(skin, sunlight_get);
+        hair.set_color(color_maker(1, 1, 1, true, false));
+        whole.add_sprite(hair, "ressources/generated/character/character01.png", 128);
+        eyes.set_color(color_maker(0, 1, 1, false, true));
+        whole.add_sprite(eyes, "ressources/generated/character/character01.png", 128);
+    }
+    else
+    {
+        My_Sprite skin(m_app, "ressources/generated/character/base_skin.png", m_view1);
+        My_Sprite eyes(m_app, "ressources/generated/character/eyes", m_view1, 10);
+        My_Sprite hair(m_app, "ressources/generated/character/hair", m_view1, 10);
+        whole.add_sprite(skin, sunlight_get);
+        hair.set_color(color_maker(1, 1, 1, true, false));
+        whole.add_sprite(hair, "ressources/generated/character/character01.png", 128);
+        eyes.set_color(color_maker(0, 1, 1, false, true));
+        whole.add_sprite(eyes, "ressources/generated/character/character01.png", 128);
+    }
     My_Sprite skin(m_app, "ressources/generated/character/base_skin.png", m_view1);
-    My_Sprite eyes(m_app, "ressources/generated/character/eyes", m_view1, 10 );
-    My_Sprite hair(m_app, "ressources/generated/character/hair", m_view1, 10);
-    My_Sprite whole(m_app, "ressources/empty.png", m_view1);
-    whole.add_sprite(skin, sunlight_get);
-    hair.set_color(color_maker(1, 1, 1, true, false));
-    whole.add_sprite(hair, "ressources/generated/character/character01.png", 128);
-    eyes.set_color(color_maker(0 , 1, 1, false, true));
-    whole.add_sprite(eyes, "ressources/generated/character/character01.png", 128);
-
+   
     srand(static_cast<unsigned int>(time(0)));
 
     string temp_name[3];
-    int random = rand()% + 4;
-    ifstream name_file("ressources/character/names.txt");
-
-    if(name_file)
+    int random = rand()% + 6;
+    if (woman)
     {
-        for(int i = 0; i<= random; i++)
+        ifstream name_file("ressources/character/namesf.txt");
+
+        if (name_file)
         {
-            temp_name[0] = "";
-            name_file >> temp_name[0];
+            for (int i = 0; i <= random; i++)
+            {
+                temp_name[0] = "";
+                name_file >> temp_name[0];
+            }
         }
     }
+    else
+    {
+        ifstream name_file("ressources/character/names.txt");
+
+        if (name_file)
+        {
+            for (int i = 0; i <= random; i++)
+            {
+                temp_name[0] = "";
+                name_file >> temp_name[0];
+            }
+        }
+    }
+  
 
     ifstream name_file2("ressources/character/suffixes.txt");
 
