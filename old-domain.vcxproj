@@ -84,6 +84,7 @@
     <ClCompile Include="src\Menu.cpp" />
     <ClCompile Include="src\My_Sprite.cpp" />
     <ClCompile Include="src\My_Text.cpp" />
+    <ClCompile Include="src\File_Loader.cpp" />
     <ClCompile Include="src\My_window.cpp" />
     <ClCompile Include="src\PerlinNoise.cpp" />
     <ClCompile Include="src\Skills.cpp" />
@@ -105,6 +106,7 @@
     <ClInclude Include="include\Menu.h" />
     <ClInclude Include="include\My_Sprite.h" />
     <ClInclude Include="include\My_Text.h" />
+    <ClInclude Include="include\File_Loader.h" />
     <ClInclude Include="include\My_window.h" />
     <ClInclude Include="include\PerlinNoise.h" />
     <ClInclude Include="include\Skills.h" />

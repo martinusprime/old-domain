@@ -54,9 +54,9 @@ void My_Text::init(RenderWindow *app, std::string content, int character_size, b
     if(font1.loadFromFile("ressources/font2.ttf"))
     {
         current_color = {
-			static_cast<uint8_t>(color_r), static_cast<uint8_t>(color_g), static_cast<uint8_t>(color_b)};
+		static_cast<uint8_t>(color_r), static_cast<uint8_t>(color_g), static_cast<uint8_t>(color_b)};
         text1.setFont(font1);
-        text1.setString(content.c_str());
+        text1.setString(content);
         text1.setCharacterSize(character_size);
         text1.setColor(current_color);
     }

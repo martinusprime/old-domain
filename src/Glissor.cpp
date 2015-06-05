@@ -1,12 +1,12 @@
 #include "Glissor.h"
 
 Glissor::Glissor(const Glissor &glissor_get)
+    : m_bar(glissor_get.m_bar)
+    , m_cursor_bar(glissor_get.m_cursor_bar)
 {
-
     m_view1 = glissor_get.m_view1;
     m_app = glissor_get.m_app;
-    m_bar = glissor_get.m_bar;
-    m_cursor_bar = glissor_get.m_cursor_bar;
+
     m_x = glissor_get.m_x;
     m_y = glissor_get.m_y;
     m_value = glissor_get.m_value;
@@ -15,8 +15,7 @@ Glissor::Glissor(const Glissor &glissor_get)
     m_mouse_on = glissor_get.m_mouse_on;
     m_a = glissor_get.m_a;
     m_mouse_vec = glissor_get.m_mouse_vec;
-    m_rate = glissor_get.m_rate;
-	
+    m_rate = glissor_get.m_rate;	
 }
 
 Glissor::Glissor(RenderWindow *app, int x, int y, int window_x, int window_y, View *view1)

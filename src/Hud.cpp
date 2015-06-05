@@ -1,10 +1,12 @@
 #include "Hud.h"
 
 Hud::Hud(RenderWindow *app, View *view, int screen_width, int screen_height)
-    : m_view1(view) 
-    , rock_sprite(app, "ressources/rock.png", m_view1)
+    : m_view1(view)    
+    , wood_sprite(app, "ressources/wood.png", m_view1)
     , iron_sprite(app, "ressources/iron.png", m_view1)
-    , wood_sprite(app, "ressources/wood.png", m_view1) 
+    , rock_sprite(app, "ressources/rock.png", m_view1)
+    , glass_sprite(app, "ressources/wood.png", m_view1) //TODO
+    , sand_sprite(app, "ressources/wood.png", m_view1) //TODO
 {
     wood_number = 0;
     current_season = 0;

@@ -31,9 +31,6 @@ enum Caracteristic {
     CRC_HEIGTH
 };
 
-
-
-
 enum Zoom_change { ZOOM_NO_CHANGE, ZOOM_ADD, ZOOM_LESS };
 
 class Game_Manager

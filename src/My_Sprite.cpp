@@ -1,8 +1,11 @@
+#include "File_Loader.h"
 #include "My_Sprite.h"
+
 
 My_Sprite::My_Sprite()
 {
-    m_total_animation_time =0;
+    //I'm not sure if we should leave this constructor, m_file will be empty and the object does
+    //not have a valid state.
 }
 
 My_Sprite::My_Sprite(const My_Sprite &other)
@@ -22,8 +25,10 @@ My_Sprite::My_Sprite(const My_Sprite &other)
     /* sf::Sprite can not simply be copied, see "white square problem":
     http://www.sfml-dev.org/tutorials/2.1/graphics-sprite.php#the-white-square-problem */
     m_sprite = other.m_sprite;
-    m_texture.loadFromFile(m_file);
-    m_sprite.setTexture(m_texture);
+    if (m_file != "") {
+        FileLoader<sf::Texture>::loadFile(m_texture, m_file);
+        m_sprite.setTexture(m_texture);
+    }
 
     m_animation_width = other.m_animation_width;
     m_animation_length = other.m_animation_length;
@@ -40,7 +45,7 @@ My_Sprite::My_Sprite(RenderWindow *app, std::string file, View *view)
     m_view1 = view;
     m_file = file;
     m_app = app;
-    m_texture.loadFromFile(m_file);
+    FileLoader<Texture>::loadFile(m_texture, m_file);
 	m_texture.setSmooth(true);
     m_sprite.setTexture(m_texture);
 
@@ -80,7 +85,7 @@ My_Sprite::My_Sprite(RenderWindow *app, std::string file, View *view, int file_n
     }
     else
     {
-        m_texture.loadFromFile(m_file);
+        FileLoader<Texture>::loadFile(m_texture, m_file);
     }
 	m_texture.setSmooth(true);
     m_sprite.setTexture(m_texture);
@@ -96,7 +101,7 @@ My_Sprite::My_Sprite(RenderWindow *app, string file, View *view, int animation_w
     m_view1 = view;
     m_file = file;
     m_app = app;
-    m_texture.loadFromFile(m_file);
+    FileLoader<Texture>::loadFile(m_texture, m_file);
 	m_texture.setSmooth(true);
     m_sprite.setTexture(m_texture);
 
@@ -142,9 +147,9 @@ void My_Sprite::add_sprite(My_Sprite added_sprite, string save_slot, int width)
     m_animation_rect.left = 0;
 
     Image background;
-    background.loadFromFile(m_file);
+    FileLoader<Image>::loadFile(background, m_file);
     Image background2;
-    background2.loadFromFile(added_sprite.get_file());
+    FileLoader<Image>::loadFile(background2, added_sprite.get_file());
 
     sf::Image image;
     image.create(width, m_h);
@@ -155,7 +160,7 @@ void My_Sprite::add_sprite(My_Sprite added_sprite, string save_slot, int width)
     image.saveToFile(save_slot);
 
 
-    m_texture.loadFromFile(save_slot);
+    FileLoader<Texture>::loadFile(m_texture, save_slot);
     m_file = save_slot;
     m_sprite.setTexture(m_texture);
 }
@@ -171,9 +176,9 @@ void My_Sprite::add_sprite(My_Sprite added_sprite, int sunlight_get)
     Texture texture2;
 
     Image background;
-    background.loadFromFile(m_file);
+    FileLoader<Image>::loadFile(background, m_file);
     Image background2;
-    background2.loadFromFile(added_sprite.get_file());
+    FileLoader<Image>::loadFile(background2, added_sprite.get_file());
 
     sf::Image image;
     image.create(128, 64);
@@ -250,7 +255,7 @@ void My_Sprite::scale(float x_rate, float y_rate)
 void My_Sprite::set_color(Color color_get)
 {
     Image image1;
-    image1.loadFromFile(m_file);
+    FileLoader<Image>::loadFile(image1, m_file);
 
     Color ancient_pixel;
     Vector2u image_size;

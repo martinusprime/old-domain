@@ -217,6 +217,11 @@ void Game_Manager::update_units()
 
 void Game_Manager::draw()
 {
+    static sf::Clock render_clock;
+    if (render_clock.getElapsedTime().asMilliseconds() < 2) {
+        return;
+    }
+    render_clock.restart();
     m_app->clear();
     if(! is_menu_visible)
     {

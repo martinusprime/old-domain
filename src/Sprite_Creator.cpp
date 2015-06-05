@@ -78,7 +78,8 @@ string Sprite_Creator::create_character( int sunlight_get)
 
 string Sprite_Creator::create_resources( int resources_id)
 {
-    resources_sprites.push_back(My_Sprite{});
+    //TODO what is resources_sprites[0] supposed to contain???
+    resources_sprites.push_back(My_Sprite{ m_app, "ressources/generated/resources/tree_trunk", m_view1, 5 });
     My_Sprite whole(m_app, "ressources/empty_tile.png", m_view1);
 
     resources_sprites.push_back(My_Sprite{ m_app, "ressources/generated/resources/tree_trunk", m_view1, 5 });

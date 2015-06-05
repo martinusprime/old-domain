@@ -35,14 +35,16 @@ struct Resource
 	int flexibility;
 	int solidity;
 	string name;
-	My_Sprite sprite[25];
-
+	std::vector<My_Sprite> m_sprites;
 };
 
 class Tile
 {
 public:
     void draw();
+
+    static const int TILE_WIDTH = 128;
+    static const int TILE_HEIGHT = 64;
     int m_type;
     int random_pattern;
     int resource_location;
