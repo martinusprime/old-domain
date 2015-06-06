@@ -42,11 +42,13 @@ void Grid::loadFiles()
     for (int i = 0; i < 26; i++) {
         resource1.m_sprites.push_back(My_Sprite{ m_app, "ressources/resources/stone.png", m_view1, 128, 5, 1 });
     }
-    for (int i = 0; i <= 4; i++)
+
+    for (int j = 0; j < 5; j++)
     {
-        for (int j = 0; j <= 4; j++)
+        for (int i = 0; i <= 4; i++)
         {
-            resource1.m_sprites[i + 5 * j].set_text_rect(i * Tile::TILE_WIDTH, j * Tile::TILE_HEIGHT, Tile::TILE_WIDTH, Tile::TILE_HEIGHT);
+            resource1.m_sprites[i + (5 * j)].set_text_rect(i * Tile::TILE_WIDTH, j * Tile::TILE_HEIGHT, Tile::TILE_WIDTH, Tile::TILE_HEIGHT);
+            cout << "i " << i << " j" << j;
         }
     }
     m_resource.push_back(resource1);

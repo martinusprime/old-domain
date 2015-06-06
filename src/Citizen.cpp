@@ -76,7 +76,6 @@ void Citizen::set_goal(int goal_x , int goal_y)
         //also to reset pass_through tiles
         reset_goal();
     }
-    m_sprite.add_color(255, 255, 255, 255);
 
     path_place = 0;
     m_goal_x = goal_x;
@@ -162,6 +161,7 @@ void Citizen::select()
 void Citizen::deselect()
 {
     m_is_selected = false;
+    m_sprite.add_color(255, 255, 255, 255);
 
 }
 

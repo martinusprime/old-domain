@@ -110,18 +110,20 @@ string Sprite_Creator::create_character( int sunlight_get, bool woman)
 
 string Sprite_Creator::create_resources( int resources_id)
 {
-    //TODO what is resources_sprites[0] supposed to contain???
-    resources_sprites.push_back(My_Sprite{ m_app, "ressources/generated/resources/tree_trunk", m_view1, 5 });
     My_Sprite whole(m_app, "ressources/empty_tile.png", m_view1);
 
     resources_sprites.push_back(My_Sprite{ m_app, "ressources/generated/resources/tree_trunk", m_view1, 5 });
-    resources_sprites[1].set_color(color_maker(1, 0, 0, false, true));
+    resources_sprites[0].set_color(color_maker(1, 0, 0, false, true));
 
     resources_sprites.push_back(My_Sprite{ m_app, "ressources/generated/resources/tree_leaves", m_view1, 5 });
-    resources_sprites[2].set_color(color_maker(1, 1, 1, true, false));
+    resources_sprites[1].set_color(color_maker(1, 1, 1, true, false));
 
+    resources_sprites.push_back(My_Sprite{ m_app, "ressources/generated/resources/fruit", m_view1, 5 });
+    resources_sprites[2].set_color(color_maker(2, 2, 2, true,  false));
+
+    whole.add_sprite(resources_sprites[0], "ressources/generated/resources/tree0.png", 640);
     whole.add_sprite(resources_sprites[1], "ressources/generated/resources/tree0.png", 640);
-	whole.add_sprite(resources_sprites[2], "ressources/generated/resources/tree0.png", 640);
+    whole.add_sprite(resources_sprites[2], "ressources/generated/resources/tree0.png", 640);
 
     srand(static_cast<unsigned int>(time(0)));
     flexibility =  static_cast<float>(rand() % 8 + 1);
