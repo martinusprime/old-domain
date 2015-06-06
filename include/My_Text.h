@@ -19,13 +19,13 @@ public:
 
 private:
     RenderWindow *m_app;
-    Event event;
-    Texture texture;
-    Sprite sprite;
+    Event m_event;
+    Texture m_texture;
+    Sprite m_sprite;
     //can not be destroyed (see sf::Text documentation)
-    static Font font1;
-    Text text1;
-    Color current_color;
+    static Font m_font1;
+    Text m_text1;
+    Color m_current_color;
 };
 
 
