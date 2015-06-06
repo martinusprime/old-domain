@@ -47,7 +47,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
 
     create_map(GRID_WIDTH, GRID_HEIGHT);
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 1; i++) {
         m_units.push_back(shared_ptr<Unit>(new Citizen(m_grid, app, &view1, &m_view2, *this)));
     }
     m_grid(0, 0).citizen_id = 0;

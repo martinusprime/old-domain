@@ -50,7 +50,7 @@ private:
     View *m_view1;
     RenderWindow *m_app;
     Event event;
-    bool has_goal;
+    bool m_has_goal;
     bool m_is_selected;
     bool over_city;
     Clock move_clock;
@@ -58,10 +58,9 @@ private:
     Sprite_Creator m_sprite_creator1;
     My_Sprite m_goal_sprite;
     My_Sprite m_sprite;
-    /* path through which the citizen move, -1 for no path */
-    vector<vector<int> > m_move_path;
-    int x, y, m_goal_x, m_goal_y, path_place, path_number;
+    int m_x, m_y, m_goal_x, m_goal_y, path_place, path_number;
     static const size_t path_size = 150;
+    /* path through which the citizen move, -1 for no path */
     vector<vector<int> > m_path;
     Tile over_tile;
     //CITIZEN INFO
