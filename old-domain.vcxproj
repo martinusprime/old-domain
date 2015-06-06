@@ -109,6 +109,7 @@
     <ClInclude Include="include\File_Loader.h" />
     <ClInclude Include="include\My_window.h" />
     <ClInclude Include="include\PerlinNoise.h" />
+    <ClInclude Include="include\Random.h" />
     <ClInclude Include="include\Skills.h" />
     <ClInclude Include="include\Sprite_Creator.h" />
     <ClInclude Include="include\Timer.h" />

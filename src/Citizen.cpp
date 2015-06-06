@@ -6,25 +6,24 @@ Citizen::Citizen(Grid &grid, RenderWindow *app, View *view, View *view2, Game_Ma
     : m_grid(grid)
     , m_sprite_creator1(app, m_view1)
     , m_goal_sprite(app, "ressources/goal.png", m_view1)
-    , m_sprite(app, m_sprite_creator1.create_character(5, true), m_view1)
+    , m_sprite(app, m_sprite_creator1.create_character(5, GDR_MAN), m_view1)
 , m_move_path(path_size, std::vector<int>(2))
-, m_path(path_size, std::vector<int>(2))
 , m_game_manager(game_manager)
 {
     over_city = false;
-    has_goal = false;
-    move_clock.restart();
+    m_has_goal = false;
+    m_move_clock.restart();
     m_view1 = view;
     m_app = app;
 
     static int i = 0; //TODO in reality two units should never be on the same tile
-    x = i++;
-    y = i++;
+    m_x = i++;
+    m_y = i++;
     path_place = 0;
     path_number = 0;
     m_is_selected = false;
 
-    m_name.init(app, m_sprite_creator1.get_character_name(), 25,  1);
+    m_name.init(app, m_sprite_creator1.create_character_name(GDR_MAN), 25,  1);
 
     m_citizen_actions.push_back(Button{ app, "Fonder une ville", 0, 0, 0, 0, view2 });
     m_citizen_actions.push_back(Button{ app, "Rentrer dans la ville", 0, 0, 0, 0, view2 });
@@ -33,25 +32,25 @@ Citizen::Citizen(Grid &grid, RenderWindow *app, View *view, View *view2, Game_Ma
 
 int Citizen::get_x()
 {
-    return x;
+    return m_x;
 }
 
 int Citizen::get_y()
 {
-    return y;
+    return m_y;
 }
 
 bool Citizen::get_goal()
 {
-    return has_goal;
+    return m_has_goal;
 }
 
 void Citizen::draw()
 {
-    m_sprite.draw( ( x - y) * 64 + 50, (y +x) * 32 );
-    m_name.draw(( x - y)  * 64, ( x + y - 1)  * 32 - 10, 10);
+    m_sprite.draw( ( m_x - m_y) * 64 + 50, (m_y +m_x) * 32 );
+    m_name.draw(( m_x - m_y)  * 64, ( m_x + m_y - 1)  * 32 - 10, 10);
 
-    if(has_goal)
+    if(m_has_goal)
     {
         m_goal_sprite.draw( ( m_goal_x - m_goal_y) * 64, (m_goal_x +m_goal_y) * 32);
     }
@@ -72,7 +71,7 @@ void Citizen::draw()
 
 void Citizen::set_goal(int goal_x , int goal_y)
 {
-    if (has_goal) {
+    if (m_has_goal) {
         //also to reset pass_through tiles
         reset_goal();
     }
@@ -80,12 +79,13 @@ void Citizen::set_goal(int goal_x , int goal_y)
     path_place = 0;
     m_goal_x = goal_x;
     m_goal_y = goal_y;
-    has_goal = true;
+    m_has_goal = true;
     find_path_to_goal();
 }
 
 void Citizen::reset_goal()
 {
+    
     for(size_t i = 0; i < m_move_path.size(); i++)
     {
         if (m_move_path[i][0] == -1 || m_move_path[i][1] == -1)
@@ -104,7 +104,7 @@ void Citizen::find_path_to_goal()
     m_move_path[0][0] = get_x();
     m_move_path[0][1] = get_y();
 
-    for(int i = 0; i<100; i++)
+    for(int i = 0; i< m_move_path.size(); i++)
     {
         if( m_move_path [i][0] < m_goal_x)
         {
@@ -115,6 +115,7 @@ void Citizen::find_path_to_goal()
             m_move_path[i +1][0] = m_move_path[i][0] - 1;
         }
         else m_move_path[i +1][0] = m_move_path[i][0];
+
         if( m_move_path[i][1] < m_goal_y)
         {
             m_move_path[i +1][1] = m_move_path[i][1] + 1;
@@ -132,14 +133,6 @@ void Citizen::find_path_to_goal()
 
         if(m_move_path[i][0] == m_goal_x && m_move_path[i][1] == m_goal_y)
         {
-            for(size_t k = 0; k< m_move_path.size(); k++)
-            {
-                set_path( m_move_path[k][0], m_move_path[k][1], k);
-                if(m_move_path[k][0] == 0 && m_move_path[k][1] == 1)
-                {
-                    break;
-                }
-            }
             break;
         }
     }
@@ -147,8 +140,8 @@ void Citizen::find_path_to_goal()
 
 void Citizen::set_path(int x_path, int y_path, int path_id)
 {
-    m_path.at(path_id)[0] = x_path;
-    m_path.at(path_id)[1] = y_path;
+    m_move_path.at(path_id)[0] = x_path;
+    m_move_path.at(path_id)[1] = y_path;
     path_number ++;
 }
 
@@ -187,21 +180,21 @@ bool Citizen::is_selected()
 
 void Citizen::update()
 {
-    elapsed_move = move_clock.getElapsedTime();
-    if(x == m_goal_x && y == m_goal_y)
+    Time elapsed_move = m_move_clock.getElapsedTime();
+    if(m_has_goal && m_x == m_goal_x && m_y == m_goal_y)
     {
         path_place = 0;
-        has_goal = false;
+        m_has_goal = false;
         over_city = false;
     }
 
-    if(elapsed_move.asSeconds() >  0.5 && has_goal && m_path[path_place + 1][0] != -1)
+    if(elapsed_move.asSeconds() >  0.5 && m_has_goal && m_move_path.at(path_place + 1)[0] != -1)
     {
-        move_clock.restart();
+        m_move_clock.restart();
         path_place ++;
-        x = m_path[path_place][0];
-        y = m_path[path_place][1];
-        m_grid(x, y).passing_through = false;
+        m_x = m_move_path[path_place][0];
+        m_y = m_move_path[path_place][1];
+        m_grid(m_x, m_y).passing_through = false;
         //cout << "move to (" << x << ", " << y << ")\n";
     }
 

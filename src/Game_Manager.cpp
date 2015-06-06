@@ -1,6 +1,7 @@
 #include "Game_Manager.h"
 
 #include "Citizen.h"
+#include "Random.h"
 
 Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int screen_y)
 : m_view1(view1)
@@ -47,7 +48,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
 
     create_map(GRID_WIDTH, GRID_HEIGHT);
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 1; i++) {
         m_units.push_back(shared_ptr<Unit>(new Citizen(m_grid, app, &view1, &m_view2, *this)));
     }
     m_grid(0, 0).citizen_id = 0;
@@ -270,8 +271,6 @@ void Game_Manager::draw_gui()
 
 void Game_Manager::create_map(int map_width, int map_height)
 {
-    srand(static_cast<unsigned int>(time(0)));
-
     //sur 200
     water_rate = 55;
     sand_rate = 90;
@@ -290,7 +289,7 @@ void Game_Manager::create_map(int map_width, int map_height)
             m_grid(i, j).is_city = false;
             m_grid(i, j).ressource_type = RSC_WOOD;
             m_grid(i, j).owner = PLAYER2;
-            m_grid(i, j).random_pattern = rand() % +5;
+            m_grid(i, j).random_pattern = Random::get_int(0, 5);
             //test for stone
             if (i < 5 && j < 5 && i> 0 && j > 0)
             {

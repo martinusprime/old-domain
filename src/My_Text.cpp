@@ -78,7 +78,7 @@ void My_Text::draw(int x, int y, int character_size)
 
 void My_Text::refill(std::string content)
 {
-    m_text1.setString(content.c_str());
+    m_text1.setString(content);
 }
 
 void My_Text::change_font(std::string font_file)

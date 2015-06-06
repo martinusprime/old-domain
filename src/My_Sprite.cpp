@@ -1,5 +1,6 @@
 #include "File_Loader.h"
 #include "My_Sprite.h"
+#include "Random.h"
 
 
 My_Sprite::My_Sprite()
@@ -61,13 +62,12 @@ My_Sprite::My_Sprite(RenderWindow *app, std::string file, View *view, int file_n
     m_view1 = view;
     m_app = app;
     int rand_limit = 3;
-    srand(time(0));
     if(file_number != 0)
     {
         rand_limit = file_number;
     }
 
-    int random = rand() % rand_limit;
+    int random = Random::get_int(0, rand_limit);
     m_file = file + std::to_string(random) + ".png";
     //cout<< file<<endl;
     ifstream file_check(m_file);

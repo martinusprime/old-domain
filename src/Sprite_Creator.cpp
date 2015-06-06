@@ -1,3 +1,4 @@
+#include "Random.h"
 #include "Sprite_Creator.h"
 
 Sprite_Creator::Sprite_Creator(RenderWindow *app, View *view)
@@ -13,47 +14,13 @@ Sprite_Creator::Sprite_Creator(RenderWindow *app, View *view)
 {
     whole.draw(250, 250);
 }*/
-string Sprite_Creator::get_character_name()
+string Sprite_Creator::create_character_name(Gender gender)
 {
-        return character_name;
-}
-string Sprite_Creator::get_resource_name()
-{
-        return resource_name;
-}
-
-string Sprite_Creator::create_character( int sunlight_get, bool woman)
-{
-    My_Sprite whole(m_app, "ressources/empty.png", m_view1);;
-    if (woman)
-    {
-        My_Sprite skin(m_app, "ressources/generated/character/base_skinf.png", m_view1);
-        My_Sprite eyes(m_app, "ressources/generated/character/eyes", m_view1, 10);
-        My_Sprite hair(m_app, "ressources/generated/character/hairf", m_view1, 10);
-        whole.add_sprite(skin, sunlight_get);
-        hair.set_color(color_maker(1, 1, 1, true, false));
-        whole.add_sprite(hair, "ressources/generated/character/character01.png", 128);
-        eyes.set_color(color_maker(0, 1, 1, false, true));
-        whole.add_sprite(eyes, "ressources/generated/character/character01.png", 128);
-    }
-    else
-    {
-        My_Sprite skin(m_app, "ressources/generated/character/base_skin.png", m_view1);
-        My_Sprite eyes(m_app, "ressources/generated/character/eyes", m_view1, 10);
-        My_Sprite hair(m_app, "ressources/generated/character/hair", m_view1, 10);
-        whole.add_sprite(skin, sunlight_get);
-        hair.set_color(color_maker(1, 1, 1, true, false));
-        whole.add_sprite(hair, "ressources/generated/character/character01.png", 128);
-        eyes.set_color(color_maker(0, 1, 1, false, true));
-        whole.add_sprite(eyes, "ressources/generated/character/character01.png", 128);
-    }
-    My_Sprite skin(m_app, "ressources/generated/character/base_skin.png", m_view1);
-   
-    srand(static_cast<unsigned int>(time(0)));
+    string character_name;
 
     string temp_name[3];
-    int random = rand()% + 6;
-    if (woman)
+    int random = Random::get_int(0, 6);
+    if (gender == GDR_WOMAN)
     {
         ifstream name_file("ressources/character/namesf.txt");
 
@@ -79,12 +46,12 @@ string Sprite_Creator::create_character( int sunlight_get, bool woman)
             }
         }
     }
-  
+
 
     ifstream name_file2("ressources/character/suffixes.txt");
 
     if (name_file2) {
-        random = 1 + rand() % 5;
+        random = Random::get_int(1, 6);
         for (int i = 0; i < random; i++)
         {
             temp_name[1] = "";
@@ -94,7 +61,7 @@ string Sprite_Creator::create_character( int sunlight_get, bool woman)
 
     ifstream name_file3("ressources/character/last_names.txt");
     if (name_file3) {
-        random = 1 + rand() % 5;
+        random = Random::get_int(1, 6);
         for (int i = 0; i < random; i++)
         {
             temp_name[2] = "";
@@ -102,8 +69,42 @@ string Sprite_Creator::create_character( int sunlight_get, bool woman)
         }
     }
 
-    character_name =  temp_name[0] +  temp_name[1] + std::string(" ") + temp_name[2];
-    
+    character_name = temp_name[0] + temp_name[1] + std::string(" ") + temp_name[2];
+    return character_name;
+}
+
+string Sprite_Creator::get_resource_name()
+{
+        return resource_name;
+}
+
+string Sprite_Creator::create_character( int sunlight_get, Gender gender)
+{
+    My_Sprite whole(m_app, "ressources/empty.png", m_view1);;
+    if (gender == GDR_WOMAN)
+    {
+        My_Sprite skin(m_app, "ressources/generated/character/base_skinf.png", m_view1);
+        My_Sprite eyes(m_app, "ressources/generated/character/eyes", m_view1, 10);
+        My_Sprite hair(m_app, "ressources/generated/character/hairf", m_view1, 10);
+        whole.add_sprite(skin, sunlight_get);
+        hair.set_color(color_maker(1, 1, 1, true, false));
+        whole.add_sprite(hair, "ressources/generated/character/character01.png", 128);
+        eyes.set_color(color_maker(0, 1, 1, false, true));
+        whole.add_sprite(eyes, "ressources/generated/character/character01.png", 128);
+    }
+    else
+    {
+        My_Sprite skin(m_app, "ressources/generated/character/base_skin.png", m_view1);
+        My_Sprite eyes(m_app, "ressources/generated/character/eyes", m_view1, 10);
+        My_Sprite hair(m_app, "ressources/generated/character/hair", m_view1, 10);
+        whole.add_sprite(skin, sunlight_get);
+        hair.set_color(color_maker(1, 1, 1, true, false));
+        whole.add_sprite(hair, "ressources/generated/character/character01.png", 128);
+        eyes.set_color(color_maker(0, 1, 1, false, true));
+        whole.add_sprite(eyes, "ressources/generated/character/character01.png", 128);
+    }
+    My_Sprite skin(m_app, "ressources/generated/character/base_skin.png", m_view1);
+       
     string file = whole.get_file();
     return file;
 }
@@ -125,16 +126,14 @@ string Sprite_Creator::create_resources( int resources_id)
     whole.add_sprite(resources_sprites[1], "ressources/generated/resources/tree0.png", 640);
     whole.add_sprite(resources_sprites[2], "ressources/generated/resources/tree0.png", 640);
 
-    srand(static_cast<unsigned int>(time(0)));
-    flexibility =  static_cast<float>(rand() % 8 + 1);
-    solidity = static_cast<float>(rand() % 10 + 1);
+    flexibility =  Random::get_float(1, 9);
+    solidity = Random::get_float(1, 11);
 
 
     string temp_name[3];
 
-    int random = 1 + rand() % 5;
     ifstream name_file("ressources/resources/names.txt");
-    for (int i = 0; i < random; i++)
+    for (int i = 0; i < Random::get_int(1, 6); i++)
     {
         temp_name[0] = "";
         name_file >> temp_name[0];
@@ -142,16 +141,14 @@ string Sprite_Creator::create_resources( int resources_id)
 
 
     ifstream name_file2("ressources/resources/suffixes.txt");
-    random = 1 + rand() % 5;
-    for (int i = 0; i < random; i++)
+    for (int i = 0; i < Random::get_int(1, 6); i++)
     {
         temp_name[1] = "";
         name_file2 >> temp_name[1];
     }
 
     ifstream name_file3("ressources/resources/adjectives.txt");
-    random = 1 + rand() % 5;
-    for (int i = 0; i < random; i++)
+    for (int i = 0; i < Random::get_int(1, 6); i++)
     {
         temp_name[2] = "";
         name_file3 >> temp_name[2];
@@ -190,16 +187,15 @@ Color Sprite_Creator::color_maker(int red_get, int green_get, int blue_get, bool
         random_limit = 25;
     }
 
-    srand(static_cast<unsigned int>(time(0)));
-    int random = rand() % random_limit;
+    int random = Random::get_int(0, random_limit);
     int red = (base_color * red_get )+ (random - random_limit);
  //   cout<< "rand"<< random<<endl;
 
-    random = rand()% random_limit;
+    random = Random::get_int(0, random_limit);
     int blue = (base_color * blue_get )+ (random - random_limit);
  //   cout<< "rand"<< random<<endl;
 
-    random = rand()% random_limit;
+    random = Random::get_int(0, random_limit);
     int green = (base_color * green_get )+ (random - random_limit);
  //   cout<< "rand"<< random<<endl;
 
