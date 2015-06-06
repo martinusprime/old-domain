@@ -22,7 +22,7 @@ public:
     string get_resource_name();
     float get_solidity();
     float get_flexibility();
-    Color color_maker(int red_get, int green_get, int blue_get, bool large_randomness, bool dark);
+    Color color_maker(float red_get, float green_get, float blue_get, bool large_randomness, bool dark);
     virtual ~Sprite_Creator() = default;
 
 private:
@@ -31,6 +31,7 @@ private:
     std::vector<My_Sprite> resources_sprites;
     int sunlight;
     float solidity, flexibility;
+    bool is_fruit;
     string resource_name;
 };
 
