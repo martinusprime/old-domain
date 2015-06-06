@@ -6,13 +6,13 @@ Citizen::Citizen(Grid &grid, RenderWindow *app, View *view, View *view2, Game_Ma
     : m_grid(grid)
     , m_sprite_creator1(app, m_view1)
     , m_goal_sprite(app, "ressources/goal.png", m_view1)
-    , m_sprite(app, m_sprite_creator1.create_character(5, false), m_view1)
-, m_path(path_size, std::vector<int>(2))
+    , m_sprite(app, m_sprite_creator1.create_character(5, GDR_MAN), m_view1)
+, m_move_path(path_size, std::vector<int>(2))
 , m_game_manager(game_manager)
 {
     over_city = false;
     m_has_goal = false;
-    move_clock.restart();
+    m_move_clock.restart();
     m_view1 = view;
     m_app = app;
 
@@ -23,7 +23,7 @@ Citizen::Citizen(Grid &grid, RenderWindow *app, View *view, View *view2, Game_Ma
     path_number = 0;
     m_is_selected = false;
 
-    m_name.init(app, m_sprite_creator1.get_character_name(), 25,  1);
+    m_name.init(app, m_sprite_creator1.create_character_name(GDR_MAN), 25,  1);
 
     m_citizen_actions.push_back(Button{ app, "Fonder une ville", 0, 0, 0, 0, view2 });
     m_citizen_actions.push_back(Button{ app, "Rentrer dans la ville", 0, 0, 0, 0, view2 });
@@ -87,51 +87,52 @@ void Citizen::set_goal(int goal_x , int goal_y)
 void Citizen::reset_goal()
 {
     
-    for(size_t i = 0; i < m_path.size(); i++)
+    for(size_t i = 0; i < m_move_path.size(); i++)
     {
-        if (m_path[i][0] == -1 || m_path[i][1] == -1)
+        if (m_move_path[i][0] == -1 || m_move_path[i][1] == -1)
         {
             break;
         }
-        m_grid(m_path[i][0], m_path[i][1]).passing_through = false;
-        m_path[i][0] = -1;
-        m_path[i][1] = -1;
+        m_grid(m_move_path[i][0], m_move_path[i][1]).passing_through = false;
+        m_move_path[i][0] = -1;
+        m_move_path[i][1] = -1;
     }
 }
 
 void Citizen::find_path_to_goal()
 {
     //a* homemade :)
-    m_path[0][0] = get_x();
-    m_path[0][1] = get_y();
+    m_move_path[0][0] = get_x();
+    m_move_path[0][1] = get_y();
 
-    for(int i = 0; i<100; i++)
+    for(int i = 0; i< m_move_path.size(); i++)
     {
-        if( m_path [i][0] < m_goal_x)
+        if( m_move_path [i][0] < m_goal_x)
         {
-            m_path[i +1][0] = m_path[i][0] + 1;
+            m_move_path[i +1][0] = m_move_path[i][0] + 1;
         }
-        else if( m_path [i][0] > m_goal_x)
+        else if( m_move_path [i][0] > m_goal_x)
         {
-            m_path[i +1][0] = m_path[i][0] - 1;
+            m_move_path[i +1][0] = m_move_path[i][0] - 1;
         }
-        else m_path[i +1][0] = m_path[i][0];
-        if( m_path[i][1] < m_goal_y)
+        else m_move_path[i +1][0] = m_move_path[i][0];
+
+        if( m_move_path[i][1] < m_goal_y)
         {
-            m_path[i +1][1] = m_path[i][1] + 1;
+            m_move_path[i +1][1] = m_move_path[i][1] + 1;
         }
-        else if( m_path[i][1] > m_goal_y)
+        else if( m_move_path[i][1] > m_goal_y)
         {
-            m_path[i +1][1] = m_path[i][1] - 1;
+            m_move_path[i +1][1] = m_move_path[i][1] - 1;
         }
-        else m_path[i +1][1] = m_path[i][1];
+        else m_move_path[i +1][1] = m_move_path[i][1];
 
         if (i != 0)
         {
-            m_grid(m_path[i][0], m_path[i][1]).passing_through = true;
+            m_grid(m_move_path[i][0], m_move_path[i][1]).passing_through = true;
         }
 
-        if(m_path[i][0] == m_goal_x && m_path[i][1] == m_goal_y)
+        if(m_move_path[i][0] == m_goal_x && m_move_path[i][1] == m_goal_y)
         {
             break;
         }
@@ -140,8 +141,8 @@ void Citizen::find_path_to_goal()
 
 void Citizen::set_path(int x_path, int y_path, int path_id)
 {
-    m_path.at(path_id)[0] = x_path;
-    m_path.at(path_id)[1] = y_path;
+    m_move_path.at(path_id)[0] = x_path;
+    m_move_path.at(path_id)[1] = y_path;
     path_number ++;
 }
 
@@ -179,7 +180,7 @@ bool Citizen::is_selected()
 
 void Citizen::update()
 {
-    elapsed_move = move_clock.getElapsedTime();
+    Time elapsed_move = m_move_clock.getElapsedTime();
     if(m_has_goal && m_x == m_goal_x && m_y == m_goal_y)
     {
         path_place = 0;
@@ -187,12 +188,12 @@ void Citizen::update()
         over_city = false;
     }
 
-    if(elapsed_move.asSeconds() >  0.5 && m_has_goal && m_path.at(path_place + 1)[0] != -1)
+    if(elapsed_move.asSeconds() >  0.5 && m_has_goal && m_move_path.at(path_place + 1)[0] != -1)
     {
-        move_clock.restart();
+        m_move_clock.restart();
         path_place ++;
-        m_x = m_path[path_place][0];
-        m_y = m_path[path_place][1];
+        m_x = m_move_path[path_place][0];
+        m_y = m_move_path[path_place][1];
         m_grid(m_x, m_y).passing_through = false;
         //cout << "move to (" << x << ", " << y << ")\n";
     }

@@ -53,19 +53,16 @@ private:
     bool m_has_goal;
     bool m_is_selected;
     bool over_city;
-    Clock move_clock;
-    Time elapsed_move;
+    Clock m_move_clock;
     Sprite_Creator m_sprite_creator1;
     My_Sprite m_goal_sprite;
     My_Sprite m_sprite;
     int m_x, m_y, m_goal_x, m_goal_y, path_place, path_number;
     static const size_t path_size = 150;
     /* path through which the citizen move, -1 for no path */
-    vector<vector<int> > m_path;
-    Tile over_tile;
+    vector<vector<int> > m_move_path;
     //CITIZEN INFO
     My_Text m_name;
-    int m_age;
     Game_Manager &m_game_manager;
 };
 

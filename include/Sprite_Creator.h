@@ -5,15 +5,20 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 
+enum Gender {
+    GDR_WOMAN,
+    GDR_MAN
+};
+
 class Sprite_Creator
 {
 public:
     Sprite_Creator(RenderWindow *app, View *view);
     /*void draw();*/
-    string create_character(int sunlight_get, bool woman);
+    string create_character(int sunlight_get, Gender gender);
     string create_resources( int resources_id);
     string get_file();
-    string get_character_name();
+    static string create_character_name(Gender gender);
     string get_resource_name();
     float get_solidity();
     float get_flexibility();
@@ -23,13 +28,10 @@ public:
 private:
     View *m_view1;
     RenderWindow *m_app;
-
     std::vector<My_Sprite> resources_sprites;
     int sunlight;
     float solidity, flexibility;
     string resource_name;
-    string character_name;
-
 };
 
 
