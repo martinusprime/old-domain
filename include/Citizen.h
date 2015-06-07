@@ -5,6 +5,8 @@
 #include <cstdlib>
 #include <deque>
 #include <iostream>
+#include <map>
+#include <set>
 #include <sstream>
 #include <string>
 
@@ -16,7 +18,17 @@
 #include "My_Sprite.h"
 #include "My_Text.h"
 #include "Sprite_Creator.h"
+#include "Tile.h"
 #include "Unit.h"
+
+
+struct Node {
+    int m_F_cost;
+    int m_G_cost;
+    int m_H_cost;
+    Coordinate m_coord;
+    Coordinate m_parent;
+};
 
 class Citizen : public Unit
 {
@@ -51,6 +63,15 @@ private:
     void find_path_basic();
     void find_path_advanced();
     void find_path();
+    std::vector<Node> get_valid_neighbours(
+        const Node &node,
+        const std::map<Coordinate, Node> &closed_list);
+    Node get_coord_with_lowest_cost(std::map<Coordinate, Node> nodes);
+    void add_to_open_list(
+        Node node,
+        const Coordinate &parent,
+        std::map<Coordinate, Node> &open_list);
+
     Grid &m_grid;
     View *m_view1;
     RenderWindow *m_app;

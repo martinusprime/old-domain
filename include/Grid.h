@@ -18,6 +18,9 @@ public:
     void loadFiles();
     //get tile at position
     Tile &operator()(size_t x, size_t y);
+    Tile &operator()(Coordinate coord);
+    /* Check if coordinate is valid within this grid. */
+    bool is_valid(Coordinate coord);
     void draw();
 
 private:

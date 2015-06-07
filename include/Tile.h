@@ -31,6 +31,34 @@ struct Tile_dimension
 
 struct Coordinate
 {
+    Coordinate(int x = 0, int y = 0)
+    {
+        m_x = x;
+        m_y = y;
+    }
+    friend bool operator==(const Coordinate& lhs, const Coordinate& rhs){ 
+        /* do actual comparison */
+        return lhs.m_x == rhs.m_x &&
+            lhs.m_y == rhs.m_y;
+    }
+    friend bool operator!=(const Coordinate& lhs, const Coordinate& rhs){ return !operator==(lhs, rhs); }
+    //necessary to use Coordinate as key of an std::map
+    friend bool operator< (const Coordinate& lhs, const Coordinate& rhs){
+        /* do actual comparison */ 
+        if (lhs.m_x < rhs.m_x) {
+            return true;
+        }
+        else if (lhs.m_x == rhs.m_x && lhs.m_y < rhs.m_y) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    friend bool operator>(const Coordinate& lhs, const Coordinate& rhs){ return  operator< (rhs, lhs); }
+    friend bool operator<=(const Coordinate& lhs, const Coordinate& rhs){ return !operator> (lhs, rhs); }
+    friend bool operator>=(const Coordinate& lhs, const Coordinate& rhs){ return !operator< (lhs, rhs); }
+
     int m_x;
     int m_y;
 };
