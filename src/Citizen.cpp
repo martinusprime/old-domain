@@ -93,36 +93,33 @@ void Citizen::reset_goal()
 void Citizen::find_path_basic()
 {
     m_move_path.push_back(Coordinate{ get_x(), get_y() });
-    for (int i = 0; ; i++)
+    while (1)
     {
         int next_x;
-        if (m_move_path[i].m_x < m_goal_x)
+        if (m_move_path.back().m_x < m_goal_x)
         {
-            next_x = m_move_path[i].m_x + 1;
+            next_x = m_move_path.back().m_x + 1;
         }
-        else if (m_move_path[i].m_x > m_goal_x)
+        else if (m_move_path.back().m_x > m_goal_x)
         {
-            next_x = m_move_path[i].m_x - 1;
+            next_x = m_move_path.back().m_x - 1;
         }
-        else next_x = m_move_path[i].m_x;
+        else next_x = m_move_path.back().m_x;
 
         int next_y;
-        if (m_move_path[i].m_y < m_goal_y)
+        if (m_move_path.back().m_y < m_goal_y)
         {
-            next_y = m_move_path[i].m_y + 1;
+            next_y = m_move_path.back().m_y + 1;
         }
-        else if (m_move_path[i].m_y > m_goal_y)
+        else if (m_move_path.back().m_y > m_goal_y)
         {
-            next_y = m_move_path[i].m_y - 1;
+            next_y = m_move_path.back().m_y - 1;
         }
-        else next_y = m_move_path[i].m_y;
+        else next_y = m_move_path.back().m_y;
         
         m_move_path.push_back(Coordinate{ next_x, next_y });
 
-        if (i != 0)
-        {
-            m_grid(next_x, next_y).passing_through = true;
-        }
+        m_grid(next_x, next_y).passing_through = true;
 
         if (next_x == m_goal_x && next_y == m_goal_y)
         {
