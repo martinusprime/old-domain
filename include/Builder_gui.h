@@ -9,6 +9,7 @@
 
 #include "Button.h"
 #include "Grid.h"
+#include "Building.h"
 #include "My_Sprite.h"
 #include "My_Text.h"
 class Builder_gui
@@ -25,6 +26,7 @@ private :
     RenderWindow *m_app;
     Event event;
     My_Sprite gui_sprite;
+    Building m_building;
 
 };
 
