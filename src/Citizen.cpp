@@ -1,5 +1,9 @@
 #include "Citizen.h"
 
+#include <cstdlib>
+#include <map>
+#include <set>
+
 Citizen::Citizen(Grid &grid, RenderWindow *app, View *view, View *view2, Game_Manager &game_manager)
     : m_grid(grid)
     , m_sprite_creator1(app, m_view1)
@@ -44,12 +48,12 @@ bool Citizen::get_goal()
 
 void Citizen::draw()
 {
-    m_sprite.draw( ( m_x - m_y) * 64 + 50, (m_y +m_x) * 32 );
-    m_name.draw(( m_x - m_y)  * 64, ( m_x + m_y - 1)  * 32 - 10, 10);
+    m_sprite.draw((m_x - m_y) * 64 + 50, (m_y + m_x) * 32);
+    m_name.draw((m_x - m_y) * 64, (m_x + m_y - 1) * 32 - 10, 10);
 
-    if(m_has_goal)
+    if (m_has_goal)
     {
-        m_goal_sprite.draw( ( m_goal_x - m_goal_y) * 64, (m_goal_x +m_goal_y) * 32);
+        m_goal_sprite.draw((m_goal_x - m_goal_y) * 64, (m_goal_x + m_goal_y) * 32);
     }
 
     if (is_selected())
@@ -66,7 +70,7 @@ void Citizen::draw()
     }
 }
 
-void Citizen::set_goal(int goal_x , int goal_y)
+void Citizen::set_goal(int goal_x, int goal_y)
 {
     if (m_has_goal) {
         // to reset pass_through tiles
@@ -82,7 +86,7 @@ void Citizen::set_goal(int goal_x , int goal_y)
 
 void Citizen::reset_goal()
 {
-    for(Coordinate coord : m_move_path)
+    for (Coordinate coord : m_move_path)
     {
         m_grid(coord.m_x, coord.m_y).passing_through = false;
     }
@@ -116,7 +120,7 @@ void Citizen::find_path_basic()
             next_y = m_move_path.back().m_y - 1;
         }
         else next_y = m_move_path.back().m_y;
-        
+
         m_move_path.push_back(Coordinate{ next_x, next_y });
 
         m_grid(next_x, next_y).passing_through = true;
@@ -128,17 +132,134 @@ void Citizen::find_path_basic()
     }
 }
 
+/* Get neighbours that are walkable and not in the closed list */
+std::vector<Node> Citizen::get_valid_neighbours(
+        const Node &node,
+        const std::map<Coordinate, Node> &closed_list)
+{
+    std::vector<Node> neighbours;
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            if (i == 0 && j == 0) {
+                continue;
+            }
+            int x_neighbour = node.m_coord.m_x + i;
+            int y_neighbour = node.m_coord.m_y + j;
+            if (!m_grid.is_valid(Coordinate{ x_neighbour, y_neighbour })) {
+                continue;
+            }
+            if (!m_grid(x_neighbour, y_neighbour).m_is_walkable) {
+                continue;
+            }
+            for (const auto &it : closed_list) {
+                if (it.second.m_coord.m_x == x_neighbour && it.second.m_coord.m_y == y_neighbour) {
+                    //this neighbour node is in the close list
+                    continue;
+                }
+            }
+            Node node;
+            node.m_coord = Coordinate{ x_neighbour, y_neighbour };
+            neighbours.push_back(node);
+        }
+    }
+    return neighbours;
+}
+
+Node Citizen::get_coord_with_lowest_cost(std::map<Coordinate, Node> nodes)
+{
+    /* The cost is F = G + H, G is the cost of movement to this node, H is a heuristic estimating the cost from this node to the goal
+       . */
+    Node best;
+    int best_cost = INT_MAX;
+    for (const auto &it : nodes) {
+        if (it.second.m_F_cost < best_cost) {
+            best_cost = it.second.m_F_cost;
+            best = it.second;
+        }
+    }
+    return best;
+}
+
+void Citizen::add_to_open_list(
+        Node node,
+        const Coordinate &parent,
+        std::map<Coordinate, Node> &open_list)
+{
+    //10 per move (can be changed later for roads, etc or if we want to make moving in diagonal slower than moving on the side)
+    node.m_G_cost = 10;
+    // we use manhattan distance as heuristic
+    node.m_H_cost = std::abs(m_goal_x - node.m_coord.m_x) + std::abs(m_goal_y - node.m_coord.m_y);
+    node.m_F_cost = node.m_G_cost + node.m_H_cost;
+    node.m_parent = parent;
+
+    // check if node is already in open list
+    auto &it = open_list.find(node.m_coord);
+    if (it != open_list.end()) {
+        // if this path to that square is better (using G cost as the meature), change the parent
+        // of this square
+        if (it->second.m_G_cost > node.m_G_cost) {
+            open_list[node.m_coord] = node;
+        }
+    }
+    else //the node was not in the open list
+    {
+        open_list[node.m_coord] = node;
+    }
+}
+
 /* This avoids obstacles (water, mountain, etc.) . */
 void Citizen::find_path_advanced()
 {
     //a* homemade :)
+    
+    std::map<Coordinate, Node> closed_list;
+    std::map<Coordinate, Node> open_list;
 
+    //TODO check if goal is walkable or if goal == current position
+
+    Node start;
+    start.m_coord = Coordinate{ get_x(), get_y() };
+    add_to_open_list(start, start.m_coord, open_list);//parent is itself (top node of the tree)
+    
+    
+    while (1) {
+        //get node with lowest F cost from the open list
+        Node best = get_coord_with_lowest_cost(open_list);
+
+        //switch this node to the closed list (remove it from the open list)
+        open_list.erase(best.m_coord);
+        closed_list[best.m_coord] = best;
+
+        //add neighbours to the open list
+        Node current_node(best);
+        std::vector<Node> neighbours = get_valid_neighbours(current_node, closed_list);
+        for (Node node : neighbours) {
+            add_to_open_list(node, current_node.m_coord, open_list);
+        }
+        if (best.m_coord.m_x == m_goal_x && best.m_coord.m_y == m_goal_y) {
+            //we reached the goal
+            break;
+        }
+        if (open_list.empty()) {
+            //there is no possible path to our goal
+            return;
+        }
+    }
+    //go through the path starting from the goal in reverse order (using node's parents)
+    Node node = closed_list[Coordinate{ m_goal_x, m_goal_y }];
+    //while we didn't reach the start point (which has itself as parent)
+    while (node.m_parent != node.m_coord) {
+        m_move_path.push_back(node.m_coord);
+        node = closed_list[node.m_parent];
+    }
+    //reverse vectorto have the path in the right direction
+    std::reverse(m_move_path.begin(), m_move_path.end());
 }
 
 void Citizen::find_path_to_goal()
 {
-    find_path_basic();
-    //find_path_advanced();
+    //find_path_basic();
+    find_path_advanced();
 }
 
 void Citizen::select()

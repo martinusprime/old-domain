@@ -375,6 +375,8 @@ void Game_Manager::create_map(int map_width, int map_height)
             if (noise_value <= -15 && noise_value > -35)
             {
                 m_grid(i, j).m_type = 1;
+                //water
+                m_grid(i, j).m_is_walkable = false;
 
             }
             if (noise_value <= -35 && noise_value > -50)
@@ -385,12 +387,14 @@ void Game_Manager::create_map(int map_width, int map_height)
             if (noise_value <= -50 && noise_value > -75)
             {
                 m_grid(i, j).m_type = 3;
-
+                //water
+                m_grid(i, j).m_is_walkable = false;
             }
             if (noise_value <= -75 && noise_value > -100)
             {
                 m_grid(i, j).m_type = 4;
-
+                //water
+                m_grid(i, j).m_is_walkable = false;
             }
             if (noise_value > 0 && noise_value <= 35)
             {
