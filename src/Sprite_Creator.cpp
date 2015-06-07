@@ -183,14 +183,14 @@ Color Sprite_Creator::color_maker(float red_get, float green_get, float blue_get
     }
     if(large_randomness)
     {
-        random_limit = 100;
+        random_limit = 150;
     }
     else
     {
         random_limit = 40;
     }
 
-    int random = Random::get_int(0, random_limit);
+    int random = Random::get_int(40, random_limit);
     int red = (base_color * red_get )+ random ;
  //   cout<< "rand"<< random<<endl;
 

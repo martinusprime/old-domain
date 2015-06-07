@@ -71,6 +71,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\Builder_gui.cpp" />
     <ClCompile Include="src\Building.cpp" />
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\Citizen.cpp" />
@@ -94,6 +95,7 @@
     <ClCompile Include="src\Unit.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Builder_gui.h" />
     <ClInclude Include="include\Building.h" />
     <ClInclude Include="include\Button.h" />
     <ClInclude Include="include\Citizen.h" />
