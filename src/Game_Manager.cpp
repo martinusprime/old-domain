@@ -10,6 +10,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
 , selection_sprite(app, "ressources/selection.png", &view1)
 , interface1(app, &view1, m_w, m_h)
 , m_dialog(m_grid, app, &m_view2, screen_x, screen_y)
+, builder_gui1(m_grid, app, &m_view1, &m_view2)
 {
     is_menu_visible = true;
     m_screen_x = screen_x;
@@ -264,6 +265,7 @@ void Game_Manager::draw_gui()
     }
     m_dialog.draw();
     draw_selection();
+    builder_gui1.draw();
     interface1.draw();
 
     m_app->setView(m_view1);
@@ -289,7 +291,7 @@ void Game_Manager::create_map(int map_width, int map_height)
             m_grid(i, j).is_city = false;
             m_grid(i, j).ressource_type = RSC_WOOD;
             m_grid(i, j).owner = PLAYER2;
-            m_grid(i, j).random_pattern = Random::get_int(0, 5);
+            m_grid(i, j).random_pattern = Random::get_int(0, 4);
             //test for stone
             if (i < 5 && j < 5 && i> 0 && j > 0)
             {

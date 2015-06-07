@@ -21,6 +21,7 @@
 #include "PerlinNoise.h"
 #include "Sprite_Creator.h"
 #include "Unit.h"
+#include "Builder_gui.h"
 
 
 using namespace sf;
@@ -72,6 +73,7 @@ private:
     Texture tile_texture[10];
     bool is_menu_visible;
     Menu menu1;
+    Builder_gui builder_gui1;
     Clock clock_zoom;
     sf::Time zoom_time;
     bool open_window;

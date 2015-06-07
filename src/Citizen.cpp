@@ -6,7 +6,7 @@ Citizen::Citizen(Grid &grid, RenderWindow *app, View *view, View *view2, Game_Ma
     : m_grid(grid)
     , m_sprite_creator1(app, m_view1)
     , m_goal_sprite(app, "ressources/goal.png", m_view1)
-    , m_sprite(app, m_sprite_creator1.create_character(5, GDR_MAN), m_view1)
+    , m_sprite(app, m_sprite_creator1.create_character(5, GDR_WOMAN), m_view1)
 , m_move_path(path_size, std::vector<int>(2))
 , m_game_manager(game_manager)
 {
@@ -23,7 +23,7 @@ Citizen::Citizen(Grid &grid, RenderWindow *app, View *view, View *view2, Game_Ma
     path_number = 0;
     m_is_selected = false;
 
-    m_name.init(app, m_sprite_creator1.create_character_name(GDR_MAN), 25,  1);
+    m_name.init(app, m_sprite_creator1.create_character_name(GDR_WOMAN), 25,  1);
 
     m_citizen_actions.push_back(Button{ app, "Fonder une ville", 0, 0, 0, 0, view2 });
     m_citizen_actions.push_back(Button{ app, "Rentrer dans la ville", 0, 0, 0, 0, view2 });
