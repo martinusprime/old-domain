@@ -1,14 +1,11 @@
 #include "Citizen.h"
 
-const size_t Citizen::path_size;
-
 Citizen::Citizen(Grid &grid, RenderWindow *app, View *view, View *view2, Game_Manager &game_manager)
     : m_grid(grid)
     , m_sprite_creator1(app, m_view1)
     , m_goal_sprite(app, "ressources/goal.png", m_view1)
     , m_sprite(app, m_sprite_creator1.create_character(5, GDR_WOMAN), m_view1)
-, m_move_path(path_size, std::vector<int>(2))
-, m_game_manager(game_manager)
+    , m_game_manager(game_manager)
 {
     over_city = false;
     m_has_goal = false;
@@ -72,7 +69,7 @@ void Citizen::draw()
 void Citizen::set_goal(int goal_x , int goal_y)
 {
     if (m_has_goal) {
-        //also to reset pass_through tiles
+        // to reset pass_through tiles
         reset_goal();
     }
 
@@ -85,64 +82,63 @@ void Citizen::set_goal(int goal_x , int goal_y)
 
 void Citizen::reset_goal()
 {
-    
-    for(size_t i = 0; i < m_move_path.size(); i++)
+    for(Coordinate coord : m_move_path)
     {
-        if (m_move_path[i][0] == -1 || m_move_path[i][1] == -1)
+        m_grid(coord.m_x, coord.m_y).passing_through = false;
+    }
+    m_move_path.clear();
+}
+
+/* This does not avoid obstacles. */
+void Citizen::find_path_basic()
+{
+    m_move_path.push_back(Coordinate{ get_x(), get_y() });
+    while (1)
+    {
+        int next_x;
+        if (m_move_path.back().m_x < m_goal_x)
+        {
+            next_x = m_move_path.back().m_x + 1;
+        }
+        else if (m_move_path.back().m_x > m_goal_x)
+        {
+            next_x = m_move_path.back().m_x - 1;
+        }
+        else next_x = m_move_path.back().m_x;
+
+        int next_y;
+        if (m_move_path.back().m_y < m_goal_y)
+        {
+            next_y = m_move_path.back().m_y + 1;
+        }
+        else if (m_move_path.back().m_y > m_goal_y)
+        {
+            next_y = m_move_path.back().m_y - 1;
+        }
+        else next_y = m_move_path.back().m_y;
+        
+        m_move_path.push_back(Coordinate{ next_x, next_y });
+
+        m_grid(next_x, next_y).passing_through = true;
+
+        if (next_x == m_goal_x && next_y == m_goal_y)
         {
             break;
         }
-        m_grid(m_move_path[i][0], m_move_path[i][1]).passing_through = false;
-        m_move_path[i][0] = -1;
-        m_move_path[i][1] = -1;
     }
+}
+
+/* This avoids obstacles (water, mountain, etc.) . */
+void Citizen::find_path_advanced()
+{
+    //a* homemade :)
+
 }
 
 void Citizen::find_path_to_goal()
 {
-    //a* homemade :)
-    m_move_path[0][0] = get_x();
-    m_move_path[0][1] = get_y();
-
-    for(int i = 0; i< m_move_path.size(); i++)
-    {
-        if( m_move_path [i][0] < m_goal_x)
-        {
-            m_move_path[i +1][0] = m_move_path[i][0] + 1;
-        }
-        else if( m_move_path [i][0] > m_goal_x)
-        {
-            m_move_path[i +1][0] = m_move_path[i][0] - 1;
-        }
-        else m_move_path[i +1][0] = m_move_path[i][0];
-
-        if( m_move_path[i][1] < m_goal_y)
-        {
-            m_move_path[i +1][1] = m_move_path[i][1] + 1;
-        }
-        else if( m_move_path[i][1] > m_goal_y)
-        {
-            m_move_path[i +1][1] = m_move_path[i][1] - 1;
-        }
-        else m_move_path[i +1][1] = m_move_path[i][1];
-
-        if (i != 0)
-        {
-            m_grid(m_move_path[i][0], m_move_path[i][1]).passing_through = true;
-        }
-
-        if(m_move_path[i][0] == m_goal_x && m_move_path[i][1] == m_goal_y)
-        {
-            break;
-        }
-    }
-}
-
-void Citizen::set_path(int x_path, int y_path, int path_id)
-{
-    m_move_path.at(path_id)[0] = x_path;
-    m_move_path.at(path_id)[1] = y_path;
-    path_number ++;
+    find_path_basic();
+    //find_path_advanced();
 }
 
 void Citizen::select()
@@ -188,13 +184,13 @@ void Citizen::update()
         over_city = false;
     }
 
-    if(elapsed_move.asSeconds() >  0.5 && m_has_goal && m_move_path.at(path_place + 1)[0] != -1)
+    if(elapsed_move.asSeconds() >  0.5 && m_has_goal && !m_move_path.empty())
     {
         m_move_clock.restart();
-        path_place ++;
-        m_x = m_move_path[path_place][0];
-        m_y = m_move_path[path_place][1];
+        m_x = m_move_path[0].m_x;
+        m_y = m_move_path[0].m_y;
         m_grid(m_x, m_y).passing_through = false;
+        m_move_path.pop_front();
         //cout << "move to (" << x << ", " << y << ")\n";
     }
 

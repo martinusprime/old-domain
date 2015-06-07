@@ -138,8 +138,8 @@ bool Game_Manager::handle_input_events()
 
     //translate to m_grid coordinates
     m_selection_vector = m_app->mapPixelToCoords(mouse_vec, m_view1);
-    m_x_cursor = static_cast<int>((m_selection_vector.x / (float)Tile::tile_size.x + m_selection_vector.y / (float)Tile::tile_size.y - 0.5) * zoom);
-    m_y_cursor = static_cast<int>((m_selection_vector.y / (float)Tile::tile_size.y - m_selection_vector.x / (float)Tile::tile_size.x + 0.5) * zoom);
+    m_x_cursor = static_cast<int>((m_selection_vector.x / (float)Tile::tile_size.m_w + m_selection_vector.y / (float)Tile::tile_size.m_h - 0.5) * zoom);
+    m_y_cursor = static_cast<int>((m_selection_vector.y / (float)Tile::tile_size.m_h - m_selection_vector.x / (float)Tile::tile_size.m_w + 0.5) * zoom);
 
     handle_mouse_at_window_border(mouse_vec.x, mouse_vec.y);
 
@@ -459,7 +459,7 @@ void Game_Manager::highlight_selected_tile()
 	if (m_x_cursor >= 0 && m_x_cursor < GRID_WIDTH && m_y_cursor >= 0 && m_y_cursor < GRID_HEIGHT)
 	{
 		//highlight selected tile
-		selection_sprite.draw((m_x_cursor - m_y_cursor)* (Tile::tile_size.x / 2), (m_x_cursor + m_y_cursor)* (Tile::tile_size.y / 2));
+		selection_sprite.draw((m_x_cursor - m_y_cursor)* (Tile::tile_size.m_w / 2), (m_x_cursor + m_y_cursor)* (Tile::tile_size.m_h / 2));
 	}
 }
 
@@ -560,6 +560,6 @@ void Game_Manager::show_action_button(Button &button)
 
 void Game_Manager::create_city(int x, int y)
 {
-    m_cities.push_back(City{ m_app, &m_view1, x, y, Tile::tile_size.x, Tile::tile_size.y });
+    m_cities.push_back(City{ m_app, &m_view1, x, y, Tile::tile_size.m_w, Tile::tile_size.m_h });
     m_grid(x, y).is_city = true;
 }

@@ -1,11 +1,13 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <sstream>
-#include <iostream>
-#include <cstdlib>
-#include <string>
 #include <cmath>
+#include <cstdlib>
+#include <deque>
+#include <iostream>
+#include <sstream>
+#include <string>
+
 
 #include "Button.h"
 #include "Game_Manager.h"
@@ -34,7 +36,6 @@ public:
     void reset_goal();
 
     void draw() override;
-    void set_path(int x_path, int y_path, int path_id);
     void update();
     void is_over_city();
     int get_x();
@@ -42,9 +43,13 @@ public:
     Sprite get_sprite();
     void find_path_to_goal();
     void handle_mouse_click(Vector2f selection_vector, sf::Mouse::Button click, int x_cursor, int y_cursor) override;
+
+    
     vector<Button> m_citizen_actions; //TODO make this private
 
 private:
+    void find_path_basic();
+    void find_path_advanced();
     void find_path();
     Grid &m_grid;
     View *m_view1;
@@ -58,9 +63,8 @@ private:
     My_Sprite m_goal_sprite;
     My_Sprite m_sprite;
     int m_x, m_y, m_goal_x, m_goal_y, path_place, path_number;
-    static const size_t path_size = 150;
     /* path through which the citizen move, -1 for no path */
-    vector<vector<int> > m_move_path;
+    std::deque<Coordinate> m_move_path;
     //CITIZEN INFO
     My_Text m_name;
     Game_Manager &m_game_manager;
