@@ -27,6 +27,7 @@ private :
     Event event;
     My_Sprite gui_sprite;
     Building m_building;
+    My_Text buildings_name;
 
 };
 

@@ -51,7 +51,7 @@ string Sprite_Creator::create_character_name(Gender gender)
     ifstream name_file2("ressources/character/suffixes.txt");
 
     if (name_file2) {
-        random = Random::get_int(1, 6);
+        random = Random::get_int(0, 6);
         for (int i = 0; i < random; i++)
         {
             temp_name[1] = "";
@@ -61,7 +61,7 @@ string Sprite_Creator::create_character_name(Gender gender)
 
     ifstream name_file3("ressources/character/last_names.txt");
     if (name_file3) {
-        random = Random::get_int(1, 6);
+        random = Random::get_int(0, 6);
         for (int i = 0; i < random; i++)
         {
             temp_name[2] = "";

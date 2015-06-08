@@ -1,7 +1,7 @@
 #include "Building.h"
 
 Building::Building(RenderWindow *app, View *view, int type)
-: m_sprite(m_app, "ressources/buildings/buildingblock.png", m_view1) 
+: m_sprite(app, "ressources/buildings/buildingblock.png", view) 
 {
     m_app = app;
     m_view1 = view;

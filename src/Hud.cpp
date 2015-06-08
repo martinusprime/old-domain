@@ -32,8 +32,8 @@ Hud::Hud(RenderWindow *app, View *view, int screen_width, int screen_height)
 
 void Hud::draw_ressources()
 {
-    wood_sprite.draw( (m_screen_width / 2 )- 40,0 );
-    wood_text.draw(m_screen_width / 2,0, 22 );
+    wood_sprite.draw( (m_screen_width / 2 )- 40, 0 );
+    wood_text.draw(m_screen_width / 2, 0, 22 );
 }
 
 void Hud::draw()
