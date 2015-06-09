@@ -47,7 +47,7 @@ My_Sprite::My_Sprite(RenderWindow *app, std::string file, View *view)
     m_file = file;
     m_app = app;
     FileLoader<Texture>::loadFile(m_texture, m_file);
-	m_texture.setSmooth(true);
+	//m_texture.setSmooth(true);
     m_sprite.setTexture(m_texture);
 
     FloatRect  a= m_sprite.getGlobalBounds();
@@ -87,7 +87,7 @@ My_Sprite::My_Sprite(RenderWindow *app, std::string file, View *view, int file_n
     {
         FileLoader<Texture>::loadFile(m_texture, m_file);
     }
-	m_texture.setSmooth(true);
+	//m_texture.setSmooth(true);
     m_sprite.setTexture(m_texture);
 
     FloatRect  a = m_sprite.getGlobalBounds();
@@ -102,7 +102,7 @@ My_Sprite::My_Sprite(RenderWindow *app, string file, View *view, int animation_w
     m_file = file;
     m_app = app;
     FileLoader<Texture>::loadFile(m_texture, m_file);
-	m_texture.setSmooth(true);
+	//m_texture.setSmooth(true);
     m_sprite.setTexture(m_texture);
 
     m_animation_width = animation_width;
