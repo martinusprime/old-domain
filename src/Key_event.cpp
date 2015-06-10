@@ -13,7 +13,9 @@ Key_event_handler::Key_event_handler()
         {sf::Keyboard::Q, ACT_GO_LEFT},
         {sf::Keyboard::Left, ACT_GO_LEFT},
         {sf::Keyboard::T, ACT_ZOOM_IN},
-        {sf::Keyboard::G, ACT_ZOOM_OUT}
+        {sf::Keyboard::G, ACT_ZOOM_OUT},
+		{sf::Keyboard::C, ACT_ROTATE_RIGHT},
+		{sf::Keyboard::V, ACT_ROTATE_LEFT}
     };
 }
 

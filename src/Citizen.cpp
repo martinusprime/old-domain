@@ -365,3 +365,9 @@ void Citizen::handle_mouse_click(Vector2f selection_vector, sf::Mouse::Button cl
         }
     }
 }
+
+void Citizen::moveTo(int x, int y)
+{
+	m_x = x;
+	m_y = y;
+}

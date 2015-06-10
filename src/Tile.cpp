@@ -39,3 +39,9 @@ void Tile::draw()
     influence_sprite.draw( ( x_pos - y_pos) * (tile_size.x / 2), (y_pos +x_pos) * (tile_size.y / 2));
     }*/
 }
+
+void Tile::moveTo(int x, int y)
+{
+	m_x_pos = x;
+	m_y_pos = y;
+}

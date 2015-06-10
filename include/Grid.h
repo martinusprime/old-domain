@@ -8,6 +8,8 @@
 #include "Sprite_Creator.h"
 #include "Tile.h"
 
+#include "Unit.h"
+
 
 
 class Grid
@@ -22,6 +24,8 @@ public:
     /* Check if coordinate is valid within this grid. */
     bool is_valid(Coordinate coord);
     void draw();
+	void rotateRight(vector <shared_ptr<Unit>> m_units);
+	void rotateLeft(vector <shared_ptr<Unit>> m_units);
 
 private:
     std::vector<std::vector<Tile> > m_grid;

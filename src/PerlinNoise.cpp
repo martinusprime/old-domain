@@ -7,7 +7,7 @@ PerlinNoise::PerlinNoise()
   frequency = amplitude * 0.08;
 
   octaves = 2;
-  randomseed = 20;
+  randomseed = 80;
 }
 
 PerlinNoise::PerlinNoise(double _persistence, double _frequency, double _amplitude, int _octaves, int _randomseed)

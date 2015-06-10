@@ -56,7 +56,8 @@ public:
     void find_path_to_goal();
     void handle_mouse_click(Vector2f selection_vector, sf::Mouse::Button click, int x_cursor, int y_cursor) override;
 
-    
+	void Citizen::moveTo(int x, int y);
+
     vector<Button> m_citizen_actions; //TODO make this private
 
 private:
@@ -83,7 +84,8 @@ private:
     Sprite_Creator m_sprite_creator1;
     My_Sprite m_goal_sprite;
     My_Sprite m_sprite;
-    int m_x, m_y, m_goal_x, m_goal_y, path_place, path_number;
+    //int m_x, m_y;
+	int	m_goal_x, m_goal_y, path_place, path_number;
     /* path through which the citizen move, -1 for no path */
     std::deque<Coordinate> m_move_path;
     //CITIZEN INFO

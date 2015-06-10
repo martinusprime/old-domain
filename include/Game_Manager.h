@@ -106,6 +106,7 @@ private:
     dialog m_dialog;    
     std::vector<std::shared_ptr<Unit> > m_units;
     std::vector<City> m_cities;
+
 };
 
 #endif // GAME_MANAGER_H
