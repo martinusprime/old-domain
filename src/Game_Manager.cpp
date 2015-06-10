@@ -87,6 +87,14 @@ void Game_Manager::execute_action(Action action)
         cout << "close app\n";
         m_app->close();
         break;
+	case ACT_ROTATE_RIGHT:
+		m_grid.rotateRight(m_units);
+		draw();
+		break;
+	case ACT_ROTATE_LEFT:
+		m_grid.rotateLeft(m_units);
+		draw();
+		break;
     default:
         break;
     }
@@ -274,6 +282,7 @@ void Game_Manager::draw_gui()
 void Game_Manager::create_map(int map_width, int map_height)
 {
     //sur 200
+	cout << "Creation" << endl;
     water_rate = 55;
     sand_rate = 90;
     deep_sea_rate = 4;

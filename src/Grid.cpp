@@ -71,14 +71,70 @@ void Grid::draw()
         for (size_t j = 0; j < m_grid[0].size(); j++)
         {
             (*this)(i, j).draw();
-            if ((*this)(i, j).ressource_type == RSC_WOOD  && i < 25 && j < 25)
+            if ((*this)(i, j).ressource_type == RSC_WOOD  && i < 40 && j < 40)
             {
                 m_resource[0].m_sprites[0].draw_tile((i - j)* (Tile::tile_size.m_w / 2), (i + j)* (Tile::tile_size.m_h / 2), (*this)(i, j).random_pattern);
             }	
-            if ((*this)(i, j).ressource_type == RSC_STONE && i < 25 && j < 25)
+            if ((*this)(i, j).ressource_type == RSC_STONE && i < 40 && j < 40)
             {
                 m_resource[1].m_sprites[(*this)(i, j).resource_location].draw((i - j)* (Tile::tile_size.m_w / 2), (i + j)* (Tile::tile_size.m_h / 2));
             }
+		}
+	}
+}
+
+void Grid::rotateRight(vector <shared_ptr<Unit>> m_units)
+{
+	Grid temp(m_grid[0].size(), m_grid.size(), m_view1, m_app);
+	
+	for (size_t i = 0; i < m_grid[0].size(); i++)
+	{
+		for (size_t j = 0; j < m_grid.size(); j++)
+		{
+			temp.m_grid[i][j] = m_grid[j][m_grid.size() - 1 - i];
+			temp.m_grid[i][j].moveTo(i, j);
+		}
+	}
+	for (size_t i = 0; i < m_units.size(); i++)
+	{
+		int x = m_units[i]->get_x();
+		int y = m_units[i]->get_y();
+		m_units[i]->moveTo(m_grid[0].size() - 1 - y, x);
+	}
+	for (size_t i = 0; i < m_grid[0].size(); i++)
+	{
+		for (size_t j = 0; j < m_grid.size(); j++)
+		{
+			m_grid[i][j] = temp.m_grid[i][j];
+		}
+	}
+
+}
+
+void Grid::rotateLeft(vector <shared_ptr<Unit>> m_units)
+{
+	Grid temp(m_grid[0].size(), m_grid.size(), m_view1, m_app);
+
+	for (size_t i = 0; i < m_grid[0].size(); i++)
+	{
+		for (size_t j = 0; j < m_grid.size(); j++)
+		{
+			temp.m_grid[i][j] = m_grid[m_grid[0].size() - 1 - j][i];
+			temp.m_grid[i][j].moveTo(i, j);
+		}		
+	}
+	for (size_t i = 0; i < m_units.size(); i++)
+	{
+		int x = m_units[i]->get_x();
+		int y = m_units[i]->get_y();
+		m_units[i]->moveTo(y, m_grid.size() - 1 - x);
+	}
+	
+	for (size_t i = 0; i < m_grid[0].size(); i++)
+	{
+		for (size_t j = 0; j < m_grid.size(); j++)
+		{				
+			m_grid[i][j] = temp.m_grid[i][j];
 		}
 	}
 }

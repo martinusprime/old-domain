@@ -77,6 +77,7 @@ class Tile
 public:
     Tile();
     void draw();
+	void moveTo(int x, int y);
 
     static const int TILE_WIDTH = 128;
     static const int TILE_HEIGHT = 64;
