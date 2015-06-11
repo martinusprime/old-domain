@@ -6,9 +6,9 @@
 Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int screen_y)
 : m_view1(view1)
 , menu1(app, &m_view2)
-, m_grid(GRID_WIDTH, GRID_HEIGHT, &view1, app)
-, selection_sprite(app, "ressources/selection.png", &view1)
-, interface1(app, &view1, m_w, m_h)
+, m_grid(GRID_WIDTH, GRID_HEIGHT, &m_view1, app)
+, selection_sprite(app, "ressources/selection.png", &m_view1)
+, interface1(app, &m_view1, m_w, m_h)
 , m_dialog(m_grid, app, &m_view2, screen_x, screen_y)
 , builder_gui1(m_grid, app, &m_view1, &m_view2)
 {
@@ -26,7 +26,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
     zoom_change = ZOOM_NO_CHANGE;
 
     m_app = app;
-    m_app->setView(view1);
+    m_app->setView(m_view1);
 
     window_vec = m_app->getSize();
     cout<<"x_window"<<window_vec.x<<"y_window "<<window_vec.y<<endl;
@@ -34,7 +34,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
     m_view2.reset(FloatRect(0.0f, 0.0f, static_cast<float>(m_screen_x), static_cast<float>(m_screen_y)));
     m_view2.setViewport(FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
 
-    Vector2f vecsize = view1.getSize();
+    Vector2f vecsize = m_view1.getSize();
     m_h = static_cast<int>(vecsize.y);
     m_w = static_cast<int>(vecsize.x);
 
@@ -50,13 +50,13 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
     create_map(GRID_WIDTH, GRID_HEIGHT);
 
     for (int i = 0; i < 3; i++) {
-        m_units.push_back(shared_ptr<Unit>(new Citizen(m_grid, app, &view1, &m_view2, *this)));
+        m_units.push_back(shared_ptr<Unit>(new Citizen(m_grid, app, &m_view1, &m_view2, *this)));
     }
     m_grid(0, 0).citizen_id = 0;
 
-    m_buildings.push_back(Building{ app, &view1, 0 });
+    m_buildings.push_back(Building{ app, &m_view1, 0 });
 
-    //now that view1 has been reseted we can load tile files
+    //now that m_view1 has been reseted we can load tile files
     m_grid.loadFiles();
     tile_info.init(app, "lieu vierge", 10, 1);
 }
