@@ -19,7 +19,7 @@ string Sprite_Creator::create_character_name(Gender gender)
     string character_name;
 
     string temp_name[3];
-    int random = Random::get_int(0, 6);
+    int random = Random::get_int(1, 6);
     if (gender == GDR_WOMAN)
     {
         ifstream name_file("ressources/character/namesf.txt");
@@ -51,24 +51,24 @@ string Sprite_Creator::create_character_name(Gender gender)
     ifstream name_file2("ressources/character/suffixes.txt");
 
     if (name_file2) {
-        random = Random::get_int(0, 6);
+        random = Random::get_int(1, 6) + 1;
         for (int i = 0; i < random; i++)
         {
             temp_name[1] = "";
             name_file2 >> temp_name[1];
         }
     }
-
+ 
     ifstream name_file3("ressources/character/last_names.txt");
     if (name_file3) {
-        random = Random::get_int(0, 6);
+        random = Random::get_int(1, 6) + 1;
         for (int i = 0; i < random; i++)
         {
             temp_name[2] = "";
             name_file3 >> temp_name[2];
         }
     }
-
+   cout <<"names: "<< random<<endl;
     character_name = temp_name[0] + temp_name[1] + std::string(" ") + temp_name[2];
     return character_name;
 }
