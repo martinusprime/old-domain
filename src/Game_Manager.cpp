@@ -11,6 +11,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
 , interface1(app, &m_view1, m_w, m_h)
 , m_dialog(m_grid, app, &m_view2, screen_x, screen_y)
 , builder_gui1(m_grid, app, &m_view1, &m_view2)
+, m_info(app, &view1, 1920, 1080)
 {
     is_menu_visible = true;
     m_screen_x = screen_x;
@@ -215,6 +216,8 @@ void Game_Manager::update()
             window.update();
         }
     }
+   // m_info.update();
+
     update_units();
 }
 
@@ -275,6 +278,8 @@ void Game_Manager::draw_gui()
     draw_selection();
     builder_gui1.draw();
     interface1.draw();
+
+    m_info.draw();
 
     m_app->setView(m_view1);
 }
@@ -485,7 +490,10 @@ void Game_Manager::handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_ve
 
     //TODO check all units, not only citizen 0
     for (shared_ptr<Unit> &unit : m_units) {
-        unit->handle_mouse_click(m_selection_vector, click, m_x_cursor, m_y_cursor);
+        if (unit->handle_mouse_click(m_selection_vector, click, m_x_cursor, m_y_cursor))
+        {
+         //   m_info.fill(unit->get_name());
+        }
     }
 }
 

@@ -41,6 +41,11 @@ int Citizen::get_y()
     return m_y;
 }
 
+String Citizen::get_name()
+{
+    return m_name.get_text();
+}
+
 bool Citizen::get_goal()
 {
     return m_has_goal;
@@ -343,7 +348,7 @@ void Citizen::update()
     }
 }
 
-void Citizen::handle_mouse_click(Vector2f selection_vector, sf::Mouse::Button click, int x_cursor, int y_cursor)
+bool Citizen::handle_mouse_click(Vector2f selection_vector, sf::Mouse::Button click, int x_cursor, int y_cursor)
 {
     if (get_sprite().getGlobalBounds().contains(selection_vector) && !is_selected())
     {
@@ -352,7 +357,7 @@ void Citizen::handle_mouse_click(Vector2f selection_vector, sf::Mouse::Button cl
             select();
         }
         else if (click == sf::Mouse::Button::Right) {
-            // ??
+            return true; //for the  info window to open
         }
     }
     if (is_selected() && (x_cursor != get_x() || y_cursor != get_y()))
@@ -364,6 +369,7 @@ void Citizen::handle_mouse_click(Vector2f selection_vector, sf::Mouse::Button cl
             deselect();
         }
     }
+    return false;
 }
 
 void Citizen::moveTo(int x, int y)

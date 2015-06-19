@@ -23,6 +23,7 @@ public:
     void add_button(int x, int y);
     void update();
     void activate();
+    void set_name(string name);
     int get_glissor(int glissor_number_get);
     void desactivate();
     bool is_activated();

@@ -26,6 +26,7 @@ void My_Text::init(RenderWindow *app, std::string content, int character_size, b
     //if(!m_texture.loadFromFile("ressources/menu_background.png"))
     //{
     //}
+    m_content = content;
 
     if(My_Text::m_font1.loadFromFile("ressources/font2.ttf"))
     {
@@ -85,4 +86,10 @@ void My_Text::change_font(std::string font_file)
 {
     m_font1.loadFromFile(font_file);
     m_text1.setFont(m_font1);
+}
+
+
+String My_Text::get_text()
+{
+    return m_content;
 }

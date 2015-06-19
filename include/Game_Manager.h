@@ -8,6 +8,7 @@
 #include <string>
 #include <cmath>
 
+#include "Builder_gui.h"
 #include "Building.h"
 #include "Button.h"
 #include "City.h"
@@ -15,13 +16,13 @@
 #include "Key_event.h"
 #include "Grid.h"
 #include "Hud.h"
+#include "Info.h"
 #include "Menu.h"
 #include "My_Sprite.h"
 #include "My_window.h"
 #include "PerlinNoise.h"
 #include "Sprite_Creator.h"
 #include "Unit.h"
-#include "Builder_gui.h"
 
 
 using namespace sf;
@@ -91,6 +92,8 @@ private:
     static const int GRID_WIDTH = 40; //202;
     static const int GRID_HEIGHT = 40; //202;
     Grid m_grid;
+
+    Info m_info;
 
     int m_w, m_h;
     int m_screen_y; //height of the game window height in pixels

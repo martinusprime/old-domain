@@ -14,6 +14,7 @@ public:
     void init(RenderWindow *app, std::string content, int character_size, bool color);
     void init(RenderWindow *app, std::string content, int character_size, bool color, int color_r,  int color_g, int color_b);
     void draw(int x, int y, int character_size);
+    String get_text();
     void refill(std::string content);
     void change_font(std::string font_file);
 
@@ -25,6 +26,7 @@ private:
     //can not be destroyed (see sf::Text documentation)
     static Font m_font1;
     Text m_text1;
+    String m_content;
     Color m_current_color;
 };
 

@@ -73,6 +73,12 @@ void My_window::desactivate()
     activation = false;
 }
 
+void My_window::set_name(string name)
+{
+    m_name.refill(name);
+}
+
+
 void My_window::update()
 {
     if(grip_bar.is_over() && Mouse::isButtonPressed(Mouse::Left) && !moving)
