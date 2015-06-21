@@ -40,11 +40,12 @@ int Citizen::get_y()
 {
     return m_y;
 }
-
+/*
 String Citizen::get_name()
 {
     return m_name.get_text();
 }
+*/
 
 bool Citizen::get_goal()
 {

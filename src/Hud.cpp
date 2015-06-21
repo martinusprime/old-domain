@@ -7,6 +7,7 @@ Hud::Hud(RenderWindow *app, View *view, int screen_width, int screen_height)
     , rock_sprite(app, "ressources/rock.png", m_view1)
     , glass_sprite(app, "ressources/wood.png", m_view1) //TODO
     , sand_sprite(app, "ressources/wood.png", m_view1) //TODO
+    , m_resources_window(app, "ressources", 0.5, 0.5, 0, 0, m_view1, 1920, 1080)
 {
     wood_number = 0;
     current_season = 0;
@@ -38,7 +39,6 @@ void Hud::draw_ressources()
 
 void Hud::draw()
 {
-    draw_ressources();
 
     //drawing of seasons icons and time for seasons
     season_time = season_clock.getElapsedTime();
@@ -69,4 +69,7 @@ void Hud::draw()
     }
 
     year_text.draw( m_screen_width - 110, 0 , 22);
+
+    draw_ressources();
+
 }

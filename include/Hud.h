@@ -9,7 +9,7 @@
 #include "Menu.h"
 #include "My_Sprite.h"
 #include "My_Text.h"
-
+#include "Info.h"
 
 class Hud
 {
@@ -30,5 +30,7 @@ private:
     My_Text wood_text, year_text;
     Clock season_clock, year_clock;
     Time season_time, year_time;
+
+    My_window m_resources_window;
 };
 

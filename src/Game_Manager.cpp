@@ -8,7 +8,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
 , menu1(app, &m_view2)
 , m_grid(GRID_WIDTH, GRID_HEIGHT, &m_view1, app)
 , selection_sprite(app, "ressources/selection.png", &m_view1)
-, interface1(app, &m_view1, m_w, m_h)
+, interface1(app, &m_view2, screen_x, screen_y)
 , m_dialog(m_grid, app, &m_view2, screen_x, screen_y)
 , builder_gui1(m_grid, app, &m_view1, &m_view2)
 , m_info(app, &view1, 1920, 1080)
@@ -225,6 +225,7 @@ void Game_Manager::update_units()
 {
     for (std::shared_ptr<Unit> &unit : m_units) {
         unit->update();
+       
     }
 }
 
@@ -277,6 +278,7 @@ void Game_Manager::draw_gui()
     m_dialog.draw();
     draw_selection();
     builder_gui1.draw();
+
     interface1.draw();
 
     m_info.draw();
@@ -492,7 +494,7 @@ void Game_Manager::handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_ve
     for (shared_ptr<Unit> &unit : m_units) {
         if (unit->handle_mouse_click(m_selection_vector, click, m_x_cursor, m_y_cursor))
         {
-         //   m_info.fill(unit->get_name());
+    //        m_info.fill(unit->get_name());
         }
     }
 }
