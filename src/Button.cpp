@@ -1,7 +1,7 @@
 #include "Button.h"
 
 Button::Button(RenderWindow *app, string name, int x, int y, int window_x, int window_y, View *view1)
-: button_sprite(app, "ressources/button.png", view1)
+    : button_sprite(app, "ressources/button.png", view1)
 {
     m_x = x;
     m_y = y;
@@ -10,9 +10,9 @@ Button::Button(RenderWindow *app, string name, int x, int y, int window_x, int w
     m_window_x = window_x;
     m_window_y = window_y;
 
-    float witdh_rate = name.size() ;
+    float witdh_rate = name.size();
     m_w = witdh_rate * 20;
-    button_sprite.scale( witdh_rate, 1);
+    button_sprite.scale(witdh_rate, 1);
     m_name.init(m_app, name, 55, 1);
     cross = false;
     mouse_on = false;
@@ -21,8 +21,25 @@ Button::Button(RenderWindow *app, string name, int x, int y, int window_x, int w
 
 }
 
-Button::Button(RenderWindow *app,bool is_cross, int window_x, int window_y,int window_w,  View *view1)
-: button_sprite(app, "ressources/cross.png", view1)
+Button::Button(RenderWindow *app_get, string name_get, bool a_file, int x_get, int y_get, int window_x_get, int window_y_get, View *view1_get)
+    : button_sprite(app_get, name_get, view1_get)
+{
+    m_x = x_get;
+    m_y = y_get;
+    m_w = button_sprite.get_w();
+    m_h = button_sprite.get_h();
+    m_app = app_get;
+    m_view1 = view1_get;
+    cross = false;
+    cout << " name: " << name_get << " " << m_w << " " << m_h << endl;
+    mouse_on = false;
+    mouse_click = false;
+    activation = false;
+
+}
+
+Button::Button(RenderWindow *app, bool is_cross, int window_x, int window_y, int window_w, View *view1)
+    : button_sprite(app, "ressources/cross.png", view1)
 {
     m_app = app;
     m_view1 = view1;
@@ -37,10 +54,10 @@ Button::Button(RenderWindow *app,bool is_cross, int window_x, int window_y,int w
 
 void Button::draw()
 {
-    button_sprite.draw(m_x + m_window_x, m_y + m_window_y);
-    if(!cross)
+    button_sprite.draw(m_x , m_y );
+    if (!cross)
     {
-        m_name.draw(m_x + m_window_x, m_y + m_window_y, 23);
+        m_name.draw(m_x, m_y , 23);
     }
 }
 
@@ -51,14 +68,14 @@ void Button::update(int x_get, int y_get)
 
     mouse_vec = Mouse::getPosition(*m_app);
     m_a = m_app->mapPixelToCoords(mouse_vec, *m_view1);
-    if( m_a.x >= m_x + m_window_x &&  m_a.x <= m_x  + m_window_x + m_w
-            && m_a.y >= m_y + m_window_y  && m_a.y <= m_y + m_window_y + 30&& cross ==false)
+    if (m_a.x >= m_x &&  m_a.x <= m_x + m_w
+        && m_a.y >= m_y   && m_a.y <= m_y + m_h)
     {
 
-        mouse_on  = true;
+        mouse_on = true;
     }
-    else if(m_a.x >= m_x + m_window_x &&  m_a.x <= m_x  + m_window_x + 25
-            && m_a.y >= m_y + m_window_y  && m_a.y <= m_y + m_window_y + 25 && cross ==true)
+    else if (m_a.x >= m_x &&  m_a.x <= m_x
+        && m_a.y >= m_y  && m_a.y <= m_y  && cross == true)
     {
         mouse_on = true;
     }
@@ -67,28 +84,29 @@ void Button::update(int x_get, int y_get)
         mouse_on = false;
         button_sprite.add_color(50, 50, 50, 255);
     }
-    if(mouse_on)
+    if (mouse_on)
     {
         button_sprite.add_color(120, 120, 120, 255);
-        if(Mouse::isButtonPressed(Mouse::Left))
+        if (Mouse::isButtonPressed(Mouse::Left))
         {
             mouse_click = true;
         }
     }
-    if(mouse_click)
+    if (mouse_click)
     {
         button_sprite.add_color(220, 220, 220, 255);
 
     }
-    if(!Mouse::isButtonPressed(Mouse::Left))
+    if (!Mouse::isButtonPressed(Mouse::Left))
     {
-        if(mouse_click && mouse_on)
+        if (mouse_click && mouse_on)
         {
             activation = true;
         }
         mouse_click = false;
 
     }
+    mouse_click = false;
 
 }
 
