@@ -28,7 +28,7 @@ private:
     My_Sprite m_sprite;
     int m_x, m_y;
     int m_type, m_tile_size_x, m_tile_size_y;
-    My_Text m_name;
+    //My_Text m_name;
 };
 
 #endif // CITY_H

@@ -76,3 +76,12 @@ void Hud::draw()
 
     draw_ressources();
 }
+void Hud::set_resource(Ressources_type_enum resource_type, float number)
+{
+    if (resource_type == RSC_WOOD)
+    {
+        wood_number += number;
+        wood_text.refill( std::to_string(wood_number));
+
+    }
+}

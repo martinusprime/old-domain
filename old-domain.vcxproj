@@ -83,6 +83,7 @@
     <ClCompile Include="src\Hud.cpp" />
     <ClCompile Include="src\Info.cpp" />
     <ClCompile Include="src\Key_event.cpp" />
+    <ClCompile Include="src\Loading_bar.cpp" />
     <ClCompile Include="src\Menu.cpp" />
     <ClCompile Include="src\My_Sprite.cpp" />
     <ClCompile Include="src\My_Text.cpp" />
@@ -108,6 +109,7 @@
     <ClInclude Include="include\Hud.h" />
     <ClInclude Include="include\Info.h" />
     <ClInclude Include="include\Key_event.h" />
+    <ClInclude Include="include\Loading_bar.h" />
     <ClInclude Include="include\Menu.h" />
     <ClInclude Include="include\My_Sprite.h" />
     <ClInclude Include="include\My_Text.h" />

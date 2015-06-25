@@ -77,10 +77,6 @@ void Citizen::draw()
 
     if (is_selected())
     {
-        m_citizen_actions[0].update((m_x - m_y) * 64 + 128, (m_y + m_x) * 32);
-        m_citizen_actions[1].update((m_x - m_y) * 64 + 128, (m_y + m_x) * 32 + m_citizen_actions[1].get_h());
-        m_citizen_actions[2].update((m_x - m_y) * 64 + 128, (m_y + m_x) * 32 + m_citizen_actions[2].get_h() * 2);
-        m_citizen_actions[3].update((m_x - m_y) * 64 + 128, (m_y + m_x) * 32 + m_citizen_actions[2].get_h() * 3);
         if (is_on_city())
         {
         }
@@ -291,7 +287,7 @@ void Citizen::select()
 
 bool Citizen::is_mouse_over_actions()
 {
-    if (m_citizen_actions[0].is_over() == true || m_citizen_actions[1].is_over() == true || m_citizen_actions[2].is_over() == true)
+    if (m_citizen_actions[0].is_over() == true || m_citizen_actions[1].is_over() == true || m_citizen_actions[2].is_over() == true || m_citizen_actions[3].is_over() == true)
     {
         return true;
     }
@@ -351,18 +347,31 @@ void Citizen::update()
     //2->observer la ressource
     if (is_selected())
     {
-        m_game_manager.show_action_button(m_citizen_actions[0]);
-    }
+            m_citizen_actions[0].update((m_x - m_y) * 64 + 128, (m_y + m_x) * 32);
+            m_citizen_actions[1].update((m_x - m_y) * 64 + 128, (m_y + m_x) * 32 + m_citizen_actions[1].get_h());
+            m_citizen_actions[2].update((m_x - m_y) * 64 + 128, (m_y + m_x) * 32 + m_citizen_actions[2].get_h() * 2);
+            m_citizen_actions[3].update((m_x - m_y) * 64 + 128, (m_y + m_x) * 32 + m_citizen_actions[2].get_h() * 3);
 
-    if (m_citizen_actions[0].is_activated())
-    {
-        m_citizen_actions[0].desactivate();
+            if (m_citizen_actions[0].is_activated())
+            {
+                m_citizen_actions[0].desactivate();
 
-    }
-    if (m_citizen_actions[2].is_activated())  //l'action sur la ressource
-    {
-        m_citizen_actions[2].desactivate();
-        m_game_manager.create_city(get_x(), get_y());
+            }
+          
+            if (m_citizen_actions[1].is_activated())  //l'action sur la ressource
+            {
+                m_citizen_actions[1].desactivate();
+                if (m_grid(m_x, m_y ).ressource_type == RSC_WOOD)
+                {
+                    m_game_manager.interface1.set_resource(RSC_WOOD, 1.0f);
+                    m_grid(m_x, m_y).ressource_type = RSC_NO;
+                }
+            }
+            if (m_citizen_actions[2].is_activated())
+            {
+                m_citizen_actions[2].desactivate();
+                m_game_manager.create_city(get_x(), get_y());
+            }
     }
     if (m_grid(get_x(), get_y()).is_city == true)
     {

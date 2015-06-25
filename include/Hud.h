@@ -10,6 +10,7 @@
 #include "Menu.h"
 #include "My_Sprite.h"
 #include "My_Text.h"
+#include "Tile.h"
 
 class Hud
 {
@@ -17,6 +18,7 @@ public:
     Hud(RenderWindow *app, View *view, int screen_width, int screen_height);
     void draw();
     void draw_ressources();
+    void set_resource(Ressources_type_enum resource_type, float number);
     virtual ~Hud() = default;
 
 private:
@@ -24,7 +26,8 @@ private:
     RenderWindow *m_app;
     Event event;
     int m_screen_width, m_screen_height;
-    int wood_number, current_season, current_year, year_lenght;
+    int current_season, current_year, year_lenght;
+    float wood_number;
     My_Sprite wood_sprite, iron_sprite, sand_sprite, glass_sprite, rock_sprite;
     vector<My_Sprite> season_sprites;
     vector<Button> tasks_sprites;

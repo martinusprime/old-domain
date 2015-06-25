@@ -45,6 +45,7 @@ public:
     void show_action_button(Button &button);
     void create_city(int x, int y);
     virtual ~Game_Manager() = default;
+    Hud interface1;
 
 private:
     void create_map(int map_width, int map_height);
@@ -102,10 +103,9 @@ private:
     int m_screen_x; //width of the game window in pixels
 
     My_Sprite selection_sprite;
-    My_Sprite gui_1, action_sprite;
+    My_Sprite action_sprite;
     My_Text selection_text[5], tile_info;
     vector<My_window> windows;//1  for citizen window
-    Hud interface1;
     vector<Building> m_buildings;
     int wood, iron, sand, glass, rock;
     dialog m_dialog;    
