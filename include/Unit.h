@@ -10,7 +10,10 @@ public:
     virtual void draw() = 0; //TODO move to My_Drawable and make Unit inherit from My_Drawable
     virtual void update() = 0;
     virtual bool handle_mouse_click(sf::Vector2f selection_vector, sf::Mouse::Button click, int x_cursor, int y_cursor) = 0;
-   // virtual void get_name() = 0 ;
+    virtual bool is_mouse_over_actions() = 0;
+    virtual bool is_selected() = 0;
+
+    // virtual void get_name() = 0 ;
 
 	void moveTo(int x, int y);
 	int get_x();

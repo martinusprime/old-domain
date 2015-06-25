@@ -26,9 +26,22 @@ Citizen::Citizen(Grid &grid, RenderWindow *app, View *view, View *view2, Game_Ma
 
     m_name.init(app, m_sprite_creator1.create_character_name(GDR_WOMAN), 25,  1);
 
-    m_citizen_actions.push_back(Button{ app, "Fonder une ville", 0, 0, 0, 0, view2 });
-    m_citizen_actions.push_back(Button{ app, "Rentrer dans la ville", 0, 0, 0, 0, view2 });
-    m_citizen_actions.push_back(Button{ app, "Observer la ressource", 0, 0, 0, 0, view2 });
+
+    m_citizen_actions.push_back(Button{ app, "ressources/task_observe.png", true, 0, 0, 0, 0, m_view1 });
+    m_citizen_actions_text.push_back(My_Text{});
+    m_citizen_actions_text[0].init(app, "observer case", 20, 1);
+
+    m_citizen_actions.push_back(Button{ app, "ressources/task_harvest.png", true, 0, 0, 0, 0, m_view1 });
+    m_citizen_actions_text.push_back(My_Text{});
+    m_citizen_actions_text[1].init(app, "fonder ville", 20, 1);
+
+    m_citizen_actions.push_back(Button{ app, "ressources/task_city.png", true, 0, 0, 0, 0, m_view1 });
+    m_citizen_actions_text.push_back(My_Text{});
+    m_citizen_actions_text[2].init(app, "fonder ville", 20, 1);
+
+    m_citizen_actions.push_back(Button{ app, "ressources/task_build.png", true, 0, 0, 0, 0, m_view1 });
+    m_citizen_actions_text.push_back(My_Text{});
+    m_citizen_actions_text[2].init(app, "fonder ville", 20, 1);
 }
 
 int Citizen::get_x()
@@ -64,15 +77,17 @@ void Citizen::draw()
 
     if (is_selected())
     {
-        m_citizen_actions[0].draw();
+        m_citizen_actions[0].update((m_x - m_y) * 64 + 128, (m_y + m_x) * 32);
+        m_citizen_actions[1].update((m_x - m_y) * 64 + 128, (m_y + m_x) * 32 + m_citizen_actions[1].get_h());
+        m_citizen_actions[2].update((m_x - m_y) * 64 + 128, (m_y + m_x) * 32 + m_citizen_actions[2].get_h() * 2);
+        m_citizen_actions[3].update((m_x - m_y) * 64 + 128, (m_y + m_x) * 32 + m_citizen_actions[2].get_h() * 3);
         if (is_on_city())
         {
+        }
+            m_citizen_actions[0].draw();
             m_citizen_actions[1].draw();
-        }
-        else
-        {
             m_citizen_actions[2].draw();
-        }
+            m_citizen_actions[3].draw();
     }
 }
 
@@ -274,6 +289,15 @@ void Citizen::select()
     m_sprite.add_color(90, 120, 40, 255);
 }
 
+bool Citizen::is_mouse_over_actions()
+{
+    if (m_citizen_actions[0].is_over() == true || m_citizen_actions[1].is_over() == true || m_citizen_actions[2].is_over() == true)
+    {
+        return true;
+    }
+    else return false;
+}
+
 void Citizen::deselect()
 {
     m_is_selected = false;
@@ -332,16 +356,13 @@ void Citizen::update()
 
     if (m_citizen_actions[0].is_activated())
     {
-        m_game_manager.create_city(get_x(), get_y());
+        m_citizen_actions[0].desactivate();
 
     }
     if (m_citizen_actions[2].is_activated())  //l'action sur la ressource
     {
-        //TODO
-        //m_cities.push_back(City{ m_app, &m_view1, m_units[0]->get_x(), m_units[0]->get_y(), Tile::tile_size.x, Tile::tile_size.y });
-        // windows[1].init(app, "Action", 550, 400, w/2, h/2, &view1);
-
-        //m_grid(get_x(), get_x()).is_city = true;
+        m_citizen_actions[2].desactivate();
+        m_game_manager.create_city(get_x(), get_y());
     }
     if (m_grid(get_x(), get_y()).is_city == true)
     {
@@ -351,26 +372,34 @@ void Citizen::update()
 
 bool Citizen::handle_mouse_click(Vector2f selection_vector, sf::Mouse::Button click, int x_cursor, int y_cursor)
 {
-    if (get_sprite().getGlobalBounds().contains(selection_vector) && !is_selected())
+    if (is_mouse_over_actions() == false)
     {
-        if (click == sf::Mouse::Button::Left) {
-            std::cout << "Unit selected" << std::endl;
-            select();
+        if (get_sprite().getGlobalBounds().contains(selection_vector) && !is_selected())
+        {
+            if (click == sf::Mouse::Button::Left) {
+                std::cout << "Unit selected" << std::endl;
+                select();
+            }
+            else if (click == sf::Mouse::Button::Right) {
+                return true; //for the  info window to open
+            }
         }
-        else if (click == sf::Mouse::Button::Right) {
-            return true; //for the  info window to open
-        }
-    }
-    if (is_selected() && (x_cursor != get_x() || y_cursor != get_y()))
-    {
-        if (click == sf::Mouse::Button::Right) {
-            set_goal(x_cursor, y_cursor);
-        }
-        else if (click == sf::Mouse::Button::Left) {
-            deselect();
+        if (is_selected() && (x_cursor != get_x() || y_cursor != get_y()))
+        {
+
+
+            if (click == sf::Mouse::Button::Right) {
+                set_goal(x_cursor, y_cursor);
+            }
+            else if (click == sf::Mouse::Button::Left) {
+                deselect();
+            }
+
+
         }
     }
     return false;
+
 }
 
 void Citizen::moveTo(int x, int y)

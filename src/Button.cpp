@@ -54,11 +54,35 @@ Button::Button(RenderWindow *app, bool is_cross, int window_x, int window_y, int
 
 void Button::draw()
 {
-    button_sprite.draw(m_x , m_y );
+    button_sprite.draw(m_x, m_y);
     if (!cross)
     {
-        m_name.draw(m_x, m_y , 23);
+        m_name.draw(m_x, m_y, 23);
     }
+}
+
+bool Button::is_over()
+{
+    if (button_sprite.is_over() == 1)
+    {
+        return true;
+    }
+    else return false;
+}
+
+void Button::desactivate()
+{
+    activation = false;
+}
+
+int Button::get_w()
+{
+    return m_w;
+}
+
+int Button::get_h()
+{
+    return m_h;
 }
 
 void Button::update(int x_get, int y_get)
@@ -68,6 +92,7 @@ void Button::update(int x_get, int y_get)
 
     mouse_vec = Mouse::getPosition(*m_app);
     m_a = m_app->mapPixelToCoords(mouse_vec, *m_view1);
+
     if (m_a.x >= m_x &&  m_a.x <= m_x + m_w
         && m_a.y >= m_y   && m_a.y <= m_y + m_h)
     {
@@ -106,7 +131,8 @@ void Button::update(int x_get, int y_get)
         mouse_click = false;
 
     }
-    mouse_click = false;
+    mouse_on = true;
+
 
 }
 

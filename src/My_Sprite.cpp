@@ -290,9 +290,12 @@ void My_Sprite::add_color(int r, int g, int b, int alpha)
 bool My_Sprite::is_over()
 {
     Vector2i a = Mouse::getPosition(*m_app);
+    Vector2f map_mouse;
 
-    if( a.x >= m_x &&  a.x <= m_x  + m_w
-            && a.y >= m_y   && a.y <= m_y  + m_h)
+    map_mouse = m_app->mapPixelToCoords(a, *m_view1);
+
+    if (map_mouse.x >= m_x &&  map_mouse.x <= m_x + m_w
+        && map_mouse.y >= m_y   && map_mouse.y <= m_y + m_h)
     {
         return true;
     }

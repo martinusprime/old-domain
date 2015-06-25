@@ -14,6 +14,8 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
 , m_info(app, &view1, 1920, 1080)
 {
     is_menu_visible = true;
+    is_info = false;
+    m_mouse_over_actions = false;
     m_screen_x = screen_x;
     m_screen_y = screen_y;
     x_offset = 0;
@@ -146,9 +148,12 @@ bool Game_Manager::handle_input_events()
 	key_event.get_mouse_position(m_app, mouse_vec);
 
     //translate to m_grid coordinates
-    m_selection_vector = m_app->mapPixelToCoords(mouse_vec, m_view1);
-    m_x_cursor = static_cast<int>((m_selection_vector.x / (float)Tile::tile_size.m_w + m_selection_vector.y / (float)Tile::tile_size.m_h - 0.5) * zoom);
-    m_y_cursor = static_cast<int>((m_selection_vector.y / (float)Tile::tile_size.m_h - m_selection_vector.x / (float)Tile::tile_size.m_w + 0.5) * zoom);
+    if (m_mouse_over_actions == false)
+    {
+        m_selection_vector = m_app->mapPixelToCoords(mouse_vec, m_view1);
+        m_x_cursor = static_cast<int>((m_selection_vector.x / (float)Tile::tile_size.m_w + m_selection_vector.y / (float)Tile::tile_size.m_h - 0.5) * zoom);
+        m_y_cursor = static_cast<int>((m_selection_vector.y / (float)Tile::tile_size.m_h - m_selection_vector.x / (float)Tile::tile_size.m_w + 0.5) * zoom);
+    }
 
     handle_mouse_at_window_border(mouse_vec.x, mouse_vec.y);
 
@@ -216,18 +221,35 @@ void Game_Manager::update()
             window.update();
         }
     }
-   // m_info.update();
+    
+    if (is_info)
+    {
+        m_info.update();
+       
+    }
 
     update_units();
 }
 
 void Game_Manager::update_units()
 {
+    m_mouse_over_actions = false;
+
     for (std::shared_ptr<Unit> &unit : m_units) {
         unit->update();
-       
+        if (unit->is_selected() == 1)
+        {
+            if (unit->is_mouse_over_actions())
+            {
+                cout << "touttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttout probleme" << endl;
+                m_mouse_over_actions = true;
+            }
+
+            is_info = true;
+        }
     }
 }
+
 
 void Game_Manager::draw()
 {
@@ -281,7 +303,10 @@ void Game_Manager::draw_gui()
 
     interface1.draw();
 
-    m_info.draw();
+    if (is_info)
+    {
+        m_info.draw();
+    }
 
     m_app->setView(m_view1);
 }

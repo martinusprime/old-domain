@@ -73,11 +73,13 @@ private:
 
     Texture tile_texture[10];
     bool is_menu_visible;
+    bool m_mouse_over_actions;
+
     Menu menu1;
     Builder_gui builder_gui1;
     Clock clock_zoom;
     sf::Time zoom_time;
-    bool open_window;
+    bool open_window, is_info;
     int x_offset;
     int water_rate;
     int sand_rate;

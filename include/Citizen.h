@@ -39,6 +39,7 @@ public:
     void select();
     void deselect();
     bool is_selected();
+    bool is_mouse_over_actions();
 
     void on_city();
     bool is_on_city();
@@ -91,6 +92,8 @@ private:
     std::deque<Coordinate> m_move_path;
     //CITIZEN INFO
     My_Text m_name;
+    vector<My_Text> m_citizen_actions_text;
+
     Game_Manager &m_game_manager;
 };
 

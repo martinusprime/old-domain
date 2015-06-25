@@ -17,7 +17,6 @@ public:
     Hud(RenderWindow *app, View *view, int screen_width, int screen_height);
     void draw();
     void draw_ressources();
-    void draw_tasks();
     virtual ~Hud() = default;
 
 private:
@@ -29,7 +28,6 @@ private:
     My_Sprite wood_sprite, iron_sprite, sand_sprite, glass_sprite, rock_sprite;
     vector<My_Sprite> season_sprites;
     vector<Button> tasks_sprites;
-    vector<My_Text> tasks_texts;
     My_Sprite task_box;
     My_Text wood_text, year_text;
     Clock season_clock, year_clock;

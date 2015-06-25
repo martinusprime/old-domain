@@ -26,15 +26,6 @@ Hud::Hud(RenderWindow *app, View *view, int screen_width, int screen_height)
     season_sprites.push_back(My_Sprite{ app, "ressources/winter.png", m_view1 });
     season_sprites.push_back(My_Sprite{ app, "ressources/spring.png", m_view1 });
 
-    //task icons
-    tasks_sprites.push_back(Button{ app, "ressources/task_observe.png", true, 0, 0, 0, 0, m_view1});
-    tasks_texts.push_back(My_Text{} );
-    tasks_texts[0].init(app, "observer case", 20, 1);
-
-    tasks_sprites.push_back(Button{ app, "ressources/task_observe.png", true, 0, 0, 0, 0, m_view1 });
-    tasks_texts.push_back(My_Text{});
-    tasks_texts[1].init(app, "observer case", 20, 1);
-    //
     season_clock.restart();
     year_clock.restart();
     //make woodnumber int to string
@@ -49,19 +40,6 @@ void Hud::draw_ressources()
     wood_text.draw(m_screen_width / 2, 0, 22);
 }
 
-void Hud::draw_tasks()
-{
-    task_box.draw(0, m_screen_height - task_box.get_h() - 50);
-    tasks_texts[0].draw(0, m_screen_height - task_box.get_h() - 50, 10);
-    tasks_sprites[0].update(0, m_screen_height - task_box.get_h() - 50);
-    tasks_sprites[0].draw();
-
-    task_box.draw(task_box.get_w() , m_screen_height - task_box.get_h() - 50);
-    tasks_texts[1].draw(task_box.get_w(), m_screen_height - task_box.get_h() - 50, 10);
-    tasks_sprites[1].update(task_box.get_w(), m_screen_height - task_box.get_h() - 50);
-    tasks_sprites[1].draw();
-
-}
 
 void Hud::draw()
 {
@@ -97,5 +75,4 @@ void Hud::draw()
     year_text.draw( m_screen_width - 110, 0 , 22);
 
     draw_ressources();
-    draw_tasks();
 }

@@ -22,7 +22,10 @@ public:
     void draw();
     void update(int x_get, int y_get);
     bool is_activated();
-
+    bool is_over();
+    void desactivate();
+    int get_w();
+    int get_h();
 private:
     View *m_view1;
     RenderWindow *m_app;
