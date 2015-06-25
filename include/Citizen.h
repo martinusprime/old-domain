@@ -20,6 +20,7 @@
 #include "Sprite_Creator.h"
 #include "Tile.h"
 #include "Unit.h"
+#include "Loading_bar.h"
 
 
 struct Node {
@@ -28,6 +29,13 @@ struct Node {
     int m_H_cost;
     Coordinate m_coord;
     Coordinate m_parent;
+};
+
+enum Work
+{
+    IDLE,
+    HARVESTING,
+    TRAVELLING
 };
 
 class Citizen : public Unit
@@ -75,6 +83,8 @@ private:
         const Coordinate &parent,
         std::map<Coordinate, Node> &open_list);
 
+    Work m_work;
+
     Grid &m_grid;
     View *m_view1;
     RenderWindow *m_app;
@@ -93,7 +103,7 @@ private:
     //CITIZEN INFO
     My_Text m_name;
     vector<My_Text> m_citizen_actions_text;
-
+    Loading_bar m_resource_bar;
     Game_Manager &m_game_manager;
 };
 

@@ -10,12 +10,14 @@ Citizen::Citizen(Grid &grid, RenderWindow *app, View *view, View *view2, Game_Ma
     , m_goal_sprite(app, "ressources/goal.png", m_view1)
     , m_sprite(app, m_sprite_creator1.create_character(5, GDR_WOMAN), m_view1)
     , m_game_manager(game_manager)
+    , m_resource_bar(app, 0, 0, 1920, 1080, view)
 {
     over_city = false;
     m_has_goal = false;
     m_move_clock.restart();
     m_view1 = view;
     m_app = app;
+    m_work = IDLE;
 
     static int i = 0; //TODO in reality two units should never be on the same tile
     m_x = i++;
@@ -79,6 +81,10 @@ void Citizen::draw()
     {
         if (is_on_city())
         {
+        }
+        if (m_work == HARVESTING)
+        {
+            m_resource_bar.draw();
         }
             m_citizen_actions[0].draw();
             m_citizen_actions[1].draw();
@@ -351,7 +357,7 @@ void Citizen::update()
             m_citizen_actions[1].update((m_x - m_y) * 64 + 128, (m_y + m_x) * 32 + m_citizen_actions[1].get_h());
             m_citizen_actions[2].update((m_x - m_y) * 64 + 128, (m_y + m_x) * 32 + m_citizen_actions[2].get_h() * 2);
             m_citizen_actions[3].update((m_x - m_y) * 64 + 128, (m_y + m_x) * 32 + m_citizen_actions[2].get_h() * 3);
-
+            m_resource_bar.update((m_x - m_y) * 64 , (m_y + m_x) * 32 - m_citizen_actions[2].get_h());
             if (m_citizen_actions[0].is_activated())
             {
                 m_citizen_actions[0].desactivate();
@@ -361,11 +367,8 @@ void Citizen::update()
             if (m_citizen_actions[1].is_activated())  //l'action sur la ressource
             {
                 m_citizen_actions[1].desactivate();
-                if (m_grid(m_x, m_y ).ressource_type == RSC_WOOD)
-                {
-                    m_game_manager.interface1.set_resource(RSC_WOOD, 1.0f);
-                    m_grid(m_x, m_y).ressource_type = RSC_NO;
-                }
+                m_work = HARVESTING;
+                m_resource_bar.began();
             }
             if (m_citizen_actions[2].is_activated())
             {
@@ -376,6 +379,21 @@ void Citizen::update()
     if (m_grid(get_x(), get_y()).is_city == true)
     {
         on_city();
+    }
+
+    if (m_work == HARVESTING)
+    {
+        if (m_resource_bar.get_value() >= 100.0f)
+        {
+            m_work = IDLE;
+            if (m_grid(m_x, m_y).ressource_type == RSC_WOOD)
+            {
+            m_game_manager.interface1.set_resource(RSC_WOOD, 1.0f);
+            m_grid(m_x, m_y).ressource_type = RSC_NO;
+            }
+        }
+       
+
     }
 }
 
@@ -395,16 +413,12 @@ bool Citizen::handle_mouse_click(Vector2f selection_vector, sf::Mouse::Button cl
         }
         if (is_selected() && (x_cursor != get_x() || y_cursor != get_y()))
         {
-
-
             if (click == sf::Mouse::Button::Right) {
                 set_goal(x_cursor, y_cursor);
             }
             else if (click == sf::Mouse::Button::Left) {
                 deselect();
             }
-
-
         }
     }
     return false;
