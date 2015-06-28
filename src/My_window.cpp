@@ -98,7 +98,9 @@ void My_window::add_text(int x, int y, string content)
 
 void My_window::activate()
 {
-    activation =true;
+    moving = false;
+    m_cross.desactivate();
+    activation = true;
 }
 
 void My_window::desactivate()
@@ -161,7 +163,7 @@ void My_window::update()
         button.update(m_x, m_y);
     }
 
-    m_cross.update(m_x + window_w -m_cross.get_w() , m_y);
+    m_cross.update((m_x + window_w) - 50  , m_y);
 
     if(m_cross.is_activated())
     {

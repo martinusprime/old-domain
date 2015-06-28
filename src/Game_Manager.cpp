@@ -52,6 +52,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
 
     for (int i = 0; i < 3; i++) {
         m_units.push_back(shared_ptr<Unit>(new Citizen(m_grid, app, &m_view1, &m_view2, *this)));
+        interface1.set_citizen_number(m_units.size());
     }
     m_grid(0, 0).citizen_id = 0;
 
@@ -260,8 +261,6 @@ void Game_Manager::draw()
     if(! is_menu_visible)
     {
         m_grid.draw();
-        //drwing of the test created sprite
-        //sprite_created_1_test.draw();
 
         for (City &city : m_cities)
         {
@@ -517,7 +516,7 @@ void Game_Manager::handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_ve
     for (shared_ptr<Unit> &unit : m_units) {
         if (unit->handle_mouse_click(m_selection_vector, click, m_x_cursor, m_y_cursor))
         {
-    //        m_info.fill(unit->get_name());
+    //        m_info.fill(unit.get_name());
         }
     }
 }
@@ -607,5 +606,6 @@ void Game_Manager::show_action_button(Button &button)
 void Game_Manager::create_city(int x, int y)
 {
     m_cities.push_back(City{ m_app, &m_view1, x, y, Tile::tile_size.m_w, Tile::tile_size.m_h });
+    m_cities[m_cities.size() - 1].create_city();
     m_grid(x, y).is_city = true;
 }

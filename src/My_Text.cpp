@@ -41,10 +41,7 @@ void My_Text::init(RenderWindow *app, std::string content, int character_size, b
         m_text1.setCharacterSize(character_size);
         m_text1.setColor(m_current_color);
     }
-    else
-    {
-
-    }
+   
 }
 
 void My_Text::init(RenderWindow *app, std::string content, int character_size, bool color, int color_r,  int color_g, int color_b)
