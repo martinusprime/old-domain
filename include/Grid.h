@@ -26,7 +26,7 @@ public:
     void draw();
 	void rotateRight(vector <shared_ptr<Unit>> m_units);
 	void rotateLeft(vector <shared_ptr<Unit>> m_units);
-
+    Resource get_ressource();
 private:
     std::vector<std::vector<Tile> > m_grid;
 	std::vector<Resource> m_resource;

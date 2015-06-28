@@ -137,7 +137,7 @@ string Sprite_Creator::create_resources( int resources_id)
     string temp_name[3];
 
     ifstream name_file("ressources/resources/names.txt");
-    for (int i = 0; i < Random::get_int(1, 6); i++)
+    for (int i = 0; i < Random::get_int(1, 6) + 1; i++)
     {
         temp_name[0] = "";
         name_file >> temp_name[0];
@@ -145,14 +145,14 @@ string Sprite_Creator::create_resources( int resources_id)
 
 
     ifstream name_file2("ressources/resources/suffixes.txt");
-    for (int i = 0; i < Random::get_int(1, 6); i++)
+    for (int i = 0; i < Random::get_int(1, 6) + 1; i++)
     {
         temp_name[1] = "";
         name_file2 >> temp_name[1];
     }
 
     ifstream name_file3("ressources/resources/adjectives.txt");
-    for (int i = 0; i < Random::get_int(1, 6); i++)
+    for (int i = 0; i < Random::get_int(1, 6) +  1; i++)
     {
         temp_name[2] = "";
         name_file3 >> temp_name[2];

@@ -8,7 +8,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
 , menu1(app, &m_view2)
 , m_grid(GRID_WIDTH, GRID_HEIGHT, &m_view1, app)
 , selection_sprite(app, "ressources/selection.png", &m_view1)
-, interface1(app, &m_view2, screen_x, screen_y)
+, interface1(app, m_grid,&m_view2, screen_x, screen_y)
 , m_dialog(m_grid, app, &m_view2, screen_x, screen_y)
 , builder_gui1(m_grid, app, &m_view1, &m_view2)
 , m_info(app, &view1, 1920, 1080)
@@ -41,9 +41,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
     m_h = static_cast<int>(vecsize.y);
     m_w = static_cast<int>(vecsize.x);
 
-    windows.push_back(My_window{ m_app, "Map", 0.5f, 0.5f, 0, 0, &m_view2, m_screen_x, m_screen_y });
-    windows[0].add_glissor(100, 100);
-    //windows[0].desactivate();
+   
     for(int i = 0; i < 2; i++)
     {
         selection_text[i].init(app, "rien", 12, 1);

@@ -45,7 +45,6 @@ Button::Button(RenderWindow *app, bool is_cross, int window_x, int window_y, int
     m_view1 = view1;
     m_window_x = window_w;
     m_window_y = window_y;
-    m_name.init(m_app, "test_name", 55, 1);
     cross = true;
     mouse_on = false;
     mouse_click = false;
@@ -93,15 +92,9 @@ void Button::update(int x_get, int y_get)
     mouse_vec = Mouse::getPosition(*m_app);
     m_a = m_app->mapPixelToCoords(mouse_vec, *m_view1);
 
-    if (m_a.x >= m_x &&  m_a.x <= m_x + m_w
-        && m_a.y >= m_y   && m_a.y <= m_y + m_h)
+    if (button_sprite.is_over() == 1)
     {
 
-        mouse_on = true;
-    }
-    else if (m_a.x >= m_x &&  m_a.x <= m_x
-        && m_a.y >= m_y  && m_a.y <= m_y  && cross == true)
-    {
         mouse_on = true;
     }
     else

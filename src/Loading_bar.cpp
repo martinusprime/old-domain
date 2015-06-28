@@ -29,10 +29,12 @@ Loading_bar::Loading_bar(RenderWindow *app, int x, int y, int window_x, int wind
     m_x = x;
     m_y = y;
     m_app = app;
-    m_rate.init(app, " 05", 55, 1);
+    m_rate.init(app, " 0", 55, 1);
     m_value = 0;
     m_mouse_on = false;
     m_clock.restart();
+    m_loading_bar.scale(m_value, 1.0f);
+
 }
 
 void Loading_bar::draw()
@@ -53,7 +55,8 @@ float Loading_bar::get_value()
 
 void Loading_bar::began()
 {
-    m_value = 0;
+    m_value = 0.0f;
+    m_loading_bar.scale(m_value, 1.0f);
     m_clock.restart();
 }
 
@@ -69,20 +72,16 @@ void Loading_bar::update(int x, int y)
     {
         m_mouse_on = true;
     }
-    if (m_value < 0)
+    if (m_value > 1.0f)
     {
-        m_value = 0;
-    }
-    if (m_value > 100)
-    {
-        m_value = 100;
+        m_value = 1.0f;
     }
 
     if (m_clock.getElapsedTime().asSeconds() >= 0.05)
     {
         m_clock.restart();
-        m_value += 0.5f;
-        m_loading_bar.scale(m_value / 100.0f, 1.0f);
+        m_value += 0.05f;
+        m_loading_bar.scale(m_value, 1.0f);
     }
 
 }

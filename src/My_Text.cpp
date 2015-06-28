@@ -22,10 +22,6 @@ void My_Text::init(RenderWindow *app, std::string content, int character_size, b
 {
     m_app = app;
     
-    //TODO this texture is not used in the rest of the code, why is this loaded?
-    //if(!m_texture.loadFromFile("ressources/menu_background.png"))
-    //{
-    //}
     m_content = content;
 
     if(My_Text::m_font1.loadFromFile("ressources/font2.ttf"))

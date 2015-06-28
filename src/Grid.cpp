@@ -64,6 +64,11 @@ bool Grid::is_valid(Coordinate coord)
     return coord.m_x >= 0 && coord.m_x < m_grid.size() && coord.m_y >= 0 && coord.m_y < m_grid.size();
 }
 
+Resource Grid::get_ressource()
+{
+    return m_resource[0];
+}
+
 void Grid::draw()
 {
     for (size_t i = 0; i < m_grid.size(); i++)

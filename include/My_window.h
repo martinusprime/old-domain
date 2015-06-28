@@ -21,6 +21,8 @@ public:
     void add_glissor(int x, int y);
     void add_image(int x, int y, string path);
     void add_button(int x, int y);
+    void add_text(int x, int y, string content);
+    void refill_text(int text_number, string content);
     void update();
     void activate();
     void set_name(string name);
@@ -41,7 +43,12 @@ private:
     vector<Glissor> glissors;
     vector<My_Sprite> sprites;
     vector<Button> m_buttons;
+    vector<My_Text> m_texts;
+    std::vector<int> m_text_x;
+    std::vector<int> m_text_y;
+    std::vector<int> m_image_x;
+    std::vector<int> m_image_y;
     Button m_cross;
-    bool activation, moving;
+    bool activation, moving, is_text, is_image;
 };
 

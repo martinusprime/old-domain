@@ -6,6 +6,8 @@ My_window::My_window(RenderWindow *app, string name,  float width, float height,
 , m_cross(app, true, 0, 0, 1000 * width - 32, view1)
 {
     moving = false;
+    is_text = false;
+    is_image = false;
     m_x = x;
     m_y = y;
     m_view1 = view1;
@@ -34,11 +36,23 @@ void My_window::draw()
     {
         button.draw();
     }
-    for (My_Sprite &sprites : sprites )
+   
+    if (is_text)
     {
-        sprites.draw(100, 100);
+        for (int i = 0; i <m_texts.size() ; i++)
+        {
+            m_texts[i].draw(m_x + m_text_x[i], m_y + m_text_y[i], 20);
+        }
+
     }
-  
+    if (is_image)
+    {
+        for (int i = 0; i <sprites.size(); i++)
+        {
+            sprites[i].draw(m_x + m_image_x[i], m_y + m_image_y[i]);
+        }
+
+    }
 }
 
 void My_window::add_glissor(int x, int y)
@@ -47,10 +61,18 @@ void My_window::add_glissor(int x, int y)
     glissors.push_back(glissor);
 }
 
+void My_window::refill_text(int text_number, string content)
+{
+    m_texts[text_number].refill(content);
+}
+
 void My_window::add_image(int x, int y, string path)
 {
     My_Sprite sprite1(m_app, path, m_view1);
     sprites.push_back(sprite1);
+    is_image = true;
+    m_image_x.push_back(x);
+    m_image_y.push_back(y);
 }
 
 int My_window::get_glissor(int glissor_number_get)
@@ -62,6 +84,17 @@ void My_window::add_button(int x, int y)
 {
     m_buttons.push_back(Button{ m_app, "h", x, y, 300, static_cast<int>(100 * m_buttons.size() - 1), m_view1 });
 }
+
+void My_window::add_text(int x, int y, string content)
+{
+    m_texts.push_back(My_Text{});
+    m_texts[m_texts.size() - 1].init( m_app, content, 20, 1);
+    is_text = true;
+    m_text_x.push_back(x);
+    m_text_y.push_back(y);
+
+}
+
 
 void My_window::activate()
 {
@@ -127,7 +160,9 @@ void My_window::update()
     {
         button.update(m_x, m_y);
     }
-    m_cross.update(m_x, m_y);
+
+    m_cross.update(m_x + window_w -m_cross.get_w() , m_y);
+
     if(m_cross.is_activated())
     {
         activation = false;

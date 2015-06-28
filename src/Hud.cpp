@@ -1,7 +1,8 @@
 #include "Hud.h"
 
-Hud::Hud(RenderWindow *app, View *view, int screen_width, int screen_height)
+Hud::Hud(RenderWindow *app, Grid &grid, View *view, int screen_width, int screen_height)
     : m_view1(view)    
+    , m_grid(grid)
     , task_box(app, "ressources/task_box.png", m_view1)
     , wood_sprite(app, "ressources/wood.png", m_view1)
     , iron_sprite(app, "ressources/iron.png", m_view1)
@@ -32,6 +33,15 @@ Hud::Hud(RenderWindow *app, View *view, int screen_width, int screen_height)
     wood_text.init(app, std::to_string(wood_number), 12, 1 );
 
     year_text.init(app, "-4000" , 12, 1 );
+
+    //resources info panel initialization
+    m_resources_window.add_text(50, 50, "Ressources ");
+    m_resources_window.add_text(230, 100, "Bois");
+    m_resources_window.add_text(100, 100, std::to_string(wood_number));
+    m_resources_window.add_text(230, 150, " 0");
+    m_resources_window.add_text(230, 200, " 1");
+    m_resources_window.add_image(50, 100, "ressources/wood.png");
+
 }
 
 void Hud::draw_ressources()
@@ -71,10 +81,25 @@ void Hud::draw()
         }
         year_clock.restart();
     }
+    
+    if (m_resources_window.is_activated())
+    { 
+        m_resources_window.refill_text(1, m_grid.get_ressource().name);
+        m_resources_window.refill_text(2, std::to_string(wood_number));
+        m_resources_window.refill_text(3, "flexibilité : " + std::to_string(m_grid.get_ressource().flexibility) );
+        m_resources_window.refill_text(4, "solidité : " + std::to_string(m_grid.get_ressource().solidity) );
+        m_resources_window.update();
+    }
+  
 
     year_text.draw( m_screen_width - 110, 0 , 22);
 
     draw_ressources();
+    if (m_resources_window.is_activated())
+    {
+    m_resources_window.draw();
+    }
+
 }
 void Hud::set_resource(Ressources_type_enum resource_type, float number)
 {

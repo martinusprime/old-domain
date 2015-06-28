@@ -357,7 +357,6 @@ void Citizen::update()
             m_citizen_actions[1].update((m_x - m_y) * 64 + 128, (m_y + m_x) * 32 + m_citizen_actions[1].get_h());
             m_citizen_actions[2].update((m_x - m_y) * 64 + 128, (m_y + m_x) * 32 + m_citizen_actions[2].get_h() * 2);
             m_citizen_actions[3].update((m_x - m_y) * 64 + 128, (m_y + m_x) * 32 + m_citizen_actions[2].get_h() * 3);
-            m_resource_bar.update((m_x - m_y) * 64 , (m_y + m_x) * 32 - m_citizen_actions[2].get_h());
             if (m_citizen_actions[0].is_activated())
             {
                 m_citizen_actions[0].desactivate();
@@ -383,13 +382,15 @@ void Citizen::update()
 
     if (m_work == HARVESTING)
     {
-        if (m_resource_bar.get_value() >= 100.0f)
+        m_resource_bar.update((m_x - m_y) * 64, (m_y + m_x) * 32 - m_citizen_actions[2].get_h());
+
+        if (m_resource_bar.get_value() >= 1.0f)
         {
             m_work = IDLE;
             if (m_grid(m_x, m_y).ressource_type == RSC_WOOD)
             {
-            m_game_manager.interface1.set_resource(RSC_WOOD, 1.0f);
-            m_grid(m_x, m_y).ressource_type = RSC_NO;
+                m_game_manager.interface1.set_resource(RSC_WOOD, 1.0f);
+                m_grid(m_x, m_y).ressource_type = RSC_NO;
             }
         }
        
