@@ -13,8 +13,6 @@ public:
     virtual bool is_mouse_over_actions() = 0;
     virtual bool is_selected() = 0;
 
-    // virtual void get_name() = 0 ;
-
 	void moveTo(int x, int y);
 	int get_x();
 	int get_y();

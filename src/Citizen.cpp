@@ -55,12 +55,12 @@ int Citizen::get_y()
 {
     return m_y;
 }
-/*
-String Citizen::get_name()
+
+std::string Citizen::get_name()
 {
     return m_name.get_text();
 }
-*/
+
 
 bool Citizen::get_goal()
 {
@@ -360,7 +360,7 @@ void Citizen::update()
             if (m_citizen_actions[0].is_activated())
             {
                 m_citizen_actions[0].desactivate();
-
+                m_game_manager.set_info();
             }
           
             if (m_citizen_actions[1].is_activated())  //l'action sur la ressource
@@ -373,6 +373,10 @@ void Citizen::update()
             {
                 m_citizen_actions[2].desactivate();
                 m_game_manager.create_city(get_x(), get_y());
+            }
+            if (m_citizen_actions[3].is_activated())
+            {
+                m_citizen_actions[3].desactivate();
             }
     }
     if (m_grid(get_x(), get_y()).is_city == true)

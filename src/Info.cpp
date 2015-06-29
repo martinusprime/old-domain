@@ -8,6 +8,7 @@ Info::Info(RenderWindow *app, View *view, int screen_width, int screen_height)
     m_screen_x = screen_width;
     m_screen_y = screen_height;
     m_app = app;
+    activation = true;
 }
 
 
@@ -31,4 +32,25 @@ void Info::fill(String name)
 void Info::update()
 {
     m_window.update();
+    if (m_window.is_activated() == false)
+    {
+        activation = false;
+    }
+}
+
+void Info::activate()
+{
+    activation = true;
+    m_window.activate();
+}
+
+void Info::desactivate()
+{
+    m_window.desactivate();
+    activation = false;
+}
+
+bool Info::is_activated()
+{
+    return activation;
 }

@@ -61,7 +61,7 @@ public:
     void is_over_city();
     int get_x();
     int get_y();
-    //String get_name() override;
+    std::string get_name();
     Sprite get_sprite();
     void find_path_to_goal();
     bool handle_mouse_click(Vector2f selection_vector, sf::Mouse::Button click, int x_cursor, int y_cursor) override;

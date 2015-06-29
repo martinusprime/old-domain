@@ -63,6 +63,8 @@ void Hud::draw_ressources()
 void Hud::set_citizen_number(int citizen_number)
 {
     m_citizen_number = citizen_number;
+    citizen_text.refill(std::to_string(m_citizen_number));
+
 }
 
 void Hud::draw()

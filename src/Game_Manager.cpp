@@ -224,7 +224,10 @@ void Game_Manager::update()
     if (is_info)
     {
         m_info.update();
-       
+        if (m_info.is_activated() == false)
+        {
+            is_info = false;
+        }
     }
 
     update_units();
@@ -244,7 +247,7 @@ void Game_Manager::update_units()
                 m_mouse_over_actions = true;
             }
 
-            is_info = true;
+            
         }
     }
 }
@@ -516,7 +519,7 @@ void Game_Manager::handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_ve
     for (shared_ptr<Unit> &unit : m_units) {
         if (unit->handle_mouse_click(m_selection_vector, click, m_x_cursor, m_y_cursor))
         {
-    //        m_info.fill(unit.get_name());
+           // m_info.fill(unit->get_name());
         }
     }
 }
@@ -601,6 +604,12 @@ int Game_Manager::count_neighbours(unsigned int i, unsigned int j , Caracteristi
 void Game_Manager::show_action_button(Button &button)
 {
     button.update(0, m_h - 50);
+}
+
+void Game_Manager::set_info()
+{
+    is_info = true;
+    m_info.activate();
 }
 
 void Game_Manager::create_city(int x, int y)

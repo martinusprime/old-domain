@@ -269,9 +269,21 @@ void My_Sprite::set_color(Color color_get)
             ancient_pixel = image1.getPixel(i, j );
             if(ancient_pixel.r <= 252 && ancient_pixel.g <= 252 && ancient_pixel.b <= 252 )
             {
-                ancient_pixel.r = color_get.r;
-                ancient_pixel.g = color_get.g;
-                ancient_pixel.b = color_get.b;
+                ancient_pixel.r += color_get.r;
+                if (ancient_pixel.r > 255)
+                {
+                    ancient_pixel.r = 255;
+                }
+                ancient_pixel.g += color_get.g; 
+                if (ancient_pixel.g > 255)
+                {
+                    ancient_pixel.g = 255;
+                }
+                ancient_pixel.b += color_get.b; 
+                if (ancient_pixel.b > 255)
+                {
+                    ancient_pixel.b = 255;
+                }
             }
 
 

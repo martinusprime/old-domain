@@ -9,9 +9,11 @@ class Info
 {
 public:
     Info(RenderWindow *app, View *view, int screen_width, int screen_height);
+    void activate();
     void draw();
+    void fill(String name);    void desactivate();
+    bool is_activated();
     void update();
-    void fill(String name);
     virtual ~Info();
 private:
     View *m_view1;
@@ -21,6 +23,7 @@ private:
     String m_name;
     My_Text m_name_text;
     int m_screen_y, m_screen_x;
+    bool activation;
     enum Type
     {
         CITIZEN,

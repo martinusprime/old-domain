@@ -43,6 +43,7 @@ public:
     void quit();
     void update();
     void show_action_button(Button &button);
+    void set_info();
     void create_city(int x, int y);
     virtual ~Game_Manager() = default;
     Hud interface1;
@@ -92,8 +93,8 @@ private:
     float zoom;
     float zoom_rate;
 
-    static const int GRID_WIDTH = 40; //202;
-    static const int GRID_HEIGHT = 40; //202;
+    static const int GRID_WIDTH = 202;
+    static const int GRID_HEIGHT = 202;
     Grid m_grid;
 
     Info m_info;

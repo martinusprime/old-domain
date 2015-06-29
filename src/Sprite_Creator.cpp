@@ -86,22 +86,32 @@ string Sprite_Creator::create_character( int sunlight_get, Gender gender)
         My_Sprite skin(m_app, "ressources/generated/character/base_skinf.png", m_view1);
         My_Sprite eyes(m_app, "ressources/generated/character/eyes", m_view1, 10);
         My_Sprite hair(m_app, "ressources/generated/character/hairf", m_view1, 10);
+        My_Sprite dress(m_app, "ressources/generated/character/dress", m_view1, 10);
+        My_Sprite trousers(m_app, "ressources/generated/character/trousers", m_view1, 10);
         whole.add_sprite(skin, sunlight_get);
         hair.set_color(color_maker(1.5, 1, 1.5, true, false));
         whole.add_sprite(hair, "ressources/generated/character/character01.png", 128);
         eyes.set_color(color_maker(0, 1, 1, false, true));
         whole.add_sprite(eyes, "ressources/generated/character/character01.png", 128);
+        whole.add_sprite(trousers, "ressources/generated/character/character01.png", 128);
+        whole.add_sprite(dress, "ressources/generated/character/character01.png", 128);
     }
     else
     {
         My_Sprite skin(m_app, "ressources/generated/character/base_skin.png", m_view1);
         My_Sprite eyes(m_app, "ressources/generated/character/eyes", m_view1, 10);
         My_Sprite hair(m_app, "ressources/generated/character/hair", m_view1, 10);
+        My_Sprite dress(m_app, "ressources/generated/character/dress", m_view1, 10);
+        My_Sprite trousers(m_app, "ressources/generated/character/trousers", m_view1, 10);
         whole.add_sprite(skin, sunlight_get);
         hair.set_color(color_maker(1, 1, 1, true, false));
         whole.add_sprite(hair, "ressources/generated/character/character01.png", 128);
         eyes.set_color(color_maker(0, 1, 1, false, true));
         whole.add_sprite(eyes, "ressources/generated/character/character01.png", 128);
+        whole.add_sprite(trousers, "ressources/generated/character/character01.png", 128);
+        whole.add_sprite(dress, "ressources/generated/character/character01.png", 128);
+
+    
     }
     My_Sprite skin(m_app, "ressources/generated/character/base_skin.png", m_view1);
        
@@ -179,11 +189,11 @@ Color Sprite_Creator::color_maker(float red_get, float green_get, float blue_get
     int base_color = 50;
     if(dark)
     {
-        base_color = 15;
+        base_color = -50;
     }
     if(large_randomness)
     {
-        random_limit = 150;
+        random_limit = 100;
     }
     else
     {
