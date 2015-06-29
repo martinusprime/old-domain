@@ -76,11 +76,11 @@ void Grid::draw()
         for (size_t j = 0; j < m_grid[0].size(); j++)
         {
             (*this)(i, j).draw();
-            if ((*this)(i, j).ressource_type == RSC_WOOD  && i < 40 && j < 40)
+            if ((*this)(i, j).ressource_type == RSC_WOOD )
             {
                 m_resource[0].m_sprites[0].draw_tile((i - j)* (Tile::tile_size.m_w / 2), (i + j)* (Tile::tile_size.m_h / 2), (*this)(i, j).random_pattern);
             }	
-            if ((*this)(i, j).ressource_type == RSC_STONE && i < 40 && j < 40)
+            if ((*this)(i, j).ressource_type == RSC_STONE)
             {
                 m_resource[1].m_sprites[(*this)(i, j).resource_location].draw((i - j)* (Tile::tile_size.m_w / 2), (i + j)* (Tile::tile_size.m_h / 2));
             }

@@ -330,7 +330,7 @@ void Game_Manager::create_map(int map_width, int map_height)
             m_grid(i, j).zone = 1;
             m_grid(i, j).passing_through = false;
             m_grid(i, j).is_city = false;
-            m_grid(i, j).ressource_type = RSC_WOOD;
+            m_grid(i, j).ressource_type = RSC_NO;
             m_grid(i, j).owner = PLAYER2;
             m_grid(i, j).random_pattern = Random::get_int(0, 4);
             //test for stone
@@ -408,47 +408,67 @@ void Game_Manager::create_map(int map_width, int map_height)
         for (int j = 0; j<map_height; j++)
         {
             noise_value = floor(100 * (perlin4.GetHeight(i, j)));
-            if (noise_value <= 0 && noise_value > -15)
+
+            if (noise_value <= -75 )
             {
                 m_grid(i, j).m_type = 0;
-
+                m_grid(i, j).m_is_walkable = false;
             }
-            if (noise_value <= -15 && noise_value > -35)
+
+            if (noise_value <= -50 && noise_value > -75)
             {
                 m_grid(i, j).m_type = 1;
-                //water
                 m_grid(i, j).m_is_walkable = false;
-
             }
+
             if (noise_value <= -35 && noise_value > -50)
             {
                 m_grid(i, j).m_type = 2;
 
-            }
-            if (noise_value <= -50 && noise_value > -75)
+            }       
+            if (noise_value <= -15 && noise_value > -35)
             {
                 m_grid(i, j).m_type = 3;
                 //water
                 m_grid(i, j).m_is_walkable = false;
+
             }
-            if (noise_value <= -75 && noise_value > -100)
+         
+            if (noise_value <= 0 && noise_value > -15)
             {
                 m_grid(i, j).m_type = 4;
-                //water
-                m_grid(i, j).m_is_walkable = false;
+
             }
+     
+           
+          
             if (noise_value > 0 && noise_value <= 35)
             {
-                m_grid(i, j).m_type = 7;
+                m_grid(i, j).m_type = 5;
 
             }
             if (noise_value > 35 && noise_value <= 50)
             {
-                m_grid(i, j).m_type = 8;
+                m_grid(i, j).m_type = 6;
 
             }
+            if ( noise_value > 50)
+            {
+                m_grid(i, j).m_type = 6;
 
+            }
             //   cout<<noise_value<<endl;
+        }
+    }
+
+    for (int i = 0; i <map_width; i++)
+    {
+        for (int j = 0; j< map_height; j++)
+        {
+            if (m_grid(i, j).m_type == 5 || m_grid(i, j).m_type == 6)
+            {
+                m_grid(i, j).ressource_type = RSC_WOOD;
+            }
         }
     }
 }
