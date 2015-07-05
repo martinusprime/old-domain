@@ -89,7 +89,7 @@ string Sprite_Creator::create_character( int sunlight_get, Gender gender)
         My_Sprite dress(m_app, "ressources/generated/character/dress", m_view1, 10);
         My_Sprite trousers(m_app, "ressources/generated/character/trousers", m_view1, 10);
         whole.add_sprite(skin, sunlight_get);
-        hair.set_color(color_maker(1.5, 1, 1.5, true, false));
+        hair.set_color(color_maker(1.5, 1, 1.5, true, true));
         whole.add_sprite(hair, "ressources/generated/character/character01.png", 128);
         eyes.set_color(color_maker(0, 1, 1, false, true));
         whole.add_sprite(eyes, "ressources/generated/character/character01.png", 128);
@@ -173,6 +173,19 @@ string Sprite_Creator::create_resources( int resources_id)
     return file;
 }
 
+string Sprite_Creator::create_building(int building_type)
+{
+    My_Sprite whole(m_app, "ressources/buildings/base_block.png", m_view1);
+    My_Sprite door(m_app, "ressources/buildings/door_hole.png", m_view1);
+    whole.add_sprite(door, "ressources/buildings/building1.png", 128);
+ 
+
+
+    string file = whole.get_file();
+    return file;
+}
+
+
 float Sprite_Creator::get_flexibility()
 {
     return flexibility;
@@ -189,7 +202,7 @@ Color Sprite_Creator::color_maker(float red_get, float green_get, float blue_get
     int base_color = 50;
     if(dark)
     {
-        base_color = -50;
+        base_color = -100;
     }
     if(large_randomness)
     {
@@ -200,7 +213,7 @@ Color Sprite_Creator::color_maker(float red_get, float green_get, float blue_get
         random_limit = 40;
     }
 
-    int random = Random::get_int(40, random_limit);
+    int random = Random::get_int(0, random_limit);
     int red = (base_color * red_get )+ random ;
  //   cout<< "rand"<< random<<endl;
 

@@ -44,6 +44,7 @@ public:
     void update();
     void show_action_button(Button &button);
     void set_info();
+    void set_building_menu();
     void create_city(int x, int y);
     virtual ~Game_Manager() = default;
     Hud interface1;
@@ -74,11 +75,11 @@ private:
     int m_x_cursor, m_y_cursor;
 
     Texture tile_texture[10];
-    bool is_menu_visible;
+    bool is_menu_visible, is_building_menu;
     bool m_mouse_over_actions;
 
     Menu menu1;
-    Builder_gui builder_gui1;
+    Builder_gui m_builder_gui;
     Clock clock_zoom;
     sf::Time zoom_time;
     bool open_window, is_info;
@@ -93,8 +94,8 @@ private:
     float zoom;
     float zoom_rate;
 
-    static const int GRID_WIDTH = 202;
-    static const int GRID_HEIGHT = 202;
+    static const int GRID_WIDTH = 40;
+    static const int GRID_HEIGHT = 40;
     Grid m_grid;
 
     Info m_info;

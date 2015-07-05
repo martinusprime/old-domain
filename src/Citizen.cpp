@@ -377,6 +377,7 @@ void Citizen::update()
             if (m_citizen_actions[3].is_activated())
             {
                 m_citizen_actions[3].desactivate();
+                m_game_manager.set_building_menu();
             }
     }
     if (m_grid(get_x(), get_y()).is_city == true)

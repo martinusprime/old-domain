@@ -16,7 +16,8 @@ public:
     Sprite_Creator(RenderWindow *app, View *view);
     /*void draw();*/
     string create_character(int sunlight_get, Gender gender);
-    string create_resources( int resources_id);
+    string create_resources(int resources_id);
+    string create_building(int building_type);
     string get_file();
     static string create_character_name(Gender gender);
     string get_resource_name();
