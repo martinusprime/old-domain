@@ -19,6 +19,7 @@ public:
     Hud(RenderWindow *app, Grid &grid, View *view, int screen_width, int screen_height);
     void draw();
     void draw_ressources();
+    int get_resource(Ressources_type_enum resource_type);
     void set_citizen_number(int citizen_number);
     void set_resource(Ressources_type_enum resource_type, float number);
     virtual ~Hud() = default;

@@ -19,6 +19,7 @@ Tile::Tile()
     , m_is_walkable(true)
     , citizen_id(0)
     , zone(true)
+    , is_building(false)
     , passing_through(false)
     , owner(NOBODY) 
 {
@@ -44,4 +45,9 @@ void Tile::moveTo(int x, int y)
 {
 	m_x_pos = x;
 	m_y_pos = y;
+}
+
+void Tile::set_building()
+{
+    is_building = true;
 }

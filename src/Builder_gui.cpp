@@ -34,8 +34,8 @@ void Builder_gui::draw()
 
 void Builder_gui::draw_building(int x, int y)
 {
-   
-    m_building.draw(x, y);
+    m_building.set_coord(x, y );
+    m_building.draw();
 }
 
 void Builder_gui::update()

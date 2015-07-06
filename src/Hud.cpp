@@ -60,6 +60,14 @@ void Hud::draw_ressources()
     }
 }
 
+int Hud::get_resource(Ressources_type_enum resource_type)
+{
+    if (resource_type == RSC_WOOD)
+    {
+        return wood_number;
+    }
+}
+
 void Hud::set_citizen_number(int citizen_number)
 {
     m_citizen_number = citizen_number;

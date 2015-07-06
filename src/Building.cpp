@@ -7,7 +7,8 @@ Building::Building(RenderWindow *app, View *view, int type)
 {
     m_app = app;
     m_view1 = view;
-
+    tile_x = 128;
+    tile_y = 64;
     m_x = 0;
     m_y = 0;
     m_type = type;
@@ -17,9 +18,17 @@ Building::Building(RenderWindow *app, View *view, int type)
 
 }
 
-void Building::draw(int x_get, int y_get)
+void Building::draw()
 {
-    m_sprite.draw(x_get, y_get);
+    m_sprite.draw((m_x - m_y) * (tile_x / 2), (m_y + m_x) * (tile_y / 2));
+}
+
+
+
+void Building::set_coord(int x_get, int y_get)
+{
+    m_x = x_get;
+    m_y = y_get;
 }
 
 

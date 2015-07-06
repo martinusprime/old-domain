@@ -78,7 +78,7 @@ public:
     Tile();
     void draw();
 	void moveTo(int x, int y);
-
+    void set_building();
     static const int TILE_WIDTH = 128;
     static const int TILE_HEIGHT = 64;
     //used as index of m_tile_sprites
@@ -90,6 +90,7 @@ public:
     int m_y_pos;
     int height;
     bool is_city;
+    bool is_building;
     bool m_is_walkable;
     int citizen_id;
     int zone;

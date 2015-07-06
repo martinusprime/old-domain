@@ -241,16 +241,24 @@ void Game_Manager::update()
             is_building_selected = false;
 
         }
-        if (m_builder_gui.is_building_selected() == true)
+        if (m_builder_gui.is_building_selected() == true && is_building_menu)
         {
             is_building_selected = true;
-       
-            if (Mouse::isButtonPressed(Mouse::Left))
-            {
-                
-            }
          }
+        if (is_building_selected )
+        {
+            if (Mouse::isButtonPressed(Mouse::Left) && interface1.get_resource(RSC_WOOD) >= 0.5f  &m_x_cursor >= 0 && m_x_cursor < GRID_WIDTH && m_y_cursor >= 0 && m_y_cursor < GRID_HEIGHT
+                && m_grid(m_x_cursor, m_y_cursor).is_building == false)
+           
+            {
+                m_grid(m_x_cursor, m_y_cursor).is_building = true;
+                interface1.set_resource(RSC_WOOD, -0.5f);
+                m_buildings.push_back(Building{ m_app, &m_view1, 0 });
+                m_buildings[m_buildings.size() - 1].set_coord(m_x_cursor, m_y_cursor);
+                cout << "new buildings" << endl;
+            }
 
+        }
     }
 
     update_units();
@@ -273,7 +281,7 @@ void Game_Manager::update_units()
         {
             if (unit->is_mouse_over_actions())
             {
-                cout << "touttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttout probleme" << endl;
+            //    cout << "touttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttout probleme" << endl;
                 m_mouse_over_actions = true;
             }
 
@@ -295,6 +303,10 @@ void Game_Manager::draw()
     {
         m_grid.draw();
 
+        for (Building &building : m_buildings)
+        {
+            building.draw();
+        }
         for (City &city : m_cities)
         {
             city.draw();
@@ -315,7 +327,10 @@ void Game_Manager::draw()
 }
 void Game_Manager::draw_building_selection()
 {
-    m_builder_gui.draw_building( (m_x_cursor - m_y_cursor) * (Tile::tile_size.m_w / 2), (m_x_cursor + m_y_cursor)* (Tile::tile_size.m_h / 2) );
+    if (m_x_cursor >= 0 && m_x_cursor < GRID_WIDTH && m_y_cursor >= 0 && m_y_cursor < GRID_HEIGHT)
+    {
+        m_builder_gui.draw_building(m_x_cursor, m_y_cursor);
+    }
 }
 
 void Game_Manager::draw_gui()

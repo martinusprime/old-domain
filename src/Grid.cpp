@@ -86,6 +86,8 @@ void Grid::draw()
             }
 		}
 	}
+    
+
 }
 
 void Grid::rotateRight(vector <shared_ptr<Unit>> m_units)
