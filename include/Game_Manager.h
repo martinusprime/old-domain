@@ -55,6 +55,7 @@ private:
     void draw_gui();
     int count_neighbours(unsigned int i, unsigned int j , Caracteristic typeorzoneorheight, int value, bool diagonal);
     void draw_selection();
+    void draw_building_selection();
     void draw_resources();
     void tile_description(int tile_x, int tile_y);
 	void handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_vec);
@@ -76,6 +77,7 @@ private:
 
     Texture tile_texture[10];
     bool is_menu_visible, is_building_menu;
+    bool is_building_selected;
     bool m_mouse_over_actions;
 
     Menu menu1;

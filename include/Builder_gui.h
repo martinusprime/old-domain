@@ -16,10 +16,12 @@
 class Builder_gui
 {
 public:
-    Builder_gui(Grid &grid, RenderWindow *app, View *view, View *view2);
+    Builder_gui( Grid &grid, RenderWindow *app, View *view, View *view2);
     ~Builder_gui();
     void draw();
+    void draw_building(int x, int y);
     bool is_activated();
+    bool is_building_selected();
     void update();
 
 private : 

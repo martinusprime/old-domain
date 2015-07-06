@@ -4,19 +4,20 @@
 #include "Random.h"
 
 Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int screen_y)
-: m_view1(view1)
-, menu1(app, &m_view2)
-, m_grid(GRID_WIDTH, GRID_HEIGHT, &m_view1, app)
-, selection_sprite(app, "ressources/selection.png", &m_view1)
-, interface1(app, m_grid,&m_view2, screen_x, screen_y)
-, m_dialog(m_grid, app, &m_view2, screen_x, screen_y)
-, m_builder_gui(m_grid, app, &m_view1, &m_view2)
-, m_info(app, &view1, 1920, 1080)
+    : m_view1(view1)
+    , menu1(app, &m_view2)
+    , m_grid(GRID_WIDTH, GRID_HEIGHT, &m_view1, app)
+    , selection_sprite(app, "ressources/selection.png", &m_view1)
+    , interface1(app, m_grid, &m_view2, screen_x, screen_y)
+    , m_dialog(m_grid, app, &m_view2, screen_x, screen_y)
+    , m_builder_gui(m_grid, app, &m_view1, &m_view2)
+    , m_info(app, &view1, 1920, 1080)
 {
     is_menu_visible = true;
     is_building_menu = false;
     is_info = false;
     m_mouse_over_actions = false;
+    is_building_selected = false;
     m_screen_x = screen_x;
     m_screen_y = screen_y;
     x_offset = 0;
@@ -33,7 +34,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
     m_app->setView(m_view1);
 
     window_vec = m_app->getSize();
-    cout<<"x_window"<<window_vec.x<<"y_window "<<window_vec.y<<endl;
+    cout << "x_window" << window_vec.x << "y_window " << window_vec.y << endl;
 
     m_view2.reset(FloatRect(0.0f, 0.0f, static_cast<float>(m_screen_x), static_cast<float>(m_screen_y)));
     m_view2.setViewport(FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
@@ -42,8 +43,8 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
     m_h = static_cast<int>(vecsize.y);
     m_w = static_cast<int>(vecsize.x);
 
-   
-    for(int i = 0; i < 2; i++)
+
+    for (int i = 0; i < 2; i++)
     {
         selection_text[i].init(app, "rien", 12, 1);
         selection_text[i].change_font("ressources/font2.ttf");
@@ -90,21 +91,21 @@ void Game_Manager::execute_action(Action action)
         cout << "close app\n";
         m_app->close();
         break;
-	case ACT_ROTATE_RIGHT:
-		m_grid.rotateRight(m_units);
-		draw();
-		break;
-	case ACT_ROTATE_LEFT:
-		m_grid.rotateLeft(m_units);
-		draw();
-		break;
+    case ACT_ROTATE_RIGHT:
+        m_grid.rotateRight(m_units);
+        draw();
+        break;
+    case ACT_ROTATE_LEFT:
+        m_grid.rotateLeft(m_units);
+        draw();
+        break;
     default:
         break;
     }
 }
 
 /* x_mouse, y_mouse are in window coordinate (pixels)
-   x_cursor, y_cursor are in m_grid coordinate */
+x_cursor, y_cursor are in m_grid coordinate */
 void Game_Manager::handle_mouse_at_window_border(int x_mouse, int y_mouse)
 {
     static sf::Clock mouse_move_clock;
@@ -139,40 +140,40 @@ void Game_Manager::handle_mouse_at_window_border(int x_mouse, int y_mouse)
 
 bool Game_Manager::handle_input_events()
 {
-	Event event;
-	bool isEvent = m_app->pollEvent(event);
-	Action action;
-	sf::Mouse::Button click = {};
-	Vector2i mouse_vec;
+    Event event;
+    bool isEvent = m_app->pollEvent(event);
+    Action action;
+    sf::Mouse::Button click = {};
+    Vector2i mouse_vec;
 
-	key_event.get_mouse_position(m_app, mouse_vec);
+    key_event.get_mouse_position(m_app, mouse_vec);
 
-    //translate to m_grid coordinates
-    if (m_mouse_over_actions == false)
+//translate to m_grid coordinates
+if (m_mouse_over_actions == false)
+{
+    m_selection_vector = m_app->mapPixelToCoords(mouse_vec, m_view1);
+    m_x_cursor = static_cast<int>((m_selection_vector.x / (float)Tile::tile_size.m_w + m_selection_vector.y / (float)Tile::tile_size.m_h - 0.5) * zoom);
+    m_y_cursor = static_cast<int>((m_selection_vector.y / (float)Tile::tile_size.m_h - m_selection_vector.x / (float)Tile::tile_size.m_w + 0.5) * zoom);
+}
+
+handle_mouse_at_window_border(mouse_vec.x, mouse_vec.y);
+
+bool ret = false;
+if (isEvent)
+{
+    if (key_event.manage_key_event(event, action))
     {
-        m_selection_vector = m_app->mapPixelToCoords(mouse_vec, m_view1);
-        m_x_cursor = static_cast<int>((m_selection_vector.x / (float)Tile::tile_size.m_w + m_selection_vector.y / (float)Tile::tile_size.m_h - 0.5) * zoom);
-        m_y_cursor = static_cast<int>((m_selection_vector.y / (float)Tile::tile_size.m_h - m_selection_vector.x / (float)Tile::tile_size.m_w + 0.5) * zoom);
+        execute_action(action);
+        ret = true;
     }
-
-    handle_mouse_at_window_border(mouse_vec.x, mouse_vec.y);
-
-	bool ret = false;
-	if (isEvent)
-	{
-		if (key_event.manage_key_event(event, action))
-		{
-            execute_action(action);
-			ret = true;
-		}
-		if (key_event.manage_mouse_click(event, click)) {
-			if (!open_window) {
-				handle_mouse_click(click, mouse_vec);
-			}
-			ret = true;
-		}
-	}
-	return ret;
+    if (key_event.manage_mouse_click(event, click)) {
+        if (!open_window) {
+            handle_mouse_click(click, mouse_vec);
+        }
+        ret = true;
+    }
+}
+return ret;
 }
 
 void Game_Manager::update()
@@ -181,18 +182,18 @@ void Game_Manager::update()
     bool isEvent = handle_input_events();
 
     zoom_time = clock_zoom.getElapsedTime();
-    if(zoom_time.asSeconds() >  0.05  && zoom_change != ZOOM_NO_CHANGE)
+    if (zoom_time.asSeconds() > 0.05  && zoom_change != ZOOM_NO_CHANGE)
     {
         clock_zoom.restart();
-        if(zoom_change == ZOOM_ADD && zoom_rate >= -30)
+        if (zoom_change == ZOOM_ADD && zoom_rate >= -30)
         {
             zoom = 0.90f;
-            zoom_rate --;
+            zoom_rate--;
         }
-        if(zoom_change == ZOOM_LESS  && zoom_rate <= 50)
+        if (zoom_change == ZOOM_LESS  && zoom_rate <= 50)
         {
             zoom = 1.1f;
-            zoom_rate ++;
+            zoom_rate++;
         }
         zoom_change = ZOOM_NO_CHANGE;
     }
@@ -201,27 +202,27 @@ void Game_Manager::update()
         zoom = 1;
     }
 
-    if(is_menu_visible)
+    if (is_menu_visible)
     {
         menu1.update();
-        if(isEvent == true)
+        if (isEvent == true)
         {
             is_menu_visible = false;
         }
     }
 
-    m_view1.setCenter(static_cast<float>(x_offset) , static_cast<float>(y_offset));
+    m_view1.setCenter(static_cast<float>(x_offset), static_cast<float>(y_offset));
     m_view1.zoom(zoom);
     m_app->setView(m_view1);
 
-    for(My_window &window : windows)
+    for (My_window &window : windows)
     {
-        if(window.is_activated())
+        if (window.is_activated())
         {
             window.update();
         }
     }
-    
+
     if (is_info)
     {
         m_info.update();
@@ -237,7 +238,19 @@ void Game_Manager::update()
         if (m_builder_gui.is_activated() == false)
         {
             is_building_menu = false;
+            is_building_selected = false;
+
         }
+        if (m_builder_gui.is_building_selected() == true)
+        {
+            is_building_selected = true;
+       
+            if (Mouse::isButtonPressed(Mouse::Left))
+            {
+                
+            }
+         }
+
     }
 
     update_units();
@@ -264,7 +277,7 @@ void Game_Manager::update_units()
                 m_mouse_over_actions = true;
             }
 
-            
+
         }
     }
 }
@@ -278,7 +291,7 @@ void Game_Manager::draw()
     }
     render_clock.restart();
     m_app->clear();
-    if(! is_menu_visible)
+    if (!is_menu_visible)
     {
         m_grid.draw();
 
@@ -290,25 +303,35 @@ void Game_Manager::draw()
             unit->draw();
         }
     }
+
+    if (is_building_selected == true)
+    {
+        draw_building_selection();
+    }
+
     // Update the window
     draw_gui();
     m_app->display();
 }
+void Game_Manager::draw_building_selection()
+{
+    m_builder_gui.draw_building( (m_x_cursor - m_y_cursor) * (Tile::tile_size.m_w / 2), (m_x_cursor + m_y_cursor)* (Tile::tile_size.m_h / 2) );
+}
 
 void Game_Manager::draw_gui()
 {
-	highlight_selected_tile();
-	m_app->setView(m_view2);
-    if(is_menu_visible)
+    highlight_selected_tile();
+    m_app->setView(m_view2);
+    if (is_menu_visible)
     {
         menu1.draw();
     }
 
     open_window = false;
 
-    for(My_window &window : windows)
+    for (My_window &window : windows)
     {
-        if(window.is_activated())
+        if (window.is_activated())
         {
             open_window = true;
             window.draw();
@@ -335,7 +358,7 @@ void Game_Manager::draw_gui()
 void Game_Manager::create_map(int map_width, int map_height)
 {
     //sur 200
-	cout << "Creation" << endl;
+    cout << "Creation" << endl;
     water_rate = 55;
     sand_rate = 90;
     deep_sea_rate = 4;
@@ -363,61 +386,61 @@ void Game_Manager::create_map(int map_width, int map_height)
             }
         }
     }
-            for (int i =0; i <10; i++)
+    for (int i = 0; i <10; i++)
+    {
+        for (int j = 0; j< 10; j++)
+        {
+            if (m_grid(i, j).ressource_type == RSC_STONE)
             {
-                for (int j = 0; j< 10; j++)
+                if (m_grid(i + 1, j).ressource_type == RSC_STONE
+                    && m_grid(i, j + 1).ressource_type == RSC_STONE
+                    && m_grid(i - 1, j).ressource_type != RSC_STONE
+                    && m_grid(i, j - 1).ressource_type != RSC_STONE)
                 {
-                    if (m_grid(i, j).ressource_type == RSC_STONE)
-                    {
-                        if (m_grid(i + 1, j).ressource_type == RSC_STONE
-                            && m_grid(i, j + 1).ressource_type == RSC_STONE
-                            && m_grid(i - 1, j).ressource_type != RSC_STONE
-                            && m_grid(i, j - 1).ressource_type != RSC_STONE)
-                        {
 
-                            m_grid(i, j).resource_location = 0;
+                    m_grid(i, j).resource_location = 0;
 
-                        }
-                        if (m_grid(i + 1, j).ressource_type != RSC_STONE
-                            && m_grid(i, j + 1).ressource_type != RSC_STONE
-                            && m_grid(i - 1, j).ressource_type == RSC_STONE
-                            && m_grid(i, j - 1).ressource_type == RSC_STONE)
-                        {
-
-                            m_grid(i, j).resource_location = 19;
-
-                        }
-                        if (m_grid(i + 1, j).ressource_type != RSC_STONE
-                            && m_grid(i, j + 1).ressource_type == RSC_STONE
-                            && m_grid(i - 1, j).ressource_type == RSC_STONE
-                            && m_grid(i, j - 1).ressource_type != RSC_STONE)
-                        {
-
-                            m_grid(i, j).resource_location = 4;
-
-                        }
-                        if (m_grid(i + 1, j).ressource_type == RSC_STONE
-                            && m_grid(i, j + 1).ressource_type != RSC_STONE
-                            && m_grid(i - 1, j).ressource_type != RSC_STONE
-                            && m_grid(i, j - 1).ressource_type == RSC_STONE)
-                        {
-
-                            m_grid(i, j).resource_location = 1;
-
-                        }
-                        if (m_grid(i + 1, j).ressource_type == RSC_STONE
-                            && m_grid(i, j + 1).ressource_type == RSC_STONE
-                            && m_grid(i - 1, j).ressource_type == RSC_STONE
-                            && m_grid(i, j - 1).ressource_type != RSC_STONE)
-                        {
-
-                            m_grid(i, j).resource_location = 1;
-
-                        }
                 }
+                if (m_grid(i + 1, j).ressource_type != RSC_STONE
+                    && m_grid(i, j + 1).ressource_type != RSC_STONE
+                    && m_grid(i - 1, j).ressource_type == RSC_STONE
+                    && m_grid(i, j - 1).ressource_type == RSC_STONE)
+                {
 
+                    m_grid(i, j).resource_location = 19;
+
+                }
+                if (m_grid(i + 1, j).ressource_type != RSC_STONE
+                    && m_grid(i, j + 1).ressource_type == RSC_STONE
+                    && m_grid(i - 1, j).ressource_type == RSC_STONE
+                    && m_grid(i, j - 1).ressource_type != RSC_STONE)
+                {
+
+                    m_grid(i, j).resource_location = 4;
+
+                }
+                if (m_grid(i + 1, j).ressource_type == RSC_STONE
+                    && m_grid(i, j + 1).ressource_type != RSC_STONE
+                    && m_grid(i - 1, j).ressource_type != RSC_STONE
+                    && m_grid(i, j - 1).ressource_type == RSC_STONE)
+                {
+
+                    m_grid(i, j).resource_location = 1;
+
+                }
+                if (m_grid(i + 1, j).ressource_type == RSC_STONE
+                    && m_grid(i, j + 1).ressource_type == RSC_STONE
+                    && m_grid(i - 1, j).ressource_type == RSC_STONE
+                    && m_grid(i, j - 1).ressource_type != RSC_STONE)
+                {
+
+                    m_grid(i, j).resource_location = 1;
+
+                }
             }
+
         }
+    }
     //perlin noise experimentation
     PerlinNoise perlin4;
     //perlin4.Set(persistence, frequence, amplitude, octave, 20);
@@ -430,7 +453,7 @@ void Game_Manager::create_map(int map_width, int map_height)
         {
             noise_value = floor(100 * (perlin4.GetHeight(i, j)));
 
-            if (noise_value <= -75 )
+            if (noise_value <= -75)
             {
                 m_grid(i, j).m_type = 0;
                 m_grid(i, j).m_is_walkable = false;
@@ -446,7 +469,7 @@ void Game_Manager::create_map(int map_width, int map_height)
             {
                 m_grid(i, j).m_type = 2;
 
-            }       
+            }
             if (noise_value <= -15 && noise_value > -35)
             {
                 m_grid(i, j).m_type = 3;
@@ -454,15 +477,15 @@ void Game_Manager::create_map(int map_width, int map_height)
                 m_grid(i, j).m_is_walkable = false;
 
             }
-         
+
             if (noise_value <= 0 && noise_value > -15)
             {
                 m_grid(i, j).m_type = 4;
 
             }
-     
-           
-          
+
+
+
             if (noise_value > 0 && noise_value <= 35)
             {
                 m_grid(i, j).m_type = 5;
@@ -473,7 +496,7 @@ void Game_Manager::create_map(int map_width, int map_height)
                 m_grid(i, j).m_type = 6;
 
             }
-            if ( noise_value > 50)
+            if (noise_value > 50)
             {
                 m_grid(i, j).m_type = 6;
 
@@ -497,7 +520,7 @@ void Game_Manager::create_map(int map_width, int map_height)
 void Game_Manager::draw_selection()
 {
 
-    if(m_x_cursor >= 0 && m_x_cursor < GRID_WIDTH && m_y_cursor >= 0 && m_y_cursor < GRID_HEIGHT)
+    if (m_x_cursor >= 0 && m_x_cursor < GRID_WIDTH && m_y_cursor >= 0 && m_y_cursor < GRID_HEIGHT)
     {
         //show height
         stringstream ss;
@@ -505,22 +528,22 @@ void Game_Manager::draw_selection()
         string str = ss.str();
         string path1 = "height " + str;
         selection_text[0].refill(path1);
-        selection_text[0].draw(0 , window_vec.y - 550 , 24);
+        selection_text[0].draw(0, window_vec.y - 550, 24);
 
-		stringstream ss2;
-		ss2 << m_grid(m_x_cursor, m_y_cursor).m_x_pos;
-		str = ss2.str();
-		path1 = "x: " + str;
-		selection_text[1].refill(path1);
-		selection_text[1].draw(0, window_vec.y - 450, 24);
+        stringstream ss2;
+        ss2 << m_grid(m_x_cursor, m_y_cursor).m_x_pos;
+        str = ss2.str();
+        path1 = "x: " + str;
+        selection_text[1].refill(path1);
+        selection_text[1].draw(0, window_vec.y - 450, 24);
 
 
-		stringstream ss3;
-		ss3 << m_grid(m_x_cursor, m_y_cursor).m_y_pos;
-		str = ss3.str();
-		path1 = "y: " + str;
-		selection_text[1].refill(path1);
-		selection_text[1].draw(0, window_vec.y - 350, 24);
+        stringstream ss3;
+        ss3 << m_grid(m_x_cursor, m_y_cursor).m_y_pos;
+        str = ss3.str();
+        path1 = "y: " + str;
+        selection_text[1].refill(path1);
+        selection_text[1].draw(0, window_vec.y - 350, 24);
 
         tile_description(m_x_cursor, m_y_cursor);
     }
@@ -528,7 +551,7 @@ void Game_Manager::draw_selection()
 
 void Game_Manager::tile_description(int tile_x, int tile_y)
 {
-    if(m_grid(tile_x, tile_y).ressource_type == RSC_WOOD)
+    if (m_grid(tile_x, tile_y).ressource_type == RSC_WOOD)
     {
         tile_info.refill("Frêne");
     }
@@ -537,16 +560,16 @@ void Game_Manager::tile_description(int tile_x, int tile_y)
         tile_info.refill("Lieu vierge");
     }
 
-    tile_info.draw(0 , window_vec.y - 700 , 24);
+    tile_info.draw(0, window_vec.y - 700, 24);
 }
 
 void Game_Manager::highlight_selected_tile()
 {
-	if (m_x_cursor >= 0 && m_x_cursor < GRID_WIDTH && m_y_cursor >= 0 && m_y_cursor < GRID_HEIGHT)
-	{
-		//highlight selected tile
-		selection_sprite.draw((m_x_cursor - m_y_cursor)* (Tile::tile_size.m_w / 2), (m_x_cursor + m_y_cursor)* (Tile::tile_size.m_h / 2));
-	}
+    if (m_x_cursor >= 0 && m_x_cursor < GRID_WIDTH && m_y_cursor >= 0 && m_y_cursor < GRID_HEIGHT)
+    {
+        //highlight selected tile
+        selection_sprite.draw((m_x_cursor - m_y_cursor)* (Tile::tile_size.m_w / 2), (m_x_cursor + m_y_cursor)* (Tile::tile_size.m_h / 2));
+    }
 }
 
 void Game_Manager::handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_vec)
@@ -560,81 +583,81 @@ void Game_Manager::handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_ve
     for (shared_ptr<Unit> &unit : m_units) {
         if (unit->handle_mouse_click(m_selection_vector, click, m_x_cursor, m_y_cursor))
         {
-           // m_info.fill(unit->get_name());
+            // m_info.fill(unit->get_name());
         }
     }
 }
 
-int Game_Manager::count_neighbours(unsigned int i, unsigned int j , Caracteristic typeorzoneorheight, int value, bool diagonal)
+int Game_Manager::count_neighbours(unsigned int i, unsigned int j, Caracteristic typeorzoneorheight, int value, bool diagonal)
 {
     int number = 0;
     if (i == 0 || j == 0 || j + 1 >= GRID_HEIGHT || i + 1 >= GRID_WIDTH) {
         return 0; //TODO handle this correctly
     }
 
-    if(typeorzoneorheight == CRC_TYPE)
+    if (typeorzoneorheight == CRC_TYPE)
     {
-        if(m_grid(i - 1, j).m_type == value)
+        if (m_grid(i - 1, j).m_type == value)
             number++;
-        if(m_grid(i, j + 1).m_type == value)
+        if (m_grid(i, j + 1).m_type == value)
             number++;
-        if(m_grid(i, j - 1).m_type == value)
+        if (m_grid(i, j - 1).m_type == value)
             number++;
-        if(m_grid(i + 1, j).m_type == value)
+        if (m_grid(i + 1, j).m_type == value)
             number++;
         if (diagonal)  //diagonal + sides
         {
-            if(m_grid(i - 1, j + 1).m_type == value)
+            if (m_grid(i - 1, j + 1).m_type == value)
                 number++;
-            if(m_grid(i - 1, j - 1).m_type == value)
+            if (m_grid(i - 1, j - 1).m_type == value)
                 number++;
-            if(m_grid(i + 1, j + 1).m_type == value)
+            if (m_grid(i + 1, j + 1).m_type == value)
                 number++;
-            if(m_grid(i + 1, j - 1).m_type == value)
-                number++;
-        }
-    }
-    if(typeorzoneorheight == CRC_ZONE)
-    {
-        if(m_grid(i - 1, j).zone == value)
-            number++;
-        if(m_grid(i, j + 1).zone == value)
-            number++;
-        if(m_grid(i, j - 1).zone == value)
-            number++;
-        if(m_grid(i + 1, j).zone == value)
-            number++;
-        if (diagonal)
-        {
-            if(m_grid(i - 1, j + 1).zone == value)
-                number++;
-            if(m_grid(i - 1, j - 1).zone == value)
-                number++;
-            if(m_grid(i + 1, j + 1).zone == value)
-                number++;
-            if(m_grid(i + 1, j - 1).zone == value)
+            if (m_grid(i + 1, j - 1).m_type == value)
                 number++;
         }
     }
-    if(typeorzoneorheight == CRC_HEIGTH)
+    if (typeorzoneorheight == CRC_ZONE)
     {
-        if(m_grid(i - 1, j).height == value)
+        if (m_grid(i - 1, j).zone == value)
             number++;
-        if(m_grid(i, j + 1).height == value)
+        if (m_grid(i, j + 1).zone == value)
             number++;
-        if(m_grid(i, j - 1).height == value)
+        if (m_grid(i, j - 1).zone == value)
             number++;
-        if(m_grid(i + 1, j).height == value)
+        if (m_grid(i + 1, j).zone == value)
             number++;
         if (diagonal)
         {
-            if(m_grid(i - 1, j + 1).height == value)
+            if (m_grid(i - 1, j + 1).zone == value)
                 number++;
-            if(m_grid(i - 1, j - 1).height == value)
+            if (m_grid(i - 1, j - 1).zone == value)
                 number++;
-            if(m_grid(i + 1, j + 1).height == value)
+            if (m_grid(i + 1, j + 1).zone == value)
                 number++;
-            if(m_grid(i + 1, j - 1).height == value)
+            if (m_grid(i + 1, j - 1).zone == value)
+                number++;
+        }
+    }
+    if (typeorzoneorheight == CRC_HEIGTH)
+    {
+        if (m_grid(i - 1, j).height == value)
+            number++;
+        if (m_grid(i, j + 1).height == value)
+            number++;
+        if (m_grid(i, j - 1).height == value)
+            number++;
+        if (m_grid(i + 1, j).height == value)
+            number++;
+        if (diagonal)
+        {
+            if (m_grid(i - 1, j + 1).height == value)
+                number++;
+            if (m_grid(i - 1, j - 1).height == value)
+                number++;
+            if (m_grid(i + 1, j + 1).height == value)
+                number++;
+            if (m_grid(i + 1, j - 1).height == value)
                 number++;
         }
     }

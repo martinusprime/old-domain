@@ -7,7 +7,6 @@ Builder_gui::Builder_gui(Grid &grid, RenderWindow *app, View *view, View *view2)
     , m_building(app, m_view1, 0)
     , m_cross(app, true, 0, 0, 0, view2)
 
-
 {
     m_view1 = view;
     m_view2 = view2;
@@ -33,6 +32,12 @@ void Builder_gui::draw()
     m_building_button[0].draw();
 }
 
+void Builder_gui::draw_building(int x, int y)
+{
+   
+    m_building.draw(x, y);
+}
+
 void Builder_gui::update()
 {
    
@@ -52,5 +57,17 @@ bool Builder_gui::is_activated()
         return false;
     }
     else return true;
+
+}
+
+
+bool Builder_gui::is_building_selected()
+{
+    if (m_building_button[0].is_activated())
+    {
+        m_building_button[0].desactivate();
+        return true;
+    }
+    else return false;
 
 }
