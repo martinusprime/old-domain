@@ -93,6 +93,7 @@
     <ClCompile Include="src\Skills.cpp" />
     <ClCompile Include="src\Sprite_Creator.cpp" />
     <ClCompile Include="src\Tile.cpp" />
+    <ClCompile Include="src\Tile_Box.cpp" />
     <ClCompile Include="src\Timer.cpp" />
     <ClCompile Include="src\Unit.cpp" />
   </ItemGroup>
@@ -120,6 +121,7 @@
     <ClInclude Include="include\Skills.h" />
     <ClInclude Include="include\Sprite_Creator.h" />
     <ClInclude Include="include\Tile.h" />
+    <ClInclude Include="include\Tile_Box.h" />
     <ClInclude Include="include\Timer.h" />
     <ClInclude Include="include\Unit.h" />
     <ClInclude Include="resource.h" />

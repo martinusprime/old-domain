@@ -1,7 +1,7 @@
 #include "Hud.h"
 
 Hud::Hud(RenderWindow *app, Grid &grid, View *view, int screen_width, int screen_height)
-    : m_view1(view)    
+    : m_view1(view)
     , m_grid(grid)
     , task_box(app, "ressources/task_box.png", m_view1)
     , citizen_sprite(app, "ressources/head1.png", m_view1)
@@ -12,6 +12,9 @@ Hud::Hud(RenderWindow *app, Grid &grid, View *view, int screen_width, int screen
     , sand_sprite(app, "ressources/wood.png", m_view1) //TODO
     , m_resources_window(app, "ressources", 0.5, 0.5, 0, 0, m_view1, 1920, 1080)
     , m_resource_button(app, "ressources ", 0, 0, 0, 0, m_view1)
+    , m_citizen_button(app, "citoyens ", 0, 0, 0, 0, m_view1)
+    , m_citizen_window(app, "citoyens", 0.5, 0.5, 0, 0, m_view1, 1920, 1080)
+
 {
     wood_number = 0;
     current_season = 0;
@@ -44,6 +47,8 @@ Hud::Hud(RenderWindow *app, Grid &grid, View *view, int screen_width, int screen
     m_resources_window.add_text(230, 200, " 1");
     m_resources_window.add_image(50, 100, "ressources/wood.png");
 
+   
+
 
 }
 
@@ -57,6 +62,11 @@ void Hud::draw_ressources()
     if (m_resources_window.is_activated())
     {
         m_resources_window.draw();
+    }
+
+    if (m_citizen_window.is_activated())
+    {
+        m_citizen_window.draw();
     }
 }
 
@@ -72,6 +82,14 @@ void Hud::set_citizen_number(int citizen_number)
 {
     m_citizen_number = citizen_number;
     citizen_text.refill(std::to_string(m_citizen_number));
+
+}
+
+void Hud::set_citizen(string name, int age)
+{
+    m_citizen_info.push_back(Citizen_info{ name, age }); 
+    m_citizen_window.add_text(50 , 50 * m_citizen_number, name);
+    m_citizen_window.add_text( 300, 50 * m_citizen_number, std::to_string(age));
 
 }
 
@@ -123,9 +141,26 @@ void Hud::draw()
     }
   
 
-    year_text.draw( m_screen_width - 110, 0 , 22);
 
     m_resource_button.draw();
+
+    m_citizen_button.update((m_screen_width / 2) - 200 - m_citizen_button.get_w(), 0);
+    if (m_citizen_button.is_activated())
+    {
+        m_citizen_button.desactivate();
+        m_citizen_window.activate();
+    }
+
+    if (m_citizen_window.is_activated())
+    {
+      
+        m_citizen_window.update();
+    }
+
+    m_citizen_button.draw();
+
+    year_text.draw(m_screen_width - 110, 0, 22);
+
     draw_ressources();
 
     

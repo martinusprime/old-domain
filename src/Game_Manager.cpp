@@ -55,6 +55,8 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
     for (int i = 0; i < 3; i++) {
         m_units.push_back(shared_ptr<Unit>(new Citizen(m_grid, app, &m_view1, &m_view2, *this)));
         interface1.set_citizen_number(m_units.size());
+        interface1.set_citizen("paul", 14); //I put false values because I 've got problem with get_name()
+
     }
     m_grid(0, 0).citizen_id = 0;
 
@@ -247,8 +249,10 @@ void Game_Manager::update()
          }
         if (is_building_selected )
         {
-            if (Mouse::isButtonPressed(Mouse::Left) && interface1.get_resource(RSC_WOOD) >= 0.5f  &m_x_cursor >= 0 && m_x_cursor < GRID_WIDTH && m_y_cursor >= 0 && m_y_cursor < GRID_HEIGHT
-                && m_grid(m_x_cursor, m_y_cursor).is_building == false)
+            if (Mouse::isButtonPressed(Mouse::Left) && interface1.get_resource(RSC_WOOD) >= 0.5f  &&m_x_cursor >= 0 && m_x_cursor < GRID_WIDTH && m_y_cursor >= 0 && m_y_cursor < GRID_HEIGHT
+                && m_grid(m_x_cursor, m_y_cursor).is_building == false
+                && m_grid(m_x_cursor, m_y_cursor).owner == YOU
+                && m_grid(m_x_cursor, m_y_cursor).is_city == false)
            
             {
                 m_grid(m_x_cursor, m_y_cursor).is_building = true;
@@ -281,7 +285,7 @@ void Game_Manager::update_units()
         {
             if (unit->is_mouse_over_actions())
             {
-            //    cout << "touttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttout probleme" << endl;
+            //    cout << "touttouttouttouttouttouttouttouttoue" << endl;
                 m_mouse_over_actions = true;
             }
 
@@ -464,7 +468,7 @@ void Game_Manager::create_map(int map_width, int map_height)
 
     for (int i = 0; i < map_width; i++)
     {
-        for (int j = 0; j<map_height; j++)
+        for (int j = 0; j < map_height; j++)
         {
             noise_value = floor(100 * (perlin4.GetHeight(i, j)));
 
@@ -483,12 +487,12 @@ void Game_Manager::create_map(int map_width, int map_height)
             if (noise_value <= -35 && noise_value > -50)
             {
                 m_grid(i, j).m_type = 2;
+                m_grid(i, j).m_is_walkable = false;
 
             }
             if (noise_value <= -15 && noise_value > -35)
             {
                 m_grid(i, j).m_type = 3;
-                //water
                 m_grid(i, j).m_is_walkable = false;
 
             }
@@ -519,6 +523,81 @@ void Game_Manager::create_map(int map_width, int map_height)
             //   cout<<noise_value<<endl;
         }
     }
+    //test of rivers creation
+
+    int river_number = 5;
+    int x_start;
+    int y_start;
+    int x_now, y_now;
+    srand(time(0));
+    for (int i = 0; i < river_number; i++)
+    {
+        for (int k = 0; k < 10; k++)
+        {
+            x_start = Random::get_int(1, GRID_WIDTH - 1) * 5;
+            cout << "x_start" << x_start << endl;
+            y_start = Random::get_int(1, GRID_HEIGHT - 1) * 5;
+            x_now = x_start;
+            y_now = y_start;
+            if (m_grid(x_now, y_now).m_type > 2)
+            {
+                k = 30;
+            }
+            m_grid(x_now, y_now).m_type = 0;
+            m_grid(x_now, y_now).m_is_walkable = false;
+
+        
+        }
+
+        int dir = Random::get_int(0, 4);
+        for (int j = 0; j < 30; j++)
+        {
+
+            m_grid(x_now, y_now).m_type = 3;
+
+
+            if (x_now >= GRID_WIDTH - 1 || y_now >= GRID_HEIGHT - 1 || x_now <= 1 || y_now <= 1)
+            {
+                j = 55;
+            }
+
+            if(Random::get_int(0, 2) ==1 )
+            {
+                dir = Random::get_int(0, 4);
+            }
+
+            if (dir == 0)
+            {
+                y_now++;
+            }
+            else if (dir == 1)
+            {
+                y_now--;
+            }
+            else if (dir == 2)
+            {
+                x_now++;
+            }
+            else if (dir == 3)
+            {
+                x_now--;
+            }
+
+            if (m_grid(x_now, y_now).m_type <= 2)
+            {
+                j = 55;
+            }
+        }
+
+                
+
+    }
+
+
+
+
+
+
 
     for (int i = 0; i <map_width; i++)
     {
@@ -598,7 +677,8 @@ void Game_Manager::handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_ve
     for (shared_ptr<Unit> &unit : m_units) {
         if (unit->handle_mouse_click(m_selection_vector, click, m_x_cursor, m_y_cursor))
         {
-            // m_info.fill(unit->get_name());
+            //troubles when I put get_name (the real purpose of this
+            m_info.fill(std::to_string(unit->get_x()) );
         }
     }
 }
@@ -696,4 +776,18 @@ void Game_Manager::create_city(int x, int y)
     m_cities.push_back(City{ m_app, &m_view1, x, y, Tile::tile_size.m_w, Tile::tile_size.m_h });
     m_cities[m_cities.size() - 1].create_city();
     m_grid(x, y).is_city = true;
+
+    Tile_Box tile_box(x - 5, y - 5, x + 5, y + 5, GRID_WIDTH, GRID_HEIGHT);
+    tile_box.start();
+    for (int i = 0; i < 380; i++) //for the moment not to big selection
+    {
+        if ( ! tile_box.is_over())
+        {
+            m_grid(tile_box.get_x(), tile_box.get_y()).owner = YOU;
+        }
+        else
+        {
+            i = 1000;
+        }
+    }
 }

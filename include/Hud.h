@@ -13,6 +13,13 @@
 #include "My_Text.h"
 #include "Tile.h"
 
+struct Citizen_info
+{
+    string name;
+    int age;
+
+};
+
 class Hud
 {
 public:
@@ -21,6 +28,7 @@ public:
     void draw_ressources();
     int get_resource(Ressources_type_enum resource_type);
     void set_citizen_number(int citizen_number);
+    void set_citizen(string name, int age);
     void set_resource(Ressources_type_enum resource_type, float number);
     virtual ~Hud() = default;
 
@@ -35,12 +43,15 @@ private:
     My_Sprite wood_sprite, iron_sprite, sand_sprite, glass_sprite, rock_sprite, citizen_sprite;
     vector<My_Sprite> season_sprites;
     vector<Button> tasks_sprites;
-    Button m_resource_button;
+
+    vector<Citizen_info> m_citizen_info;
+
+    Button m_resource_button, m_citizen_button;
     My_Sprite task_box;
     My_Text wood_text, year_text, citizen_text;
     Clock season_clock, year_clock;
     Time season_time, year_time;
 
-    My_window m_resources_window;
+    My_window m_resources_window, m_citizen_window;
 };
 
