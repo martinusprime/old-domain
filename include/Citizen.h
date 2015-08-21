@@ -35,7 +35,11 @@ enum Work
 {
     IDLE,
     HARVESTING,
-    TRAVELLING
+    TRAVELLING,
+    INFO_BUTTON,
+    CONSTRUCTION_BUTTON,
+    TOTEM_BUTTON,
+    HARVEST_BUTTON
 };
 
 class Citizen : public Unit
@@ -46,27 +50,34 @@ public:
 
     void select();
     void deselect();
-    bool is_selected();
-    bool is_mouse_over_actions();
-
-    void on_city();
-    bool is_on_city();
-
-    bool get_goal();
-    void set_goal(int goal_x , int goal_y);
-    void reset_goal();
-
     void draw() override;
-    void update();
-    void is_over_city();
+
+    void find_path_to_goal();
+    bool get_goal();
+    Sprite get_sprite();
     int get_x();
     int get_y();
     std::string get_name();
-    Sprite get_sprite();
-    void find_path_to_goal();
+
     bool handle_mouse_click(Vector2f selection_vector, sf::Mouse::Button click, int x_cursor, int y_cursor) override;
 
-	void Citizen::moveTo(int x, int y);
+    bool is_selected();
+    bool is_mouse_over_actions();
+    bool is_on_city();
+    void is_over_city();
+
+    void Citizen::moveTo(int x, int y);
+
+    void on_city();
+
+
+    void reset_goal();
+
+    void set_goal(int goal_x , int goal_y);
+    void set_action(Work work);
+   
+    void update();
+
 
     vector<Button> m_citizen_actions; //TODO make this private
 

@@ -16,7 +16,7 @@ Hud::Hud(RenderWindow *app, Grid &grid, View *view, int screen_width, int screen
     , m_citizen_window(app, "citoyens", 0.5, 0.5, 0, 0, m_view1, 1920, 1080)
 
 {
-    wood_number = 0;
+    wood_number = 10;
     current_season = 0;
     current_year = -4000;
     year_lenght = 16;
@@ -47,7 +47,22 @@ Hud::Hud(RenderWindow *app, Grid &grid, View *view, int screen_width, int screen
     m_resources_window.add_text(230, 200, " 1");
     m_resources_window.add_image(50, 100, "ressources/wood.png");
 
-   
+
+    m_citizen_actions.push_back(Button{ app, "ressources/task_observe.png", true, 0, 0, 0, 0, m_view1 });
+    m_citizen_actions_text.push_back(My_Text{});
+    m_citizen_actions_text[0].init(app, "observer case", 20, 1);
+
+    m_citizen_actions.push_back(Button{ app, "ressources/task_harvest.png", true, 0, 0, 0, 0, m_view1 });
+    m_citizen_actions_text.push_back(My_Text{});
+    m_citizen_actions_text[1].init(app, "fonder ville", 20, 1);
+
+    m_citizen_actions.push_back(Button{ app, "ressources/task_city.png", true, 0, 0, 0, 0, m_view1 });
+    m_citizen_actions_text.push_back(My_Text{});
+    m_citizen_actions_text[2].init(app, "fonder ville", 20, 1);
+
+    m_citizen_actions.push_back(Button{ app, "ressources/task_build.png", true, 0, 0, 0, 0, m_view1 });
+    m_citizen_actions_text.push_back(My_Text{});
+    m_citizen_actions_text[2].init(app, "fonder ville", 20, 1);
 
 
 }
@@ -139,7 +154,34 @@ void Hud::draw()
         m_resources_window.refill_text(4, "solidité : " + std::to_string(m_grid.get_ressource().solidity) );
         m_resources_window.update();
     }
-  
+
+    m_citizen_actions[0].update(0, m_screen_height - m_citizen_actions[0].get_h() );
+    m_citizen_actions[1].update(0, m_screen_height - m_citizen_actions[0].get_h() * 2);
+    m_citizen_actions[2].update(0, m_screen_height - m_citizen_actions[0].get_h() * 3);
+    m_citizen_actions[3].update(0, m_screen_height - m_citizen_actions[0].get_h() * 4);
+    if (m_citizen_actions[0].is_activated())
+    {
+        m_citizen_actions[0].desactivate();
+    }
+
+    if (m_citizen_actions[1].is_activated())  //l'action sur la ressource
+    {
+        m_citizen_actions[1].desactivate();
+    }
+    if (m_citizen_actions[2].is_activated())
+    {
+        m_citizen_actions[2].desactivate();
+    }
+    if (m_citizen_actions[3].is_activated())
+    {
+        m_citizen_actions[3].desactivate();
+    }
+
+
+    m_citizen_actions[0].draw();
+    m_citizen_actions[1].draw();
+    m_citizen_actions[2].draw();
+    m_citizen_actions[3].draw();
 
 
     m_resource_button.draw();

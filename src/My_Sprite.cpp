@@ -244,6 +244,7 @@ void My_Sprite::draw_tile(int x, int y, int random)
     //cout<<" ra "<<animation_rect.left<<endl;
 }
 
+
 void My_Sprite::scale(float x_rate, float y_rate)
 {
 
@@ -294,10 +295,13 @@ void My_Sprite::set_color(Color color_get)
     m_texture.loadFromImage(image1);
     m_sprite.setTexture(m_texture);
 }
-
-void My_Sprite::add_color(int r, int g, int b, int alpha)
+void My_Sprite::reset_color()
 {
-    m_sprite.setColor(Color(r, g, b, alpha));
+
+}
+void My_Sprite::add_color(Color color_get)
+{
+    m_sprite.setColor(color_get);
 
 }
 

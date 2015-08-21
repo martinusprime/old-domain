@@ -24,7 +24,7 @@ void Builder_gui::draw()
 {
     Vector2u windowSize = m_app->getSize();
     gui_sprite.draw(windowSize.x - gui_sprite.get_w(), 0);
-    m_cross.update(windowSize.x - 128 * 4 + 50, 300);
+    m_cross.update(windowSize.x - 128 * 4 + 50, 0);
     m_cross.draw();
 
     buildings_name.draw(windowSize.x - 128 * 3 + 50, 300, 20);

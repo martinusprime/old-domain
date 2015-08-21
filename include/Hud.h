@@ -45,6 +45,8 @@ private:
     vector<Button> tasks_sprites;
 
     vector<Citizen_info> m_citizen_info;
+    vector<My_Text> m_citizen_actions_text;  
+    vector<Button> m_citizen_actions;
 
     Button m_resource_button, m_citizen_button;
     My_Sprite task_box;

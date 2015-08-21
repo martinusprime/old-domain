@@ -170,21 +170,49 @@ string Sprite_Creator::create_resources( int resources_id)
 
     resource_name =  temp_name[0] +  temp_name[1] + " " + temp_name[2];
     string file = whole.get_file();
+
+
+    create_texture(file);
+
     return file;
 }
 
 string Sprite_Creator::create_building(int building_type)
 {
-    My_Sprite whole(m_app, "ressources/buildings/base_block.png", m_view1);
-    My_Sprite door(m_app, "ressources/buildings/door_hole.png", m_view1);
-    whole.add_sprite(door, "ressources/buildings/building1.png", 128);
- 
 
+
+    Image image_empty;
+    image_empty.create(128, 128, Color(255, 255, 255, 0));
+    image_empty.saveToFile("ressources/buildings/building1.png");
+
+    Image image_text;
+    image_text.loadFromFile("ressources/textures/ressource_texture.png");
+
+    My_Sprite whole(m_app, "ressources/buildings/building1.png", m_view1);
+    My_Sprite base(m_app, "ressources/buildings/base_block.png", m_view1);
+
+    My_Sprite door(m_app, "ressources/buildings/door_hole.png", m_view1);    
+    whole.add_sprite(base, "ressources/buildings/building1.png", 128);
+    whole.set_color(image_text.getPixel(1, 1));
+
+    whole.add_sprite(door, "ressources/buildings/building1.png", 128);
+
+
+    
 
     string file = whole.get_file();
     return file;
 }
 
+void Sprite_Creator::create_texture(string text_path)
+{
+    Image image_text;
+    Image path_image;
+    path_image.loadFromFile("ressources/tile0.png");
+     image_text.create( 100, 100, path_image.getPixel(32, 32) );
+    // image_text.create( 100, 100, Color(255, 255, 255));
+    image_text.saveToFile("ressources/textures/ressource_texture.png");
+}
 
 float Sprite_Creator::get_flexibility()
 {

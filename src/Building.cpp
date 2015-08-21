@@ -12,10 +12,6 @@ Building::Building(RenderWindow *app, View *view, int type)
     m_x = 0;
     m_y = 0;
     m_type = type;
-    My_Sprite column(m_app, "ressources/buildings/columns.png", m_view1);
-    m_sprite.add_sprite(column, "ressources/buildings/building1.png", 128);
-    My_Sprite door(m_app, "ressources/buildings/door_hole.png", m_view1);
-    m_sprite.add_sprite(door, "ressources/buildings/building1.png", 128);
 }
 
 void Building::draw()

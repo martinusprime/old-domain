@@ -288,7 +288,7 @@ void Citizen::find_path_to_goal()
 void Citizen::select()
 {
     m_is_selected = true;
-    m_sprite.add_color(90, 120, 40, 255);
+    m_sprite.add_color(Color(90, 120, 40, 255));
 }
 
 bool Citizen::is_mouse_over_actions()
@@ -303,7 +303,7 @@ bool Citizen::is_mouse_over_actions()
 void Citizen::deselect()
 {
     m_is_selected = false;
-    m_sprite.add_color(255, 255, 255, 255);
+    m_sprite.add_color(Color(255, 255, 255, 255));
 
 }
 
@@ -325,6 +325,28 @@ Sprite Citizen::get_sprite()
 bool Citizen::is_selected()
 {
     return m_is_selected;
+}
+
+void Citizen::set_action( Work work)
+{
+    if (work == INFO_BUTTON)
+    {
+        m_game_manager.set_info();
+    }
+
+    if (work == HARVEST_BUTTON)  //l'action sur la ressource
+    {
+        m_work = HARVESTING;
+        m_resource_bar.began();
+    }
+    if (work == TOTEM_BUTTON)
+    {
+        m_game_manager.create_city(get_x(), get_y());
+    }
+    if (work == CONSTRUCTION_BUTTON)
+    {
+        m_game_manager.set_building_menu();
+    }
 }
 
 void Citizen::update()

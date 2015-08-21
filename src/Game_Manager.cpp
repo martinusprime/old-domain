@@ -524,7 +524,7 @@ void Game_Manager::create_map(int map_width, int map_height)
         }
     }
     //test of rivers creation
-
+    /*
     int river_number = 5;
     int x_start;
     int y_start;
@@ -592,7 +592,7 @@ void Game_Manager::create_map(int map_width, int map_height)
                 
 
     }
-
+    */
 
 
 
@@ -647,7 +647,7 @@ void Game_Manager::tile_description(int tile_x, int tile_y)
 {
     if (m_grid(tile_x, tile_y).ressource_type == RSC_WOOD)
     {
-        tile_info.refill("Frêne");
+        tile_info.refill(m_grid.get_ressource().name);
     }
     else
     {
@@ -777,7 +777,8 @@ void Game_Manager::create_city(int x, int y)
     m_cities[m_cities.size() - 1].create_city();
     m_grid(x, y).is_city = true;
 
-    Tile_Box tile_box(x - 5, y - 5, x + 5, y + 5, GRID_WIDTH, GRID_HEIGHT);
+    //Tile_Box tile_box(x - 5, y - 5, x + 5, y + 5, GRID_WIDTH, GRID_HEIGHT);
+    Tile_Box tile_box(x, y, 2);
     tile_box.start();
     for (int i = 0; i < 380; i++) //for the moment not to big selection
     {

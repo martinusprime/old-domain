@@ -17,7 +17,8 @@ public:
     /*void draw();*/
     string create_character(int sunlight_get, Gender gender);
     string create_resources(int resources_id);
-    string create_building(int building_type);
+    string create_building(int building_type); 
+    void create_texture(string text_path);
     string get_file();
     static string create_character_name(Gender gender);
     string get_resource_name();
