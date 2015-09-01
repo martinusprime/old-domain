@@ -89,9 +89,9 @@ string Sprite_Creator::create_character( int sunlight_get, Gender gender)
         My_Sprite dress(m_app, "ressources/generated/character/dress", m_view1, 10);
         My_Sprite trousers(m_app, "ressources/generated/character/trousers", m_view1, 10);
         whole.add_sprite(skin, sunlight_get);
-        hair.set_color(color_maker(1.5, 1, 1.5, true, true));
+        hair.add_color(color_maker(1.5, 1, 1.5, true, true));
         whole.add_sprite(hair, "ressources/generated/character/character01.png", 128);
-        eyes.set_color(color_maker(0, 1, 1, false, true));
+        eyes.add_color(color_maker(0, 1, 1, false, true));
         whole.add_sprite(eyes, "ressources/generated/character/character01.png", 128);
         whole.add_sprite(trousers, "ressources/generated/character/character01.png", 128);
         whole.add_sprite(dress, "ressources/generated/character/character01.png", 128);
@@ -104,9 +104,9 @@ string Sprite_Creator::create_character( int sunlight_get, Gender gender)
         My_Sprite dress(m_app, "ressources/generated/character/dress", m_view1, 10);
         My_Sprite trousers(m_app, "ressources/generated/character/trousers", m_view1, 10);
         whole.add_sprite(skin, sunlight_get);
-        hair.set_color(color_maker(1, 1, 1, true, false));
+        hair.add_color(color_maker(1, 1, 1, true, false));
         whole.add_sprite(hair, "ressources/generated/character/character01.png", 128);
-        eyes.set_color(color_maker(0, 1, 1, false, true));
+        eyes.add_color(color_maker(0, 1, 1, false, true));
         whole.add_sprite(eyes, "ressources/generated/character/character01.png", 128);
         whole.add_sprite(trousers, "ressources/generated/character/character01.png", 128);
         whole.add_sprite(dress, "ressources/generated/character/character01.png", 128);
@@ -126,14 +126,14 @@ string Sprite_Creator::create_resources( int resources_id)
     My_Sprite whole(m_app, "ressources/empty_tile.png", m_view1);
 
     resources_sprites.push_back(My_Sprite{ m_app, "ressources/generated/resources/tree_trunk", m_view1, 5 });
-    resources_sprites[0].set_color(color_maker(1, 0, 0, false, true));
+    resources_sprites[0].add_color(color_maker(1, 0, 0, false, true));
 
     resources_sprites.push_back(My_Sprite{ m_app, "ressources/generated/resources/tree_leaves", m_view1, 5 });
-    resources_sprites[1].set_color(color_maker(1, 1, .5, true, false));
+    resources_sprites[1].add_color(color_maker(1, 1, .5, true, false));
     if (is_fruit)
     {
         resources_sprites.push_back(My_Sprite{ m_app, "ressources/generated/resources/fruit", m_view1, 5 });
-        resources_sprites[2].set_color(color_maker(1.8, 0.4, 1.6, true, false));
+        resources_sprites[2].add_color(color_maker(1.8, 0.4, 1.6, true, false));
     }
     whole.add_sprite(resources_sprites[0], "ressources/generated/resources/tree0.png", 640);
     whole.add_sprite(resources_sprites[1], "ressources/generated/resources/tree0.png", 640);
@@ -193,7 +193,7 @@ string Sprite_Creator::create_building(int building_type)
 
     My_Sprite door(m_app, "ressources/buildings/door_hole.png", m_view1);    
     whole.add_sprite(base, "ressources/buildings/building1.png", 128);
-    whole.set_color(image_text.getPixel(1, 1));
+    whole.set_color(Color::Blue);
 
     whole.add_sprite(door, "ressources/buildings/building1.png", 128);
 
@@ -209,7 +209,18 @@ void Sprite_Creator::create_texture(string text_path)
     Image image_text;
     Image path_image;
     path_image.loadFromFile("ressources/tile0.png");
-     image_text.create( 100, 100, path_image.getPixel(32, 32) );
+    for (unsigned int i = 0; i < path_image.getSize().x; i++)
+    {
+        for (unsigned int j = 0; j < path_image.getSize().y; j++)
+        {
+            if (path_image.getPixel(i, j).a >=200)
+            {
+                image_text.create(100, 100, path_image.getPixel(i, j));
+
+            }
+
+        }
+    }
     // image_text.create( 100, 100, Color(255, 255, 255));
     image_text.saveToFile("ressources/textures/ressource_texture.png");
 }

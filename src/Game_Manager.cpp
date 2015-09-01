@@ -776,7 +776,7 @@ void Game_Manager::create_city(int x, int y)
     m_cities.push_back(City{ m_app, &m_view1, x, y, Tile::tile_size.m_w, Tile::tile_size.m_h });
     m_cities[m_cities.size() - 1].create_city();
     m_grid(x, y).is_city = true;
-
+    interface1.set_city("castleville");
     //Tile_Box tile_box(x - 5, y - 5, x + 5, y + 5, GRID_WIDTH, GRID_HEIGHT);
     Tile_Box tile_box(x, y, 2);
     tile_box.start();

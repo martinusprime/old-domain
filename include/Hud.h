@@ -29,6 +29,7 @@ public:
     int get_resource(Ressources_type_enum resource_type);
     void set_citizen_number(int citizen_number);
     void set_citizen(string name, int age);
+    void set_city(string name);
     void set_resource(Ressources_type_enum resource_type, float number);
     virtual ~Hud() = default;
 
@@ -40,7 +41,7 @@ private:
     int m_screen_width, m_screen_height, m_citizen_number;
     int current_season, current_year, year_lenght;
     float wood_number;
-    My_Sprite wood_sprite, iron_sprite, sand_sprite, glass_sprite, rock_sprite, citizen_sprite;
+    My_Sprite wood_sprite, iron_sprite, sand_sprite, glass_sprite, rock_sprite, citizen_sprite, house_sprite;
     vector<My_Sprite> season_sprites;
     vector<Button> tasks_sprites;
 
@@ -48,12 +49,12 @@ private:
     vector<My_Text> m_citizen_actions_text;  
     vector<Button> m_citizen_actions;
 
-    Button m_resource_button, m_citizen_button;
+    Button m_resource_button, m_citizen_button, m_city_button;
     My_Sprite task_box;
-    My_Text wood_text, year_text, citizen_text;
+    My_Text wood_text, year_text, citizen_text, house_text;
     Clock season_clock, year_clock;
     Time season_time, year_time;
 
-    My_window m_resources_window, m_citizen_window;
+    My_window m_resources_window, m_citizen_window, m_city_window;
 };
 

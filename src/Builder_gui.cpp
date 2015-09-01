@@ -13,6 +13,7 @@ Builder_gui::Builder_gui(Grid &grid, RenderWindow *app, View *view, View *view2)
     m_app = app;
     buildings_name.init(m_app, "Batiments de base", 20, 0);
     m_building_button.push_back(Button{ app, m_building.get_file(), true, 0, 0, 0, 0, m_view2 });
+    m_building_button.push_back(Button{ app, m_building.get_file(), true, 0, 0, 0, 0, m_view2 });
 }
 
 
@@ -30,6 +31,9 @@ void Builder_gui::draw()
     buildings_name.draw(windowSize.x - 128 * 3 + 50, 300, 20);
     m_building_button[0].update(windowSize.x - 128 * 4 + 50, 300);
     m_building_button[0].draw();
+
+    m_building_button[1].update(windowSize.x - 128 * 4 + 50, 500);
+    m_building_button[1].draw();
 }
 
 void Builder_gui::draw_building(int x, int y)

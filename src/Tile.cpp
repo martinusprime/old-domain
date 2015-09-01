@@ -51,3 +51,4 @@ void Tile::set_building()
 {
     is_building = true;
 }
+

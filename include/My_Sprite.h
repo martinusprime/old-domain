@@ -31,9 +31,11 @@ public:
 	void add_sprite(My_Sprite added_sprite, string save_slot, int width);
     void add_sprite( My_Sprite added_sprite, int sunlight);
     sf::Sprite get_sprite();
-    void set_color(int r, int g, int b, int alpha);
-    void set_color(Color color_get);
+    void add_color(int r, int g, int b, int alpha);
     void add_color(Color color_get);
+    void set_color(Color color_get);
+    void temporary_change_color(Color color_get);
+
     void reset_color();
     string get_file();
     bool is_over();

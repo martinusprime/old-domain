@@ -214,7 +214,7 @@ void My_Sprite::draw(int x, int y)
     if(m_total_animation_time != 0)
     {
         m_time1 = m_clock1.getElapsedTime();
-        if(m_time1.asSeconds() > m_total_animation_time / m_animation_length)
+        if(m_time1.asSeconds() > m_total_animation_time / (float)m_animation_length)
         {
             m_clock1.restart();
             m_animation_rect.left += m_animation_width;
@@ -255,7 +255,13 @@ void My_Sprite::scale(float x_rate, float y_rate)
     m_h = a.height;
 }
 
-void My_Sprite::set_color(Color color_get)
+void My_Sprite::temporary_change_color(Color color_get)
+{
+    m_sprite.setColor(color_get);
+}
+
+
+void My_Sprite::add_color(Color color_get)
 {
     Image image1;
     FileLoader<Image>::loadFile(image1, m_file);
@@ -299,9 +305,45 @@ void My_Sprite::reset_color()
 {
 
 }
-void My_Sprite::add_color(Color color_get)
+void My_Sprite::set_color(Color color_get)
 {
-    m_sprite.setColor(color_get);
+    Image image1;
+    FileLoader<Image>::loadFile(image1, m_file);
+
+    Color ancient_pixel;
+    Vector2u image_size;
+    image_size = image1.getSize();
+    for (unsigned int i = 0; i< image_size.x; i++)
+    {
+        for (unsigned int j = 0; j< image_size.y; j++)
+        {
+            ancient_pixel = image1.getPixel(i, j);
+            if (ancient_pixel.r <= 252 && ancient_pixel.g <= 252 && ancient_pixel.b <= 252)
+            {
+                ancient_pixel.r = color_get.r;// -(ancient_pixel.r / 10);
+                if (ancient_pixel.r > 255)
+                {
+                    ancient_pixel.r = 255;
+                }
+                ancient_pixel.g = color_get.g;// -(ancient_pixel.g / 10);
+                if (ancient_pixel.g > 255)
+                {
+                    ancient_pixel.g = 255;
+                }
+                ancient_pixel.b = color_get.b;// -(ancient_pixel.b / 10);
+                if (ancient_pixel.b > 255)
+                {
+                    ancient_pixel.b = 255;
+                }
+            }
+
+
+            image1.setPixel(i, j, ancient_pixel);
+        }
+    }
+    image1.saveToFile(m_file);
+    m_texture.loadFromImage(image1);
+    m_sprite.setTexture(m_texture);
 
 }
 

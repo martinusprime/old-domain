@@ -11,8 +11,9 @@ Menu::Menu(RenderWindow *app, View *view1)
 
 void Menu::draw()
 {
-    text1.draw(0, 0, 22);
+   
     sprite.draw(0, 0);
+    text1.draw(0, 0, 22);
 }
 
 void Menu::update()

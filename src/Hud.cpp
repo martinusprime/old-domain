@@ -5,6 +5,7 @@ Hud::Hud(RenderWindow *app, Grid &grid, View *view, int screen_width, int screen
     , m_grid(grid)
     , task_box(app, "ressources/task_box.png", m_view1)
     , citizen_sprite(app, "ressources/head1.png", m_view1)
+    , house_sprite(app, "ressources/house1.png", m_view1)
     , wood_sprite(app, "ressources/wood.png", m_view1)
     , iron_sprite(app, "ressources/iron.png", m_view1)
     , rock_sprite(app, "ressources/rock.png", m_view1)
@@ -14,6 +15,8 @@ Hud::Hud(RenderWindow *app, Grid &grid, View *view, int screen_width, int screen
     , m_resource_button(app, "ressources ", 0, 0, 0, 0, m_view1)
     , m_citizen_button(app, "citoyens ", 0, 0, 0, 0, m_view1)
     , m_citizen_window(app, "citoyens", 0.5, 0.5, 0, 0, m_view1, 1920, 1080)
+    , m_city_button(app, "cités ", 0, 0, 0, 0, m_view1)
+    , m_city_window(app, "cité", 0.5, 0.5, 0, 0, m_view1, 1920, 1080)
 
 {
     wood_number = 10;
@@ -38,7 +41,10 @@ Hud::Hud(RenderWindow *app, Grid &grid, View *view, int screen_width, int screen
     wood_text.init(app, std::to_string(wood_number), 12, 1 );
 
     year_text.init(app, "-4000" , 12, 1 );
+    //citizen info
     citizen_text.init(app, std::to_string(m_citizen_number), 12, 1);
+    house_text.init(app, "0 ", 12, 1);
+
     //resources info panel initialization
     m_resources_window.add_text(50, 50, "Ressources ");
     m_resources_window.add_text(230, 100, "Bois");
@@ -63,14 +69,17 @@ Hud::Hud(RenderWindow *app, Grid &grid, View *view, int screen_width, int screen
     m_citizen_actions.push_back(Button{ app, "ressources/task_build.png", true, 0, 0, 0, 0, m_view1 });
     m_citizen_actions_text.push_back(My_Text{});
     m_citizen_actions_text[2].init(app, "fonder ville", 20, 1);
+    m_city_window.add_text(50, 100, "ressources : ");
 
 
 }
 
 void Hud::draw_ressources()
 {
-    citizen_sprite.draw((m_screen_width / 2) - 200, 0);
-    citizen_text.draw((m_screen_width / 2) - 200 + citizen_sprite.get_w(), 0, 22);
+    house_sprite.draw((m_screen_width / 2) - 200 + citizen_sprite.get_w(), 0);
+    house_text.draw((m_screen_width / 2) - 200, 0, 22);
+    citizen_sprite.draw((m_screen_width / 2) - 200 + citizen_sprite.get_w() * 2, 0);
+    citizen_text.draw((m_screen_width / 2) - 200 + citizen_sprite.get_w() * 3, 0, 22);
 
     wood_sprite.draw((m_screen_width / 2) - 40, 0);
     wood_text.draw(m_screen_width / 2, 0, 22);
@@ -82,6 +91,11 @@ void Hud::draw_ressources()
     if (m_citizen_window.is_activated())
     {
         m_citizen_window.draw();
+    }
+
+    if (m_city_window.is_activated())
+    {
+        m_city_window.draw();
     }
 }
 
@@ -138,14 +152,15 @@ void Hud::draw()
         }
         year_clock.restart();
     }
-
+    //resources window management
     m_resource_button.update(m_screen_width - 400, 0);
     if (m_resource_button.is_activated())
     {
         m_resource_button.desactivate();
         m_resources_window.activate();
     }
-    
+    m_resource_button.draw();
+
     if (m_resources_window.is_activated())
     { 
         m_resources_window.refill_text(1, m_grid.get_ressource().name);
@@ -154,6 +169,7 @@ void Hud::draw()
         m_resources_window.refill_text(4, "solidité : " + std::to_string(m_grid.get_ressource().solidity) );
         m_resources_window.update();
     }
+    //citizens actions
 
     m_citizen_actions[0].update(0, m_screen_height - m_citizen_actions[0].get_h() );
     m_citizen_actions[1].update(0, m_screen_height - m_citizen_actions[0].get_h() * 2);
@@ -183,23 +199,37 @@ void Hud::draw()
     m_citizen_actions[2].draw();
     m_citizen_actions[3].draw();
 
-
-    m_resource_button.draw();
-
+    //citizen window management
     m_citizen_button.update((m_screen_width / 2) - 200 - m_citizen_button.get_w(), 0);
+    m_citizen_button.draw();
     if (m_citizen_button.is_activated())
     {
         m_citizen_button.desactivate();
         m_citizen_window.activate();
     }
 
+
     if (m_citizen_window.is_activated())
     {
-      
         m_citizen_window.update();
     }
+    //city window management
+    m_city_button.update((m_screen_width / 2) - 400 - m_citizen_button.get_w(), 0);
+    m_city_button.draw();
 
-    m_citizen_button.draw();
+    if (m_city_button.is_activated())
+    {
+        m_city_button.desactivate();
+        m_city_window.activate();
+    }
+
+    if (m_city_window.is_activated())
+    {
+        m_city_window.update();
+    }
+
+
+//
 
     year_text.draw(m_screen_width - 110, 0, 22);
 
@@ -216,4 +246,8 @@ void Hud::set_resource(Ressources_type_enum resource_type, float number)
         wood_text.refill( std::to_string(wood_number));
 
     }
+}
+
+void Hud::set_city(string name)
+{
 }

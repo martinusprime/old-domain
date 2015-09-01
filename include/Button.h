@@ -6,7 +6,6 @@
 #include <cstdlib>
 #include <string>
 #include <cmath>
-#include "Menu.h"
 #include "My_Sprite.h"
 #include "Glissor.h"
 

@@ -24,5 +24,5 @@ void City::create_city()
 {
     //don't know why but this text make all others my_text crazy !
 
-     //m_name.init(m_app,"paul", 25, 0);
+  //   m_name.init(m_app,"partyheul", 25,0, 120, 120, 120);
 }

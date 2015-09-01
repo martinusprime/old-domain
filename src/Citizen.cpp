@@ -288,7 +288,7 @@ void Citizen::find_path_to_goal()
 void Citizen::select()
 {
     m_is_selected = true;
-    m_sprite.add_color(Color(90, 120, 40, 255));
+    m_sprite.temporary_change_color(Color(90, 120, 40, 255));
 }
 
 bool Citizen::is_mouse_over_actions()
@@ -303,7 +303,7 @@ bool Citizen::is_mouse_over_actions()
 void Citizen::deselect()
 {
     m_is_selected = false;
-    m_sprite.add_color(Color(255, 255, 255, 255));
+    m_sprite.temporary_change_color(Color(255, 255, 255, 255));
 
 }
 
