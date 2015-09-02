@@ -175,3 +175,14 @@ bool My_window::is_activated()
 {
     return activation;
 }
+
+
+int My_window::get_x()
+{
+    return m_x;
+}
+
+int My_window::get_y()
+{
+    return m_y;
+}

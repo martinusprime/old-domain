@@ -13,11 +13,14 @@
 class Button
 {
 public:
+
+
     Button(RenderWindow *app_get, string name_get, int x_get, int y_get, int window_x_get, int window_y_get, View *view1_get);
     Button(RenderWindow *app_get, string name_get, bool a_file, int x_get, int y_get, int window_x_get, int window_y_get, View *view1_get);
     Button(RenderWindow *app_get, bool, int window_x_get, int window_y_get, int window_w_get, View *view1_get);
     virtual ~Button() = default;
 
+    void change_sprite(string sprite_get);
     void draw();
     void update(int x_get, int y_get);
     bool is_activated();
@@ -25,6 +28,9 @@ public:
     void desactivate();
     int get_w();
     int get_h();
+    string get_file();
+    My_Sprite get_sprite();
+
 private:
     View *m_view1;
     RenderWindow *m_app;

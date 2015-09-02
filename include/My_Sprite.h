@@ -30,6 +30,7 @@ public:
     int get_h();
 	void add_sprite(My_Sprite added_sprite, string save_slot, int width);
     void add_sprite( My_Sprite added_sprite, int sunlight);
+    void change_sprite(string sprite_path);
     sf::Sprite get_sprite();
     void add_color(int r, int g, int b, int alpha);
     void add_color(Color color_get);

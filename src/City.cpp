@@ -17,12 +17,12 @@ City::City(RenderWindow *app, View *view, int x, int y, int tile_size_x, int til
 void City::draw()
 {
     m_sprite.draw(( m_x - m_y) * (m_tile_size_x / 2), (m_x + m_y - 2) * (m_tile_size_y / 2));
-    //m_name.draw(( m_x - m_y)  * (m_tile_size_x / 2), ( m_x + m_y - 2)  * (m_tile_size_y / 2) - 10, 20);
+    m_name.draw(( m_x - m_y)  * (m_tile_size_x / 2), ( m_x + m_y - 2)  * (m_tile_size_y / 2) - 10, 20);
 }
 
 void City::create_city()
 {
     //don't know why but this text make all others my_text crazy !
 
-  //   m_name.init(m_app,"partyheul", 25,0, 120, 120, 120);
+     m_name.init(m_app,"partyheul", 25,0, 120, 120, 120);
 }

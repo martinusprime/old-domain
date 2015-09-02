@@ -19,12 +19,13 @@ class Building
 public:
     Building(RenderWindow *app_get, View *view_get, int type_get);
     virtual ~Building() = default;
-    void set_coord(int x, int y);
+    void add_sprite(string sprite_path);
     void draw();
     string get_file();
     int get_x();
     int get_y();
     void selected();
+    void set_coord(int x, int y);
 
 private:
     View *m_view1;

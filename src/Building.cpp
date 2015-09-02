@@ -19,6 +19,10 @@ void Building::draw()
     m_sprite.draw((m_x - m_y) * (tile_x / 2), (m_y + m_x) * (tile_y / 2));
 }
 
+void Building::add_sprite(string sprite_path)
+{
+    m_sprite.add_sprite(My_Sprite{ m_app, sprite_path, m_view1 }, "ressources/buildings/building1.png", 128);
+}
 
 
 void Building::set_coord(int x_get, int y_get)

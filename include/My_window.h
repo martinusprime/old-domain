@@ -27,6 +27,8 @@ public:
     void activate();
     void set_name(string name);
     int get_glissor(int glissor_number_get);
+    int get_x();
+    int get_y( );
     void desactivate();
     bool is_activated();
 protected:

@@ -20,6 +20,8 @@ public:
     ~Builder_gui();
     void draw();
     void draw_building(int x, int y);
+    Building get_building();
+
     bool is_activated();
     bool is_building_selected();
     void update();
@@ -29,12 +31,14 @@ private :
     View *m_view1, *m_view2;
     RenderWindow *m_app;
     Event event;
-    My_Sprite gui_sprite;
+    My_Sprite gui_sprite, box_sprite;
+    std::vector <Button> m_parts_button;
     std::vector <Button> m_building_button;
     Button m_cross;
     Building m_building;
     My_Text buildings_name;
-
+    Button m_edit_button;
+    My_window m_edit_window;
 
 };
 

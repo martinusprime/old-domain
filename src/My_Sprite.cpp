@@ -134,6 +134,18 @@ sf::Sprite My_Sprite::get_sprite()
     return m_sprite;
 }
 
+void My_Sprite::change_sprite(string sprite_path)
+{
+
+    FileLoader<Texture>::loadFile(m_texture, sprite_path);
+    //m_texture.setSmooth(true);
+    m_sprite.setTexture(m_texture);
+
+    FloatRect  a = m_sprite.getGlobalBounds();
+    m_w = a.width;
+    m_h = a.height;
+}
+
 string My_Sprite::get_file()
 {
     return m_file;
@@ -320,17 +332,17 @@ void My_Sprite::set_color(Color color_get)
             ancient_pixel = image1.getPixel(i, j);
             if (ancient_pixel.r <= 252 && ancient_pixel.g <= 252 && ancient_pixel.b <= 252)
             {
-                ancient_pixel.r = color_get.r;// -(ancient_pixel.r / 10);
+                ancient_pixel.r = color_get.r -(ancient_pixel.r / 10);
                 if (ancient_pixel.r > 255)
                 {
                     ancient_pixel.r = 255;
                 }
-                ancient_pixel.g = color_get.g;// -(ancient_pixel.g / 10);
+                ancient_pixel.g = color_get.g -(ancient_pixel.g / 10);
                 if (ancient_pixel.g > 255)
                 {
                     ancient_pixel.g = 255;
                 }
-                ancient_pixel.b = color_get.b;// -(ancient_pixel.b / 10);
+                ancient_pixel.b = color_get.b -(ancient_pixel.b / 10);
                 if (ancient_pixel.b > 255)
                 {
                     ancient_pixel.b = 255;

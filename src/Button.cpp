@@ -74,6 +74,12 @@ void Button::desactivate()
     activation = false;
 }
 
+
+void Button::change_sprite(string sprite_path)
+{
+    button_sprite.change_sprite(sprite_path);
+}
+
 int Button::get_w()
 {
     return m_w;
@@ -132,4 +138,15 @@ void Button::update(int x_get, int y_get)
 bool Button::is_activated()
 {
     return activation;
+}
+
+
+string Button::get_file()
+{
+    return button_sprite.get_file();
+}
+
+My_Sprite Button::get_sprite()
+{
+    return button_sprite;
 }

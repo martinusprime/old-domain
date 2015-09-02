@@ -257,7 +257,7 @@ void Game_Manager::update()
             {
                 m_grid(m_x_cursor, m_y_cursor).is_building = true;
                 interface1.set_resource(RSC_WOOD, -0.5f);
-                m_buildings.push_back(Building{ m_app, &m_view1, 0 });
+                m_buildings.push_back(m_builder_gui.get_building() );
                 m_buildings[m_buildings.size() - 1].set_coord(m_x_cursor, m_y_cursor);
                 cout << "new buildings" << endl;
             }

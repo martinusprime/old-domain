@@ -193,7 +193,7 @@ string Sprite_Creator::create_building(int building_type)
 
     My_Sprite door(m_app, "ressources/buildings/door_hole.png", m_view1);    
     whole.add_sprite(base, "ressources/buildings/building1.png", 128);
-    whole.set_color(Color::Blue);
+   // whole.set_color(Color{ 50, 50, 50, 255 });
 
     whole.add_sprite(door, "ressources/buildings/building1.png", 128);
 
