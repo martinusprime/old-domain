@@ -2,7 +2,6 @@
 
 Building::Building(RenderWindow *app, View *view, int type)
 : m_sprite_creator(app, view)
-, m_sprite(app, m_sprite_creator.create_building(0), view)
 
 {
     m_app = app;
@@ -12,6 +11,25 @@ Building::Building(RenderWindow *app, View *view, int type)
     m_x = 0;
     m_y = 0;
     m_type = type;
+
+    //if this is a field or a crop field
+
+    if (m_type == 0)
+    {
+
+        m_sprite = My_Sprite{ app, m_sprite_creator.create_building(0), view };
+    }
+    else if (m_type == 1)
+    {
+        m_sprite= My_Sprite{ app, m_sprite_creator.create_building(1), view };
+        m_sprite.set_text_rect(0, 0, 128, 64);
+    }
+
+    else
+    {
+
+        m_sprite = My_Sprite{ app, m_sprite_creator.create_building(0), view };
+    }
 }
 
 void Building::draw()

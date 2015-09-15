@@ -13,6 +13,9 @@
 #include "My_Text.h"
 #include "Tile.h"
 
+using namespace sf;
+
+
 struct Citizen_info
 {
     string name;
@@ -27,6 +30,7 @@ public:
     void draw();
     void draw_ressources();
     int get_resource(Ressources_type_enum resource_type);
+    int season(Ressources_type_enum resource_type);
     void set_citizen_number(int citizen_number);
     void set_citizen(string name, int age);
     void set_city(string name);

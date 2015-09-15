@@ -180,25 +180,37 @@ string Sprite_Creator::create_resources( int resources_id)
 string Sprite_Creator::create_building(int building_type)
 {
 
+    My_Sprite whole(m_app, "ressources/buildings/building1.png", m_view1);
 
     Image image_empty;
     image_empty.create(128, 128, Color(255, 255, 255, 0));
-    image_empty.saveToFile("ressources/buildings/building1.png");
+    // Image image_text;
+    // image_text.loadFromFile("ressources/textures/ressource_texture.png");
+    if (building_type == 0)
+    {
 
-    Image image_text;
-    image_text.loadFromFile("ressources/textures/ressource_texture.png");
+        image_empty.saveToFile("ressources/buildings/building1.png");
 
-    My_Sprite whole(m_app, "ressources/buildings/building1.png", m_view1);
-    My_Sprite base(m_app, "ressources/buildings/base_block.png", m_view1);
+       
+        My_Sprite base(m_app, "ressources/buildings/base_block.png", m_view1);
 
-    My_Sprite door(m_app, "ressources/buildings/door_hole.png", m_view1);    
-    whole.add_sprite(base, "ressources/buildings/building1.png", 128);
-   // whole.set_color(Color{ 50, 50, 50, 255 });
+        My_Sprite door(m_app, "ressources/buildings/door_hole.png", m_view1);
+        whole.add_sprite(base, "ressources/buildings/building1.png", 128);
+        // whole.set_color(Color{ 50, 50, 50, 255 });
 
-    whole.add_sprite(door, "ressources/buildings/building1.png", 128);
+        whole.add_sprite(door, "ressources/buildings/building1.png", 128);
+    }
+    else if (building_type == 1)
+    {
+        image_empty.saveToFile("ressources/buildings/field_tile.png");
+        whole = My_Sprite(m_app, "ressources/buildings/field_tile.png", m_view1);
 
 
-    
+        My_Sprite base(m_app, "ressources/buildings/field0.png", m_view1);
+        whole.add_sprite(base, "ressources/buildings/field0.png", 128);
+
+
+    }
 
     string file = whole.get_file();
     return file;

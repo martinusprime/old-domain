@@ -10,7 +10,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
     , selection_sprite(app, "ressources/selection.png", &m_view1)
     , interface1(app, m_grid, &m_view2, screen_x, screen_y)
     , m_dialog(m_grid, app, &m_view2, screen_x, screen_y)
-    , m_builder_gui(m_grid, app, &m_view1, &m_view2)
+    , m_builder_gui(m_grid, app, &m_view1, &m_view2, &interface1)
     , m_info(app, &view1, 1920, 1080)
 {
     is_menu_visible = true;

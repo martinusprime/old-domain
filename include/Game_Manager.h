@@ -1,5 +1,7 @@
 #ifndef GAME_MANAGER_H
 #define GAME_MANAGER_H
+#pragma once
+
 #include <SFML/Graphics.hpp>
 #include <sstream>
 #include <iostream>
